@@ -83,7 +83,9 @@ void Context::updateBackground()
 void Context::render()
 {
 	// Fond, collé à la main pour Scrolling
-	SDL_BlitSurface(assetManager->getSurface(gameObjects.at(0)->getCurrentSprite()->GetIm()), &((Background*)gameObjects.at(0))->getBackgroundPosition(), window->getSurface(), NULL);
+	SDL_BlitSurface(assetManager->getSurface(gameObjects.at(0)->getCurrentSprite()->GetIm()), 
+					&(((Background*)gameObjects.at(0))->getBackgroundPosition()), 
+					window->getSurface(), NULL);
 
 	// Game object direct
 	for (unsigned int i = 1 ; i < gameObjects.size() ; i++)
