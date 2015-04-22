@@ -5,7 +5,7 @@ using namespace std;
 
 Context::Context(void)
 {
-	//test2
+	// test3
 	// test
     // Init Window and Asset
     window = new Window(640, 480, "Space Invaders 2");
