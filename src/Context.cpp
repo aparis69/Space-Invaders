@@ -5,15 +5,15 @@ using namespace std;
 
 Context::Context(void)
 {
-	// Init Window and Asset
-	window = new Window(640, 480, "Space Invaders 2");
-	assetManager = new AssetManager();
-	physicsManager = new PhysicsManager(window->getXRES(), window->getYRES());
+    // Init Window and Asset
+    window = new Window(640, 480, "Space Invaders 2");
+    assetManager = new AssetManager();
+    physicsManager = new PhysicsManager(window->getXRES(), window->getYRES());
 
-	SDL_BlitSurface(assetManager->getSurface(0), NULL, window->getSurface(), NULL);
-	
-	// Init GameObjects in the scene
-	initGameObjects();
+    SDL_BlitSurface(assetManager->getSurface(0), NULL, window->getSurface(), NULL);
+
+    // Init GameObjects in the scene
+    initGameObjects();
 }
 
 Context::~Context(void)
