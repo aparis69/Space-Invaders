@@ -5,8 +5,6 @@ using namespace std;
 
 Context::Context(void)
 {
-	// test3
-	// test
 	// Init Window and Asset
 	window = new Window(640, 480, "Space Invaders 2");
 	assetManager = new AssetManager();
