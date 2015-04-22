@@ -57,8 +57,7 @@ void Context::updatePlayer(Input& in)
 	if (in.Key(tabkey[0][3]) && !physicsManager->isOutOfScreen(player->getXPos() + speed, player->getYPos()))  // droite
 		player->getCurrentSprite()->MoveX(speed);
 	if (in.Key(tabkey[0][4]))  // Attaque missile
-		missileManager->shootMissile(player->getXPos(),
-									 player->getYPos());
+		missileManager->shootMissile(player->getXPos(), player->getYPos());
 
 	player->updateAnimation();
 }
