@@ -7,15 +7,15 @@ Context::Context(void)
 {
 	// test3
 	// test
-    // Init Window and Asset
-    window = new Window(640, 480, "Space Invaders 2");
-    assetManager = new AssetManager();
-    physicsManager = new PhysicsManager(window->getXRES(), window->getYRES());
+	// Init Window and Asset
+	window = new Window(640, 480, "Space Invaders 2");
+	assetManager = new AssetManager();
+	physicsManager = new PhysicsManager(window->getXRES(), window->getYRES());
 
-    SDL_BlitSurface(assetManager->getSurface(0), NULL, window->getSurface(), NULL);
+	SDL_BlitSurface(assetManager->getSurface(0), NULL, window->getSurface(), NULL);
 
-    // Init GameObjects in the scene
-    initGameObjects();
+	// Init GameObjects in the scene
+	initGameObjects();
 }
 
 Context::~Context(void)
@@ -85,20 +85,20 @@ void Context::render()
 {
 	// Fond, collé à la main pour Scrolling
 	SDL_BlitSurface(assetManager->getSurface(gameObjects.at(0)->getCurrentSprite()->GetIm()), 
-					&(((Background*)gameObjects.at(0))->getBackgroundPosition()), 
-					window->getSurface(), NULL);
+		&(((Background*)gameObjects.at(0))->getBackgroundPosition()), 
+		window->getSurface(), NULL);
 
 	// Game object direct
 	for (unsigned int i = 1 ; i < gameObjects.size() ; i++)
 		window->blitSurface(assetManager->getSurface(gameObjects.at(i)->getCurrentSprite()->GetIm()),
-							gameObjects.at(i)->getCurrentSprite()->GetX(),
-							gameObjects.at(i)->getCurrentSprite()->GetY());
-	
+		gameObjects.at(i)->getCurrentSprite()->GetX(),
+		gameObjects.at(i)->getCurrentSprite()->GetY());
+
 	// Missiles in progress
 	for (int i = 0 ; i < missileManager->getNumberOfMissile() ; i++)
 		window->blitSurface(assetManager->getSurface(missileManager->getMissile(i)->getCurrentSprite()->GetIm()),
-							missileManager->getMissile(i)->getXPos(),
-							missileManager->getMissile(i)->getYPos());
+		missileManager->getMissile(i)->getXPos(),
+		missileManager->getMissile(i)->getYPos());
 	window->flipScreen();
 }
 
