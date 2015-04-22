@@ -29,6 +29,6 @@ void GameLoop()
 
 		elapsed = SDL_GetTicks() - lasttime;  
 		if (elapsed < 10)							
-			SDL_Delay(10 - elapsed); // synchronisation à 60 FPS		 
+			SDL_Delay(10 - elapsed); // synchronisation Ã  60 FPS		 
 	}
 }

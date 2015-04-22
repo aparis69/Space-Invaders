@@ -27,7 +27,7 @@ void AssetManager::loadRessources()
 	graphicsRessources.push_back(loadImage("Assets/Spaceships/ShipPlayer03.bmp"));
 	graphicsRessources.push_back(loadImage("Assets/Spaceships/ShipPlayer04.bmp"));
 
-	// Basic Missile : 5 à 8
+	// Basic Missile : 5 Ã  8
 	graphicsRessources.push_back(loadImage("Assets/Missiles/basicMissile01.bmp"));
 	graphicsRessources.push_back(loadImage("Assets/Missiles/basicMissile02.bmp"));
 	graphicsRessources.push_back(loadImage("Assets/Missiles/basicMissile03.bmp"));

@@ -31,7 +31,7 @@ void MissileManager::updateMissileInProgress()
 
 void MissileManager::manageVectorSize(PhysicsManager* physicsManager)
 {
-	// Regarde les missiles en dehors de l'écran, et les détruit
+	// Regarde les missiles en dehors de l'Ã©cran, et les dÃ©truit
 	bool erased = false;
 	for (std::vector<Missile*>::iterator it = missileInProgress.begin() ; it != missileInProgress.end() ; )
 	{
