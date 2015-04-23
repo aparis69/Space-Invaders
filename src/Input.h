@@ -1,5 +1,5 @@
 #pragma once
-#include <sdl/sdl.h>
+#include "SDLinclude.h"
 
 class Input
 {

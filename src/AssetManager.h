@@ -10,7 +10,7 @@ private:
     std::vector<SDL_Surface*>::iterator gIterator;
 
     // Private function
-    SDL_Surface* loadImage(char* file);
+    SDL_Surface* loadImage(char const *file);
     void loadRessources();
 
 public:

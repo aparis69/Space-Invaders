@@ -34,7 +34,7 @@ void AssetManager::loadRessources()
     graphicsRessources.push_back(loadImage("Assets/Missiles/basicMissile04.bmp"));
 }
 
-SDL_Surface* AssetManager::loadImage(char* file)
+SDL_Surface* AssetManager::loadImage(char const *file)
 {
     SDL_Surface* loadImg = SDL_LoadBMP(file);
     SDL_Surface *OptimizedImg = SDL_DisplayFormat(loadImg);
