@@ -15,5 +15,6 @@ class Enemy : public GameObject
 		Enemy(void);
 		Enemy(int speed, EnemyType type);
 		~Enemy(void) { }
-};
 
+        virtual SDL_Rect getPosition() { return SDL_Rect(); }
+};

@@ -7,6 +7,7 @@ Window::Window(void)
 Window::Window(int xres, int yres, std::string name)
 {
 	SDL_Init(SDL_INIT_VIDEO);
+    SDL_WM_SetCaption(name.c_str(), NULL);
 
 	XRES = xres;
 	YRES = yres;
@@ -36,5 +37,5 @@ void Window::blitSurface(SDL_Surface* surface, int xPos, int yPos)
 void Window::flipScreen()
 {
 	while (SDL_Flip(screen) != 0)  
-		SDL_Delay(1); // synchro balayage vertical, meilleur pour carte graphique
+		SDL_Delay(1); // vertical sync, better for graphic card
 }

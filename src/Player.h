@@ -14,5 +14,6 @@ class Player : public GameObject
 
 		// Getter & Setter
 		inline int getSpeed() const { return playerSpeed; }
+        virtual SDL_Rect getPosition() { return SDL_Rect(); }
 };
 

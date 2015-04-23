@@ -13,9 +13,9 @@ GameObject::~GameObject(void)
 void GameObject::updateAnimation()
 {
 	for (int i = 0 ; i < numberOfSprite ; i++)
-		sprite[i].SetPosition(sprite[currentSprite].GetX(), sprite[currentSprite].GetY());
+		sprite[i].setPosition(sprite[currentSprite].getX(), sprite[currentSprite].getY());
 	
-	// Changement d'image de l'animation
+	// Change animation's image
 	currentSprite++;
 	currentSprite %= numberOfSprite;
 }

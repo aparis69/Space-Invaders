@@ -1,4 +1,5 @@
 #pragma once
+#include "SDLinclude.h"
 #include "Sprite.h"
 
 class GameObject
@@ -15,13 +16,17 @@ class GameObject
 
 		// Member functions
 		virtual void updateAnimation();
+        
+        // Virtual member function
+        virtual SDL_Rect getPosition() = 0;
 
 		// Getter & Setter
 		virtual Sprite* getSprite() const { return sprite; }
 		virtual inline Sprite* getCurrentSprite() const { return &sprite[currentSprite]; }
 		virtual inline Sprite* getSprite(int index) { return &sprite[index]; }
-		// Get the xPos of the current Sprite
-		virtual inline int getXPos() const { return sprite[currentSprite].GetX(); }
+		
+        // Get the xPos of the current Sprite on screen
+		virtual inline int getXPos() const { return sprite[currentSprite].getX(); }
 		// Get the yPos of the current Sprite
-		virtual inline int getYPos() const { return sprite[currentSprite].GetY(); }
+		virtual inline int getYPos() const { return sprite[currentSprite].getY(); }
 };

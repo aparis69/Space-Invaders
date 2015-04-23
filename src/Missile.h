@@ -11,4 +11,6 @@ class Missile : public GameObject
 		Missile(void);
 		Missile(int xPos, int yPos, int speed);
 		~Missile(void) { }
+
+        virtual SDL_Rect getPosition() { return SDL_Rect(); }
 };

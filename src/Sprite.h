@@ -7,24 +7,27 @@ class Sprite
 		int x, y;  
 		int xSize, ySize;
 		int vx, vy;
+
 	public:
 		// Constructor & Destructor
 		Sprite(){}
 		~Sprite(){};
-		Sprite(int imIndex,int inx,int iny,int invx,int invy);
+		Sprite(int imIndex, int inx, int iny, int invx, int invy);
+        Sprite(int imIndex, int inx, int iny, int invx, int invy, int inXSize, int inYSize);
 
 		// Member functions
-
+        inline void evolueFromVector() { x+=vx; y+=vy; }
 
 		// Getter & Setter
-		inline void MoveX(int mv){x+=mv;}
-		inline void MoveY(int my){y+=my;}
-		inline void SetPosition(int inx,int iny){x=inx;y=iny;}
-		inline void EvolueFromVector(){x+=vx;y+=vy;}
-		inline int GetX(){return x;}
-		inline int GetY(){return y;}
-		inline int GetIm(){return imageIndex;}
-		inline int& Vx(){return vx;}
-		inline int& Vy(){return vy;}
+		inline void moveX(int mv) { x+=mv; }
+		inline void moveY(int my) { y+=my; }
+		inline void setPosition(int inx,int iny) { x=inx; y=iny; }
+		inline int getX() const { return x; }
+		inline int getY() const { return y; }
+		inline int getIm() { return imageIndex; }
+		inline int getVx() const { return vx; }
+		inline int getVy() const { return vy; }
+        inline int getXSize() const { return xSize; }
+        inline int getYSize() const { return ySize; }
 };
 

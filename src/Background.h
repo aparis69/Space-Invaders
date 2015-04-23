@@ -16,6 +16,6 @@ class Background : public GameObject
 		void updateScroll(int YRES);
 
 		// Getter & Setter
-		inline SDL_Rect getBackgroundPosition() const { return scroll; }
+		virtual SDL_Rect getPosition() { return scroll; }
 };
 

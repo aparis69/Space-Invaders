@@ -26,7 +26,7 @@ bool PhysicsManager::collideWith(int xPosM, int yPosM, int xSizeM, int ySizeM,
 
 bool PhysicsManager::isOutOfScreen(int xPos, int yPos, int xSize, int ySize)
 {
-	if(xPos + xSize >= XRES || yPos + YRES >= YRES || xPos <= 0 || yPos <= 0)
+    if(xPos + xSize >= XRES || yPos + ySize >= YRES || xPos <= 0 || yPos <= 0)
 		return true;
 
 	return false;

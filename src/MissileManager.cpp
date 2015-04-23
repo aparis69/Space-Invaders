@@ -24,7 +24,7 @@ void MissileManager::updateMissileInProgress()
 {
 	for (unsigned int i = 0 ; i < missileInProgress.size(); i++)
 	{
-		missileInProgress.at(i)->getCurrentSprite()->EvolueFromVector();
+		missileInProgress.at(i)->getCurrentSprite()->evolueFromVector();
 		missileInProgress.at(i)->updateAnimation();
 	}
 }
