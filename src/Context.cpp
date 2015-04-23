@@ -10,6 +10,7 @@ using namespace std;
 
 Context::Context(void)
 {
+    // Test 4
     //Test 3
     // Init Window and Managers
     window = new Window(640, 480, "Space Invaders 2");
