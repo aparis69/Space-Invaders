@@ -8,27 +8,27 @@ void GameLoop();
 
 int main(int argc, char *argv[])
 {
-	GameLoop();
+    GameLoop();
 
-	return EXIT_SUCCESS;
+    return EXIT_SUCCESS;
 }
 
 void GameLoop()
 {
-	Context c;
-	Input in; 	 
-	srand((unsigned int)time(NULL));
+    Context c;
+    Input in;
+    srand((unsigned int) time(NULL));
 
-	while(!in.Key(SDLK_ESCAPE) && !in.Quit())
-	{
-		unsigned int elapsed;
-		unsigned int lasttime = SDL_GetTicks();
+    while (!in.Key(SDLK_ESCAPE) && !in.Quit())
+    {
+        unsigned int elapsed;
+        unsigned int lasttime = SDL_GetTicks();
 
-		in.Update();
-		c.update(in);
+        in.Update();
+        c.update(in);
 
-		elapsed = SDL_GetTicks() - lasttime;  
-		if (elapsed < 10)							
-			SDL_Delay(10 - elapsed); // synchronisation à 60 FPS		 
-	}
+        elapsed = SDL_GetTicks() - lasttime;
+        if (elapsed < 10)
+            SDL_Delay(10 - elapsed); // synchronisation à 60 FPS		 
+    }
 }

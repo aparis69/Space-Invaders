@@ -6,21 +6,21 @@ Enemy::Enemy(void)
 
 Enemy::Enemy(int speed, EnemyType etype)
 {
-	ennemySpeed = speed;
-	type = etype;
+    ennemySpeed = speed;
+    type = etype;
 }
 
 void Enemy::loadSprites()
 {
-	switch(type)
-	{
-		case EnemyType::Easy:
-			break;
-		case EnemyType::Medium:
-			break;
-		case EnemyType::Hard:
-			break;
-		case EnemyType::Insane:
-			break;
-	}
+    switch (type)
+    {
+        case EnemyType::Easy:
+            break;
+        case EnemyType::Medium:
+            break;
+        case EnemyType::Hard:
+            break;
+        case EnemyType::Insane:
+            break;
+    }
 }

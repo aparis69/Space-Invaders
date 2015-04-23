@@ -9,22 +9,30 @@ class PhysicsManager;
 
 class MissileManager
 {
-	private:	
-		// Variables
-		std::vector<Missile*> missileInProgress;
-		float timer;
+private:
+    // Variables
+    std::vector<Missile*> missileInProgress;
+    float timer;
 
-	public:
-		// Constructor & Destructor
-		MissileManager(void);
-		~MissileManager(void);
-		
-		// Member functions
-        void shootMissile(int xPos, int yPos, int speed, MissileType type);
-		void updateMissileInProgress();
-		void manageVectorSize(PhysicsManager* physicsManager);
+public:
+    // Constructor & Destructor
+    MissileManager(void);
+    ~MissileManager(void);
 
-		// Getter & Setter
-		int getNumberOfMissile() const { return missileInProgress.size(); }
-		Missile* getMissile(int index) const { return missileInProgress.at(index); }
+    // Member functions
+    void shootMissile(int xPos, int yPos, int speed, MissileType type);
+    void updateMissileInProgress();
+    void manageVectorSize(PhysicsManager* physicsManager);
+
+    // Getter & Setter
+
+    int getNumberOfMissile() const
+    {
+        return missileInProgress.size();
+    }
+
+    Missile* getMissile(int index) const
+    {
+        return missileInProgress.at(index);
+    }
 };

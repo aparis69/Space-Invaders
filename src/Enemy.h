@@ -4,16 +4,19 @@
 
 class Enemy : public GameObject
 {
-	private:
-		int ennemySpeed;
-		EnemyType type;
+private:
+    int ennemySpeed;
+    EnemyType type;
 
-	public:
-		// Constructor & Destructor
-		Enemy(void);
-		Enemy(int speed, EnemyType type);
-		~Enemy(void) { }
+public:
+    // Constructor & Destructor
+    Enemy(void);
+    Enemy(int speed, EnemyType type);
 
-        // Member functions
-        void loadSprites();
+    ~Enemy(void)
+    {
+    }
+
+    // Member functions
+    void loadSprites();
 };

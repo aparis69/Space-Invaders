@@ -10,34 +10,34 @@ class Background;
 
 class Context
 {
-	private:
-		Window* window;
-        
-        // Managers
-		AssetManager* assetManager;
-		MissileManager* missileManager;
-		PhysicsManager* physicsManager;
-		
-        // Unique Objects
-        Player* player;
-        Background* background;
+private:
+    Window* window;
 
-		// Private functions
-		void initGameObjects();
-		void updateBackground();
-		void updatePlayer(Input& in);
-		void updateAI();
-		void updateGameObjects();
+    // Managers
+    AssetManager* assetManager;
+    MissileManager* missileManager;
+    PhysicsManager* physicsManager;
 
-	public:
-		// Constructor & Destructor
-		Context(void);
-		~Context(void);
+    // Unique Objects
+    Player* player;
+    Background* background;
 
-		// Member functions
-		void update(Input& in);
-		void render();
+    // Private functions
+    void initGameObjects();
+    void updateBackground();
+    void updatePlayer(Input& in);
+    void updateAI();
+    void updateGameObjects();
 
-		// Getter & Setter
-		bool gameOver();
+public:
+    // Constructor & Destructor
+    Context(void);
+    ~Context(void);
+
+    // Member functions
+    void update(Input& in);
+    void render();
+
+    // Getter & Setter
+    bool gameOver();
 };

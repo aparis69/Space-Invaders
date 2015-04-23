@@ -4,24 +4,36 @@
 
 class Window
 {
-	private:
-		int XRES, YRES;
-		std::string windowName;
-		SDL_Surface* screen;
+private:
+    int XRES, YRES;
+    std::string windowName;
+    SDL_Surface* screen;
 
-	public:
-		// Constructor & Destructor
-		Window(void);
-		Window(int xres, int yres, std::string name);
-		~Window(void);
+public:
+    // Constructor & Destructor
+    Window(void);
+    Window(int xres, int yres, std::string name);
+    ~Window(void);
 
-		// Member functions
-		void flipScreen();
-		void blitSurface(SDL_Surface* surface, int xPos, int yPos);
+    // Member functions
+    void flipScreen();
+    void blitSurface(SDL_Surface* surface, int xPos, int yPos);
 
-		// Getter & Setter
-		inline int getXRES() const { return XRES; }
-		inline int getYRES() const { return YRES; }
-		inline SDL_Surface* getSurface() const { return screen; }
+    // Getter & Setter
+
+    inline int getXRES() const
+    {
+        return XRES;
+    }
+
+    inline int getYRES() const
+    {
+        return YRES;
+    }
+
+    inline SDL_Surface* getSurface() const
+    {
+        return screen;
+    }
 };
 
