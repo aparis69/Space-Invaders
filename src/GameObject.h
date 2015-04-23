@@ -16,9 +16,9 @@ class GameObject
 
 		// Member functions
 		virtual void updateAnimation();
-        
-        // Virtual member function
-        virtual SDL_Rect getPosition() = 0;
+
+        // Virtual functions
+        virtual void loadSprites() = 0;
 
 		// Getter & Setter
 		virtual Sprite* getSprite() const { return sprite; }

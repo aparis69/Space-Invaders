@@ -1,5 +1,6 @@
 #include "MissileManager.h"
 #include "PhysicsManager.h"
+#include "Missile.h"
 using namespace std;
 
 MissileManager::MissileManager(void)
@@ -10,12 +11,12 @@ MissileManager::~MissileManager(void)
 {
 }
 
-void MissileManager::shootMissile(int xPos, int yPos)
+void MissileManager::shootMissile(int xPos, int yPos, int speed, MissileType type)
 {
 	if(SDL_GetTicks() < timer)
 		return;
 
-	missileInProgress.push_back(new Missile(xPos, yPos, -5));
+	missileInProgress.push_back(new Missile(xPos, yPos, speed, type));
 
 	timer = SDL_GetTicks() + 500;
 }

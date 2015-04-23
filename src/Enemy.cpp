@@ -10,7 +10,7 @@ Enemy::Enemy(int speed, EnemyType etype)
 	type = etype;
 }
 
-void Enemy::loadSprite()
+void Enemy::loadSprites()
 {
 	switch(type)
 	{

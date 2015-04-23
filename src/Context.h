@@ -1,20 +1,26 @@
 #pragma once
-#include "Window.h"
-#include "AssetManager.h"
 #include "Input.h"
-#include "GameObject.h"
-#include "MissileManager.h"
-#include "PhysicsManager.h"
+
+class Window;
+class AssetManager;
+class MissileManager;
+class PhysicsManager;
+class Player;
+class Background;
 
 class Context
 {
 	private:
-		// Variables
 		Window* window;
+        
+        // Managers
 		AssetManager* assetManager;
 		MissileManager* missileManager;
 		PhysicsManager* physicsManager;
-		std::vector<GameObject*> gameObjects;
+		
+        // Unique Objects
+        Player* player;
+        Background* background;
 
 		// Private functions
 		void initGameObjects();

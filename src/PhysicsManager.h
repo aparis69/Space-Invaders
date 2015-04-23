@@ -1,4 +1,5 @@
 #pragma once
+
 class PhysicsManager
 {
 	private:
@@ -19,5 +20,7 @@ class PhysicsManager
 		// Getter & Setter
 		inline void setXRES(int xres) { XRES = xres; }
 		inline void setYRES(int yres) { YRES = yres; }
+        inline int getXRES() const { return XRES; }
+        inline int getYRES() const { return YRES; }
 };
 

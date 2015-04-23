@@ -1,6 +1,11 @@
 #include "Context.h"
 #include "Player.h"
 #include "Background.h"
+#include "MissileManager.h"
+#include "Missile.h"
+#include "PhysicsManager.h"
+#include "Window.h"
+#include "AssetManager.h"
 using namespace std;
 
 Context::Context(void)
@@ -9,6 +14,7 @@ Context::Context(void)
 	window = new Window(640, 480, "Space Invaders 2");
 	assetManager = new AssetManager();
 	physicsManager = new PhysicsManager(window->getXRES(), window->getYRES());
+    missileManager = new MissileManager();
 
 	// Init GameObjects in the scene
 	initGameObjects();
@@ -22,12 +28,8 @@ Context::~Context(void)
 
 void Context::initGameObjects()
 {
-    // 0:Background, 1:Player
-	gameObjects = vector<GameObject*>();
-	gameObjects.push_back(new Background());
-	gameObjects.push_back(new Player(4));
-
-	missileManager = new MissileManager();
+    player = new Player(4);
+    background = new Background();
 }
 
 void Context::update(Input& in)
@@ -45,7 +47,6 @@ void Context::updatePlayer(Input& in)
 	SDLKey tabkey[5] = { SDLK_UP, SDLK_DOWN, SDLK_LEFT, SDLK_RIGHT, SDLK_SPACE };
 
     // Storing temporary object to improve readability
-	Player* player = ((Player*)gameObjects.at(1));
 	int speed = player->getSpeed();
     int xSize = player->getCurrentSprite()->getXSize();
     int ySize = player->getCurrentSprite()->getYSize();
@@ -62,7 +63,7 @@ void Context::updatePlayer(Input& in)
     if (in.Key(tabkey[3]) && !physicsManager->isOutOfScreen(xPos + speed, yPos, xSize, ySize))  // right
 		player->getCurrentSprite()->moveX(speed);
 	if (in.Key(tabkey[4]))  // Shoot missile
-		missileManager->shootMissile(xPos, yPos);
+        missileManager->shootMissile(xPos, yPos, -5, MissileType::Small);
 
 	player->updateAnimation();
 }
@@ -81,24 +82,23 @@ void Context::updateGameObjects()
 
 void Context::updateBackground()
 {
-	((Background*)gameObjects.at(0))->updateScroll(window->getYRES());
+	background->updateScroll(window->getYRES());
 }
 
 void Context::render()
 {
 	// Background directly blitted to make scrolling work
-    SDL_Rect pos = gameObjects.at(0)->getPosition();
-	SDL_BlitSurface(assetManager->getSurface(gameObjects.at(0)->getCurrentSprite()->getIm()), 
+    SDL_Rect pos = background->getPosition();
+	SDL_BlitSurface(assetManager->getSurface(background->getCurrentSprite()->getIm()), 
                     &pos, 
 					window->getSurface(), NULL);
 
-	// Game object blitting
-	for (unsigned int i = 1 ; i < gameObjects.size() ; i++)
-		window->blitSurface(assetManager->getSurface(gameObjects.at(i)->getCurrentSprite()->getIm()),
-							gameObjects.at(i)->getCurrentSprite()->getX(),
-							gameObjects.at(i)->getCurrentSprite()->getY());
+	// Player blitting
+    window->blitSurface(assetManager->getSurface(player->getCurrentSprite()->getIm()),
+						player->getCurrentSprite()->getX(),
+						player->getCurrentSprite()->getY());
 
-	// Missiles in progress
+	// Missiles in progress blitting
 	for (int i = 0 ; i < missileManager->getNumberOfMissile() ; i++)
 		window->blitSurface(assetManager->getSurface(missileManager->getMissile(i)->getCurrentSprite()->getIm()),
 							missileManager->getMissile(i)->getXPos(),

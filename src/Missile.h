@@ -1,16 +1,22 @@
 #pragma once
 #include "GameObject.h"
+#include "MissileTypes.h"
 
 class Missile : public GameObject
 {
 	private:
 		int missileSpeed;
+        MissileType missileType;
+
+        int startingXPos;
+        int startingYPos;
 
 	public:
 		// Constructor & Destructor
 		Missile(void);
-		Missile(int xPos, int yPos, int speed);
+        Missile(int xPos, int yPos, int speed, MissileType type);
 		~Missile(void) { }
 
-        virtual SDL_Rect getPosition() { return SDL_Rect(); }
+        // Member functions
+        void loadSprites();
 };

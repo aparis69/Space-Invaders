@@ -10,12 +10,13 @@ class Background : public GameObject
 	public:
 		// Constructor & Destructor
 		Background(void);
-		~Background(void);
+        ~Background(void) { }
 
 		// Member functions
 		void updateScroll(int YRES);
+        void loadSprites();
 
 		// Getter & Setter
-		virtual SDL_Rect getPosition() { return scroll; }
+		SDL_Rect getPosition() { return scroll; }
 };
 

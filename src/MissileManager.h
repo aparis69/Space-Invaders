@@ -2,8 +2,9 @@
 #include <vector>
 #include <chrono>
 #include "SDLinclude.h"
-#include "Missile.h"
+#include "MissileTypes.h"
 
+class Missile;
 class PhysicsManager;
 
 class MissileManager
@@ -19,7 +20,7 @@ class MissileManager
 		~MissileManager(void);
 		
 		// Member functions
-		void shootMissile(int xPos, int yPos);
+        void shootMissile(int xPos, int yPos, int speed, MissileType type);
 		void updateMissileInProgress();
 		void manageVectorSize(PhysicsManager* physicsManager);
 

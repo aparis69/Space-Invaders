@@ -8,13 +8,12 @@ class Enemy : public GameObject
 		int ennemySpeed;
 		EnemyType type;
 
-		void loadSprite();
-
 	public:
 		// Constructor & Destructor
 		Enemy(void);
 		Enemy(int speed, EnemyType type);
 		~Enemy(void) { }
 
-        virtual SDL_Rect getPosition() { return SDL_Rect(); }
+        // Member functions
+        void loadSprites();
 };
