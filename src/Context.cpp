@@ -83,20 +83,20 @@ void Context::render()
 {
 	// Fond, collé à la main pour Scrolling
 	SDL_BlitSurface(assetManager->getSurface(gameObjects.at(0)->getCurrentSprite()->GetIm()), 
-		&(((Background*)gameObjects.at(0))->getBackgroundPosition()), 
-		window->getSurface(), NULL);
+					&(((Background*)gameObjects.at(0))->getBackgroundPosition()), 
+					window->getSurface(), NULL);
 
 	// Game object direct
 	for (unsigned int i = 1 ; i < gameObjects.size() ; i++)
 		window->blitSurface(assetManager->getSurface(gameObjects.at(i)->getCurrentSprite()->GetIm()),
-		gameObjects.at(i)->getCurrentSprite()->GetX(),
-		gameObjects.at(i)->getCurrentSprite()->GetY());
+							gameObjects.at(i)->getCurrentSprite()->GetX(),
+							gameObjects.at(i)->getCurrentSprite()->GetY());
 
 	// Missiles in progress
 	for (int i = 0 ; i < missileManager->getNumberOfMissile() ; i++)
 		window->blitSurface(assetManager->getSurface(missileManager->getMissile(i)->getCurrentSprite()->GetIm()),
-		missileManager->getMissile(i)->getXPos(),
-		missileManager->getMissile(i)->getYPos());
+							missileManager->getMissile(i)->getXPos(),
+							missileManager->getMissile(i)->getYPos());
 	window->flipScreen();
 }
 

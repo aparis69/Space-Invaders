@@ -3,4 +3,4 @@
 !/src/
 !/Assets/
 !.gitignore
-
+!.editorconfig

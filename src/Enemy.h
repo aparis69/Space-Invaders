@@ -15,7 +15,5 @@ class Enemy : public GameObject
 		Enemy(void);
 		Enemy(int speed, EnemyType type);
 		~Enemy(void) { }
-
-
 };
 
