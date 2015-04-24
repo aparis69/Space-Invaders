@@ -13,7 +13,7 @@ using namespace std;
 Context::Context(void)
 {
     // Init Window and Managers
-    window = new Window(640, 480, 30, "Space Invaders 2");
+    window = new Window(640, 480, 120, "Space Invaders 2");
     assetManager = new AssetManager();
     physicsManager = new PhysicsManager(Window::XRES, Window::YRES);
     missileManager = new MissileManager();
@@ -31,7 +31,7 @@ Context::~Context(void)
 void Context::initGameObjects()
 {
     player = new Player(30);
-    background = new Background();
+    background = new Background(300);
 }
 
 void Context::update(Input& in)
@@ -92,9 +92,29 @@ void Context::render()
 {
     // Background directly blitted to make scrolling work
     SDL_Rect pos = background->getPosition();
-    SDL_BlitSurface(assetManager->getSurface(background->getCurrentSpriteIndex()),
-                    &pos,
-                    window->getSurface(), NULL);
+    SDL_Surface* backgroundSurface = assetManager->getSurface(background->getCurrentSpriteIndex());
+    if(pos.y >= 0)
+        SDL_BlitSurface(backgroundSurface,
+                        &pos,
+                        window->getSurface(), NULL);
+    else
+    {
+        pos.h = pos.h + pos.y;
+        int lastY = pos.y;
+        pos.y = 0;
+        SDL_BlitSurface(backgroundSurface,
+                        &pos,
+                        window->getSurface(), NULL);
+        SDL_Rect dst;
+        dst.x = 0;
+        dst.y = Window::YRES - lastY;
+        pos.y = 960 + lastY;
+        pos.h = lastY*-1;
+        SDL_BlitSurface(backgroundSurface,
+                        &pos,
+                        window->getSurface(), &dst);
+        background->resetScroll();
+    }
 
     // Player blitting
     window->blitSurface(assetManager->getSurface(player->getCurrentSpriteIndex()),

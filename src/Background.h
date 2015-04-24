@@ -6,10 +6,11 @@ class Background : public GameObject
 {
 private:
     SDL_Rect scroll;
+    int scrollSpeed;
 
 public:
     // Constructor & Destructor
-    Background(void);
+    Background(int scrollSpeed);
 
     ~Background(void)
     {
@@ -25,5 +26,8 @@ public:
     {
         return scroll;
     }
+
+    //Resets scroll Rect after having reached end of screen.
+    void resetScroll();
 };
 
