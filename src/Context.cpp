@@ -30,9 +30,7 @@ Context::Context(void)
 
 Context::~Context(void)
 {
-    /*for (auto it = gameObjects.begin() ; it != gameObjects.end() ; it++)
-        delete (*it);
-    gameObjects.clear();*/
+    gameObjects.clear();
 
     delete player;
     delete background;

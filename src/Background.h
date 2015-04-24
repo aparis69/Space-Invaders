@@ -19,9 +19,9 @@ public:
     // Member functions
     void updateScroll();
     void loadSprites();
+    ActionTypes reactToCollision(GameObject* hitObject) { return ActionTypes::Destroy; }
 
     // Getter & Setter
-
     SDL_Rect getPosition()
     {
         return scroll;

@@ -16,8 +16,6 @@ class Context
 private:
     // Static array of all the gameObject in the scene
     static std::vector<GameObject*> gameObjects;
-    
-    Window* window;
 
     // Managers
     AssetManager* assetManager;
@@ -28,6 +26,7 @@ private:
     // Unique Objects
     Player* player;
     Background* background;
+    Window* window;
 
     // Private functions
     void initGameObjects();
