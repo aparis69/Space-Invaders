@@ -5,6 +5,7 @@ class Window;
 class AssetManager;
 class MissileManager;
 class PhysicsManager;
+class EnemyManager;
 class Player;
 class Background;
 
@@ -17,6 +18,7 @@ private:
     AssetManager* assetManager;
     MissileManager* missileManager;
     PhysicsManager* physicsManager;
+    EnemyManager* enemyManager;
 
     // Unique Objects
     Player* player;
