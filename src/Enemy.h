@@ -10,7 +10,7 @@ private:
 public:
     // Constructor & Destructor
     Enemy(void);
-    Enemy(int speed, EnemyType type);
+    Enemy(int xPos, int yPos, int xSpeed, int ySpeed, EnemyType type);
 
     ~Enemy(void)
     {

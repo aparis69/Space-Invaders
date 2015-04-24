@@ -27,11 +27,17 @@ void AssetManager::loadRessources()
     graphicsRessources.push_back(loadImage("Assets/Spaceships/ShipPlayer03.bmp"));
     graphicsRessources.push_back(loadImage("Assets/Spaceships/ShipPlayer04.bmp"));
 
-    // Basic Missile : 5 à 8
+    // Basic Missile : 5 a 8
     graphicsRessources.push_back(loadImage("Assets/Missiles/basicMissile01.bmp"));
     graphicsRessources.push_back(loadImage("Assets/Missiles/basicMissile02.bmp"));
     graphicsRessources.push_back(loadImage("Assets/Missiles/basicMissile03.bmp"));
     graphicsRessources.push_back(loadImage("Assets/Missiles/basicMissile04.bmp"));
+
+    // Enemy easy : 9 a 12
+    graphicsRessources.push_back(loadImage("Assets/Spaceships/ShipE01.bmp"));
+    graphicsRessources.push_back(loadImage("Assets/Spaceships/ShipE02.bmp"));
+    graphicsRessources.push_back(loadImage("Assets/Spaceships/ShipE03.bmp"));
+    graphicsRessources.push_back(loadImage("Assets/Spaceships/ShipE04.bmp"));
 }
 
 SDL_Surface* AssetManager::loadImage(char const *file)

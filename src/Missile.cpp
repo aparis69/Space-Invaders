@@ -7,6 +7,7 @@ Missile::Missile(void)
     speedY = -6;
     x = -1;
     y = -1;
+    animDuration = 0;
 }
 
 Missile::Missile(int xPos, int yPos, int speed, MissileType type)
@@ -15,6 +16,7 @@ Missile::Missile(int xPos, int yPos, int speed, MissileType type)
     currentSprite = 0;
     speedY = speed;
     speedX = 0;
+    animDuration = 40;
     missileType = type;
 
     x = xPos;

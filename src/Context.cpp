@@ -6,6 +6,8 @@
 #include "PhysicsManager.h"
 #include "Window.h"
 #include "AssetManager.h"
+#include "EnemyManager.h"
+#include "Enemy.h"
 
 #include <iostream>
 using namespace std;
@@ -17,6 +19,7 @@ Context::Context(void)
     assetManager = new AssetManager();
     physicsManager = new PhysicsManager(Window::XRES, Window::YRES);
     missileManager = new MissileManager();
+    enemyManager = new EnemyManager(Window::XRES, Window::YRES);
 
     // Init GameObjects in the scene
     initGameObjects();
@@ -73,7 +76,8 @@ void Context::updatePlayer(Input& in)
 
 void Context::updateAI()
 {
-
+    enemyManager->manageEnemySpawn();
+    enemyManager->updateEnemiesInProgress();
 }
 
 void Context::updateGameObjects()
@@ -100,6 +104,11 @@ void Context::render()
     window->blitSurface(assetManager->getSurface(player->getCurrentSpriteIndex()),
                         player->getX(),
                         player->getY());
+
+    for (int i = 0; i < enemyManager->getNumberOfEnemy(); i++)
+        window->blitSurface(assetManager->getSurface(enemyManager->getEnemy(i)->getCurrentSpriteIndex()),
+                            enemyManager->getEnemy(i)->getX(),
+                            enemyManager->getEnemy(i)->getY());
 
     // Missiles in progress blitting
     for (int i = 0; i < missileManager->getNumberOfMissile(); i++)
