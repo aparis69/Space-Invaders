@@ -11,7 +11,7 @@ Background::Background(void)
     loadSprites();
 }
 
-void Background::updateScroll(int YRES)
+void Background::updateScroll()
 {
     if (scroll.y >= 0)
         scroll.y -= 1;

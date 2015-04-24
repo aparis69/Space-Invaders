@@ -16,7 +16,7 @@ public:
     }
 
     // Member functions
-    void updateScroll(int YRES);
+    void updateScroll();
     void loadSprites();
 
     // Getter & Setter

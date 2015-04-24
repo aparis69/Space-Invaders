@@ -16,7 +16,7 @@ Context::Context(void)
     // Init Window and Managers
     window = new Window(640, 480, "Space Invaders 2");
     assetManager = new AssetManager();
-    physicsManager = new PhysicsManager(window->getXRES(), window->getYRES());
+    physicsManager = new PhysicsManager(Window::XRES, Window::YRES);
     missileManager = new MissileManager();
 
     // Init GameObjects in the scene
@@ -86,7 +86,7 @@ void Context::updateGameObjects()
 
 void Context::updateBackground()
 {
-    background->updateScroll(window->getYRES());
+    background->updateScroll();
 }
 
 void Context::render()
