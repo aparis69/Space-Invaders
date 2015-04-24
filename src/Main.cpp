@@ -1,7 +1,11 @@
 #include <iostream>
 #include <time.h>
+
 #include "Input.h"
 #include "Context.h"
+
+#include "Global.h"
+
 using namespace std;
 
 void GameLoop();
@@ -17,18 +21,18 @@ void GameLoop()
 {
     Context c;
     Input in;
-    srand((unsigned int) time(NULL));
+    srand(time(NULL));
 
     while (!in.Key(SDLK_ESCAPE) && !in.Quit())
     {
         unsigned int elapsed;
         unsigned int lasttime = SDL_GetTicks();
-
+        //cout << "Cycle at " << lasttime << endl;
         in.Update();
         c.update(in);
 
         elapsed = SDL_GetTicks() - lasttime;
-        if (elapsed < 10)
-            SDL_Delay(10 - elapsed); // synchronisation à 60 FPS		 
+        if (elapsed < 1000/FPS)
+            SDL_Delay(1000/FPS - elapsed); // synchronisation à 60 FPS
     }
 }

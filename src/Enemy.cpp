@@ -6,7 +6,6 @@ Enemy::Enemy(void)
 
 Enemy::Enemy(int speed, EnemyType etype)
 {
-    ennemySpeed = speed;
     type = etype;
 }
 

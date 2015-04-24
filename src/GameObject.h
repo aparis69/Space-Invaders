@@ -5,9 +5,19 @@
 class GameObject
 {
 protected:
-    Sprite* sprite;
+    int* sprite;
     int currentSprite;
     int numberOfSprite;
+    //Current positions of object on screen (pixels)
+    int x, y;
+    // Size of the game object
+    int xSize, ySize;
+    //Speeds of the object in pixels/ms
+    float speedX, speedY;
+    //Animation duration in ms (time a sprite stays on screen)
+    int animDuration;
+    //Ticks when sprite was changed for animation
+    int ticksSinceAnim;
 
 public:
     // Constructor & Destructor
@@ -15,38 +25,51 @@ public:
     virtual ~GameObject(void);
 
     // Member functions
-    virtual void updateAnimation();
+    void updateAnimation();
 
     // Virtual functions
     virtual void loadSprites() = 0;
 
-    // Getter & Setter
+    //Moves function which depends on elapsed time since last render
+    virtual int moveValueX(int elapsedTime, bool left = true) const;
+    virtual int moveValueY(int elapsedTime, bool left = true) const;
+    virtual void moveX(int elapsedTime, bool left = true);
+    virtual void moveY(int elapsedTime, bool forward = true);
+    virtual void move(bool forward = true, bool left = true);
 
-    virtual Sprite* getSprite() const
+    //Index image of the sprite to be displayed.
+    virtual inline int getCurrentSpriteIndex() const
     {
-        return sprite;
+        return sprite[currentSprite];
     }
 
-    virtual inline Sprite* getCurrentSprite() const
+    inline int getX() const
     {
-        return &sprite[currentSprite];
+        return x;
     }
 
-    virtual inline Sprite* getSprite(int index)
+    inline int getY() const
     {
-        return &sprite[index];
+        return y;
     }
 
-    // Get the xPos of the current Sprite on screen
-
-    virtual inline int getXPos() const
+    inline int getXSize() const
     {
-        return sprite[currentSprite].getX();
+        return xSize;
     }
-    // Get the yPos of the current Sprite
 
-    virtual inline int getYPos() const
+    inline int getYSize() const
     {
-        return sprite[currentSprite].getY();
+        return ySize;
+    }
+
+    inline float getXSpeed() const
+    {
+        return speedX;
+    }
+
+    inline float getYSpeed() const
+    {
+        return speedY;
     }
 };

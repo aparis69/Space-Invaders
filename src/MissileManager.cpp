@@ -25,7 +25,7 @@ void MissileManager::updateMissileInProgress()
 {
     for (unsigned int i = 0; i < missileInProgress.size(); i++)
     {
-        missileInProgress.at(i)->getCurrentSprite()->evolueFromVector();
+        missileInProgress.at(i)->move();
         missileInProgress.at(i)->updateAnimation();
     }
 }
@@ -37,7 +37,7 @@ void MissileManager::manageVectorSize(PhysicsManager* physicsManager)
     for (std::vector<Missile*>::iterator it = missileInProgress.begin(); it != missileInProgress.end();)
     {
         erased = false;
-        if (physicsManager->isOutOfScreen((*it)->getXPos(), (*it)->getYPos()))
+        if (physicsManager->isOutOfScreen((*it)->getX(), (*it)->getY()))
         {
             erased = true;
             it = missileInProgress.erase(it);

@@ -21,5 +21,6 @@ void Background::updateScroll(int YRES)
 
 void Background::loadSprites()
 {
-    sprite = new Sprite(0, 0, 0, 0, 0);
+    sprite = new int[1];
+    sprite[0] = 0;
 }

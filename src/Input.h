@@ -8,7 +8,7 @@ protected:
     int mousex, mousey;
     int mousexrel, mouseyrel;
     char mousebuttons[8];
-    char quit;
+    bool quit;
 public:
     // Constructor & Destructor
     Input();
@@ -17,7 +17,7 @@ public:
     {
     }
 
-    // Member functions
+    // Poll events and updates structures.
     void Update();
 
     // Getter & Setter
@@ -52,7 +52,7 @@ public:
         return mousebuttons[i];
     }
 
-    inline int Quit()
+    inline bool Quit()
     {
         return quit;
     }

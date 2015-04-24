@@ -22,12 +22,18 @@ private:
     Player* player;
     Background* background;
 
+    //Number of ticks when last rendered
+    int nbTicksLastRender;
+
     // Private functions
     void initGameObjects();
     void updateBackground();
     void updatePlayer(Input& in);
     void updateAI();
     void updateGameObjects();
+
+    //Elapsed ticks since last render
+    int elapsedTime();
 
 public:
     // Constructor & Destructor
@@ -40,4 +46,6 @@ public:
 
     // Getter & Setter
     bool gameOver();
+
+    int getLastRenderTicks() const;
 };

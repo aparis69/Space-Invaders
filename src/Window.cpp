@@ -1,5 +1,9 @@
 #include "Window.h"
 
+#include <iostream>
+
+using namespace std;
+
 Window::Window(void)
 {
 }
@@ -36,6 +40,7 @@ void Window::blitSurface(SDL_Surface* surface, int xPos, int yPos)
 
 void Window::flipScreen()
 {
-    while (SDL_Flip(screen) != 0)
-        SDL_Delay(1); // vertical sync, better for graphic card
+    //while (SDL_Flip(screen) != 0)
+        //SDL_Delay(1); // vertical sync, better for graphic card
+    cout << "Retour SDL_Flip : " << SDL_Flip(screen) << endl;
 }

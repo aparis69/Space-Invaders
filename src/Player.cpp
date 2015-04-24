@@ -2,27 +2,35 @@
 
 Player::Player(void)
 {
-    playerSpeed = 4;
+    speedY = speedX = 0.1;
+    xSize = 93;
+    ySize = 97;
+    x = 200;
+    y = 200;
     numberOfSprite = 4;
     currentSprite = 0;
-
+    animDuration = 50;
     loadSprites();
 }
 
-Player::Player(int speed)
+Player::Player(float speed)
 {
-    playerSpeed = speed;
+    speedY = speedX = speed;
+    xSize = 93;
+    ySize = 97;
+    x = 200;
+    y = 200;
     numberOfSprite = 4;
     currentSprite = 0;
-
+    animDuration = 50;
     loadSprites();
 }
 
 void Player::loadSprites()
 {
-    sprite = new Sprite[numberOfSprite];
-    sprite[0] = Sprite(1, 280, 320, 0, 0, 94, 97);
-    sprite[1] = Sprite(2, 280, 320, 0, 0, 94, 97);
-    sprite[2] = Sprite(3, 280, 320, 0, 0, 94, 97);
-    sprite[3] = Sprite(4, 280, 320, 0, 0, 94, 97);
+    sprite = new int[numberOfSprite];
+    sprite[0] = 1;
+    sprite[1] = 2;
+    sprite[2] = 3;
+    sprite[3] = 4;
 }

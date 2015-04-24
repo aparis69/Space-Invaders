@@ -6,6 +6,9 @@
 #include "PhysicsManager.h"
 #include "Window.h"
 #include "AssetManager.h"
+#include "Global.h"
+
+#include <iostream>
 using namespace std;
 
 Context::Context(void)
@@ -16,7 +19,7 @@ Context::Context(void)
     assetManager = new AssetManager();
     physicsManager = new PhysicsManager(window->getXRES(), window->getYRES());
     missileManager = new MissileManager();
-
+    nbTicksLastRender = SDL_GetTicks()-16;
     // Init GameObjects in the scene
     initGameObjects();
 }
@@ -29,41 +32,47 @@ Context::~Context(void)
 
 void Context::initGameObjects()
 {
-    player = new Player(4);
+    player = new Player(10);
     background = new Background();
 }
 
 void Context::update(Input& in)
 {
+    int start = SDL_GetTicks();
     updatePlayer(in);
     updateAI();
     updateGameObjects();
     updateBackground();
 
     render();
+    //cout << "Frame done in " << SDL_GetTicks() - start << endl;
+    nbTicksLastRender = SDL_GetTicks();
+
 }
 
 void Context::updatePlayer(Input& in)
 {
-    SDLKey tabkey[5] = {SDLK_UP, SDLK_DOWN, SDLK_LEFT, SDLK_RIGHT, SDLK_SPACE};
-
     // Storing temporary object to improve readability
-    int speed = player->getSpeed();
-    int xSize = player->getCurrentSprite()->getXSize();
-    int ySize = player->getCurrentSprite()->getYSize();
-    int xPos = player->getXPos();
-    int yPos = player->getYPos();
+    int xSize = player->getXSize();
+    int ySize = player->getYSize();
+    int xPos = player->getX();
+    int yPos = player->getY();
+    int localElapsedTime = elapsedTime();
 
     // Move the player after checking screen bounds
-    if (in.Key(tabkey[0]) && !physicsManager->isOutOfScreen(xPos, yPos - speed, xSize, ySize)) // Up
-        player->getCurrentSprite()->moveY(-speed);
-    if (in.Key(tabkey[1]) && !physicsManager->isOutOfScreen(xPos, yPos + speed, xSize, ySize)) // Down
-        player->getCurrentSprite()->moveY(speed);
-    if (in.Key(tabkey[2]) && !physicsManager->isOutOfScreen(xPos - speed, yPos, xSize, ySize)) // left
-        player->getCurrentSprite()->moveX(-speed);
-    if (in.Key(tabkey[3]) && !physicsManager->isOutOfScreen(xPos + speed, yPos, xSize, ySize)) // right
-        player->getCurrentSprite()->moveX(speed);
-    if (in.Key(tabkey[4])) // Shoot missile
+    if (in.Key(SDLK_UP) && !physicsManager->isOutOfScreen(xPos, yPos + player->moveValueY(localElapsedTime), xSize, ySize)) // Up
+        player->moveY(localElapsedTime);
+
+    if (in.Key(SDLK_DOWN) && !physicsManager->isOutOfScreen(xPos, yPos + player->moveValueY(localElapsedTime, false), xSize, ySize)) // Down
+        player->moveY(localElapsedTime, false);
+
+    if (in.Key(SDLK_LEFT) && !physicsManager->isOutOfScreen(xPos + player->moveValueX(localElapsedTime), yPos, xSize, ySize)) // left
+        player->moveX(localElapsedTime);
+
+    if (in.Key(SDLK_RIGHT) && !physicsManager->isOutOfScreen(xPos + player->moveValueX(localElapsedTime, false), yPos, xSize, ySize)) // right
+        player->moveX(localElapsedTime, false);
+
+    if (in.Key(SDLK_SPACE)) // Shoot missile
         missileManager->shootMissile(xPos, yPos, -5, MissileType::Small);
 
     player->updateAnimation();
@@ -90,20 +99,20 @@ void Context::render()
 {
     // Background directly blitted to make scrolling work
     SDL_Rect pos = background->getPosition();
-    SDL_BlitSurface(assetManager->getSurface(background->getCurrentSprite()->getIm()),
+    SDL_BlitSurface(assetManager->getSurface(background->getCurrentSpriteIndex()),
             &pos,
             window->getSurface(), NULL);
 
     // Player blitting
-    window->blitSurface(assetManager->getSurface(player->getCurrentSprite()->getIm()),
-            player->getCurrentSprite()->getX(),
-            player->getCurrentSprite()->getY());
+    window->blitSurface(assetManager->getSurface(player->getCurrentSpriteIndex()),
+            player->getX(),
+            player->getY());
 
     // Missiles in progress blitting
     for (int i = 0; i < missileManager->getNumberOfMissile(); i++)
-        window->blitSurface(assetManager->getSurface(missileManager->getMissile(i)->getCurrentSprite()->getIm()),
-            missileManager->getMissile(i)->getXPos(),
-            missileManager->getMissile(i)->getYPos());
+        window->blitSurface(assetManager->getSurface(missileManager->getMissile(i)->getCurrentSpriteIndex()),
+            missileManager->getMissile(i)->getX(),
+            missileManager->getMissile(i)->getY());
     // Flip screen
     window->flipScreen();
 }
@@ -111,4 +120,14 @@ void Context::render()
 bool Context::gameOver()
 {
     return false;
+}
+
+int Context::elapsedTime()
+{
+    return SDL_GetTicks() - nbTicksLastRender;
+}
+
+int Context::getLastRenderTicks() const
+{
+    return nbTicksLastRender;
 }

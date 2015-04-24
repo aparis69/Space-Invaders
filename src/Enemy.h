@@ -5,7 +5,6 @@
 class Enemy : public GameObject
 {
 private:
-    int ennemySpeed;
     EnemyType type;
 
 public:

@@ -3,6 +3,7 @@
 Input::Input()
 {
     memset(this, 0, sizeof (*this));
+    quit = false;
 }
 
 void Input::Update()
@@ -35,7 +36,7 @@ void Input::Update()
                     mousebuttons[event.button.button] = 0;
                 break;
             case SDL_QUIT:
-                quit = 1;
+                quit = true;
                 break;
             default:
                 break;

@@ -5,7 +5,6 @@
 class Missile : public GameObject
 {
 private:
-    int missileSpeed;
     MissileType missileType;
 
     int startingXPos;

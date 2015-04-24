@@ -3,25 +3,15 @@
 
 class Player : public GameObject
 {
-private:
-    int playerSpeed;
-
 public:
     // Constructor & Destructor
     Player(void);
-    Player(int speed);
+    Player(float speed);
 
     ~Player(void)
     {
     }
 
     void loadSprites();
-
-    // Getter & Setter
-
-    inline int getSpeed() const
-    {
-        return playerSpeed;
-    }
 };
 
