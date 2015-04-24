@@ -46,15 +46,15 @@ void GameObject::move(bool forward, bool left)
 int GameObject::moveValueX(bool left) const
 {
     if(left)
-        return -speedX*10/FPS;
+        return (int)(-speedX*10/FPS);
     else
-        return speedX*10/FPS;
+        return (int)(speedX*10/FPS);
 }
 
 int GameObject::moveValueY(bool forward) const
 {
     if(forward)
-        return -speedY*10/FPS;
+        return (int)(-speedY*10/FPS);
     else
-        return speedY*10/FPS;
+        return (int)(speedY*10/FPS);
 }
