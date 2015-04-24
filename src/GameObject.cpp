@@ -1,5 +1,5 @@
 #include "GameObject.h"
-#include "Global.h"
+#include "Window.h"
 
 #include <iostream>
 using namespace std;
@@ -46,15 +46,15 @@ void GameObject::move(bool forward, bool left)
 int GameObject::moveValueX(bool left) const
 {
     if(left)
-        return (int)(-speedX*10/FPS);
+        return (int)(-speedX*10/Window::FPS);
     else
-        return (int)(speedX*10/FPS);
+        return (int)(speedX*10/Window::FPS);
 }
 
 int GameObject::moveValueY(bool forward) const
 {
     if(forward)
-        return (int)(-speedY*10/FPS);
+        return (int)(-speedY*10/Window::FPS);
     else
-        return (int)(speedY*10/FPS);
+        return (int)(speedY*10/Window::FPS);
 }

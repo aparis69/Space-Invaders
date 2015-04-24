@@ -3,8 +3,7 @@
 
 #include "Input.h"
 #include "Context.h"
-
-#include "Global.h"
+#include "Window.h"
 
 using namespace std;
 
@@ -25,14 +24,14 @@ void GameLoop()
 
     while (!in.Key(SDLK_ESCAPE) && !in.Quit())
     {
-        unsigned int elapsed;
+        int elapsed;
         unsigned int lasttime = SDL_GetTicks();
 
         in.Update();
         c.update(in);
 
         elapsed = SDL_GetTicks() - lasttime;
-        if (elapsed < 1000/FPS)
-            SDL_Delay(1000/FPS - elapsed); // synchronisation à 60 FPS
+        if (elapsed < 1000/Window::FPS)
+            SDL_Delay(1000/Window::FPS - elapsed); // synchronisation à 60 FPS
     }
 }

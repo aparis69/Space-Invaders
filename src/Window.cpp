@@ -6,14 +6,16 @@ using namespace std;
 
 int Window::XRES = -1;
 int Window::YRES = -1;
+int Window::FPS = -1;
 
-Window::Window(int xres, int yres, std::string name)
+Window::Window(int xres, int yres, int FPS, std::string name)
 {
     SDL_Init(SDL_INIT_VIDEO);
     SDL_WM_SetCaption(name.c_str(), NULL);
 
     XRES = xres;
     YRES = yres;
+    this->FPS = FPS;
     screen = SDL_SetVideoMode(XRES, YRES, 32, SDL_HWSURFACE | SDL_DOUBLEBUF);
 
     if (screen == NULL)

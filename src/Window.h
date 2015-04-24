@@ -9,9 +9,9 @@ private:
     SDL_Surface* screen;
 
 public:
-    static int XRES, YRES;
+    static int XRES, YRES, FPS;
     // Constructor & Destructor
-    Window(int xres, int yres, std::string name);
+    Window(int xres, int yres, int FPS, std::string name);
     ~Window(void);
 
     // Member functions

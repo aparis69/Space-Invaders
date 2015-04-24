@@ -6,7 +6,6 @@
 #include "PhysicsManager.h"
 #include "Window.h"
 #include "AssetManager.h"
-#include "Global.h"
 
 #include <iostream>
 using namespace std;
@@ -14,7 +13,7 @@ using namespace std;
 Context::Context(void)
 {
     // Init Window and Managers
-    window = new Window(640, 480, "Space Invaders 2");
+    window = new Window(640, 480, 30, "Space Invaders 2");
     assetManager = new AssetManager();
     physicsManager = new PhysicsManager(Window::XRES, Window::YRES);
     missileManager = new MissileManager();
