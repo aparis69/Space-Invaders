@@ -50,32 +50,37 @@ void EnemyManager::manageEnemySpawn()
 void EnemyManager::spawnNewEnemy()
 {
     // Intialized in randomSpawnPoint()
-    int xSpawn, ySpawn;
-    randomSpawnPoint(xSpawn, ySpawn);
+    int xSpawn, ySpawn, xSpeed, ySpeed;
+    randomSpawnPoint(xSpawn, ySpawn, xSpeed, ySpeed);
 
-    int xSpeed = 15, ySpeed = 15;
     enemiesInProgress.push_back(new Enemy(xSpawn, ySpawn, xSpeed, ySpeed, EnemyType::Easy));
 }
 
-void EnemyManager::randomSpawnPoint(int& x, int &y)
+void EnemyManager::randomSpawnPoint(int& x, int &y, int& xSpeed, int& ySpeed)
 {
     int side = rand() % 100;
     // Left side
     if(side < 33)
     {
-        y = rand() % YRES;
+        y = rand() % YRES / 2;
         x = 0;
+        xSpeed = -15;
+        ySpeed = 0;
     }
     // Up side
     else if (side < 66)
     {
         x = rand() % XRES;
-        y = YRES;
+        y = 0;
+        xSpeed = 0;
+        ySpeed = -25;
     }
     // Right side
     else
     {
-        y = rand() % YRES;
+        y = rand() % YRES / 2;
         x = XRES;
+        xSpeed = 15;
+        ySpeed = 0;
     }
 }

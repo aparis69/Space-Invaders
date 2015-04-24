@@ -33,7 +33,7 @@ Context::~Context(void)
 
 void Context::initGameObjects()
 {
-    player = new Player(30);
+    player = new Player(50);
     background = new Background(300);
 }
 

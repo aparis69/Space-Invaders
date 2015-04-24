@@ -16,7 +16,7 @@ private:
     // Instanciate a new enemy
     void spawnNewEnemy();
     // Determine the spawn position
-    void randomSpawnPoint(int& x, int& y);
+    void randomSpawnPoint(int& x, int& y, int& xSpeed, int& ySpeed);
 
 public:
     // Constructor & Destructor
