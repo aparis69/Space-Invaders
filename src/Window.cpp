@@ -41,7 +41,5 @@ void Window::blitSurface(SDL_Surface* surface, int xPos, int yPos)
 
 void Window::flipScreen()
 {
-    //while (SDL_Flip(screen) != 0)
-        //SDL_Delay(1); // vertical sync, better for graphic card
     SDL_Flip(screen);
 }

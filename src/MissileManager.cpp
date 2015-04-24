@@ -10,6 +10,10 @@ MissileManager::MissileManager(void)
 
 MissileManager::~MissileManager(void)
 {
+    for (mIterator = missileInProgress.begin(); mIterator != missileInProgress.end(); mIterator++)
+        delete (*mIterator);
+
+    missileInProgress.clear();
 }
 
 void MissileManager::shootMissile(int xPos, int yPos, int speed, MissileType type)

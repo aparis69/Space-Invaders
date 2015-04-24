@@ -10,6 +10,7 @@ private:
     // An enemy will be spawn every <spawnFrequency> second
     float spawnFrequency;
     std::vector<Enemy*> enemiesInProgress;
+    std::vector<Enemy*>::iterator eIterator;
 
     int XRES, YRES;
 

@@ -12,6 +12,7 @@ class MissileManager
 private:
     // Variables
     std::vector<Missile*> missileInProgress;
+    std::vector<Missile*>::iterator mIterator;
     float timer;
 
 public:

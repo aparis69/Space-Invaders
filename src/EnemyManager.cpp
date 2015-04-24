@@ -25,7 +25,10 @@ EnemyManager::EnemyManager(int xres, int yres)
 
 EnemyManager::~EnemyManager()
 {
+    for (eIterator = enemiesInProgress.begin(); eIterator != enemiesInProgress.end(); eIterator++)
+        delete (*eIterator);
 
+    enemiesInProgress.clear();
 }
 
 void EnemyManager::updateEnemiesInProgress()
