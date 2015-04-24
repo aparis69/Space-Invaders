@@ -27,7 +27,7 @@ void GameLoop()
     {
         unsigned int elapsed;
         unsigned int lasttime = SDL_GetTicks();
-        //cout << "Cycle at " << lasttime << endl;
+
         in.Update();
         c.update(in);
 

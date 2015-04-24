@@ -5,8 +5,8 @@ Missile::Missile(void)
     numberOfSprite = 4;
     currentSprite = 0;
     speedY = -6;
-    startingXPos = -1;
-    startingYPos = -1;
+    x = -1;
+    y = -1;
 }
 
 Missile::Missile(int xPos, int yPos, int speed, MissileType type)
@@ -14,10 +14,11 @@ Missile::Missile(int xPos, int yPos, int speed, MissileType type)
     numberOfSprite = 4;
     currentSprite = 0;
     speedY = speed;
+    speedX = 0;
     missileType = type;
 
-    startingXPos = xPos;
-    startingYPos = yPos;
+    x = xPos;
+    y = yPos;
 
     loadSprites();
 }

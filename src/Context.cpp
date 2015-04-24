@@ -13,13 +13,12 @@ using namespace std;
 
 Context::Context(void)
 {
-    //test code blocks
     // Init Window and Managers
     window = new Window(640, 480, "Space Invaders 2");
     assetManager = new AssetManager();
     physicsManager = new PhysicsManager(window->getXRES(), window->getYRES());
     missileManager = new MissileManager();
-    nbTicksLastRender = SDL_GetTicks()-16;
+
     // Init GameObjects in the scene
     initGameObjects();
 }
@@ -32,22 +31,18 @@ Context::~Context(void)
 
 void Context::initGameObjects()
 {
-    player = new Player(10);
+    player = new Player(30);
     background = new Background();
 }
 
 void Context::update(Input& in)
 {
-    int start = SDL_GetTicks();
     updatePlayer(in);
     updateAI();
     updateGameObjects();
     updateBackground();
 
     render();
-    //cout << "Frame done in " << SDL_GetTicks() - start << endl;
-    nbTicksLastRender = SDL_GetTicks();
-
 }
 
 void Context::updatePlayer(Input& in)
@@ -57,23 +52,22 @@ void Context::updatePlayer(Input& in)
     int ySize = player->getYSize();
     int xPos = player->getX();
     int yPos = player->getY();
-    int localElapsedTime = elapsedTime();
 
     // Move the player after checking screen bounds
-    if (in.Key(SDLK_UP) && !physicsManager->isOutOfScreen(xPos, yPos + player->moveValueY(localElapsedTime), xSize, ySize)) // Up
-        player->moveY(localElapsedTime);
+    if (in.Key(SDLK_UP) && !physicsManager->isOutOfScreen(xPos, yPos + player->moveValueY(), xSize, ySize)) // Up
+        player->moveY();
 
-    if (in.Key(SDLK_DOWN) && !physicsManager->isOutOfScreen(xPos, yPos + player->moveValueY(localElapsedTime, false), xSize, ySize)) // Down
-        player->moveY(localElapsedTime, false);
+    if (in.Key(SDLK_DOWN) && !physicsManager->isOutOfScreen(xPos, yPos + player->moveValueY(false), xSize, ySize)) // Down
+        player->moveY(false);
 
-    if (in.Key(SDLK_LEFT) && !physicsManager->isOutOfScreen(xPos + player->moveValueX(localElapsedTime), yPos, xSize, ySize)) // left
-        player->moveX(localElapsedTime);
+    if (in.Key(SDLK_LEFT) && !physicsManager->isOutOfScreen(xPos + player->moveValueX(), yPos, xSize, ySize)) // left
+        player->moveX();
 
-    if (in.Key(SDLK_RIGHT) && !physicsManager->isOutOfScreen(xPos + player->moveValueX(localElapsedTime, false), yPos, xSize, ySize)) // right
-        player->moveX(localElapsedTime, false);
+    if (in.Key(SDLK_RIGHT) && !physicsManager->isOutOfScreen(xPos + player->moveValueX(false), yPos, xSize, ySize)) // right
+        player->moveX(false);
 
     if (in.Key(SDLK_SPACE)) // Shoot missile
-        missileManager->shootMissile(xPos, yPos, -5, MissileType::Small);
+        missileManager->shootMissile(xPos, yPos, 40, MissileType::Small);
 
     player->updateAnimation();
 }
@@ -100,19 +94,19 @@ void Context::render()
     // Background directly blitted to make scrolling work
     SDL_Rect pos = background->getPosition();
     SDL_BlitSurface(assetManager->getSurface(background->getCurrentSpriteIndex()),
-            &pos,
-            window->getSurface(), NULL);
+                    &pos,
+                    window->getSurface(), NULL);
 
     // Player blitting
     window->blitSurface(assetManager->getSurface(player->getCurrentSpriteIndex()),
-            player->getX(),
-            player->getY());
+                        player->getX(),
+                        player->getY());
 
     // Missiles in progress blitting
     for (int i = 0; i < missileManager->getNumberOfMissile(); i++)
         window->blitSurface(assetManager->getSurface(missileManager->getMissile(i)->getCurrentSpriteIndex()),
-            missileManager->getMissile(i)->getX(),
-            missileManager->getMissile(i)->getY());
+                            missileManager->getMissile(i)->getX(),
+                            missileManager->getMissile(i)->getY());
     // Flip screen
     window->flipScreen();
 }
@@ -120,14 +114,4 @@ void Context::render()
 bool Context::gameOver()
 {
     return false;
-}
-
-int Context::elapsedTime()
-{
-    return SDL_GetTicks() - nbTicksLastRender;
-}
-
-int Context::getLastRenderTicks() const
-{
-    return nbTicksLastRender;
 }

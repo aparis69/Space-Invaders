@@ -1,6 +1,5 @@
 #pragma once
 #include "SDLinclude.h"
-#include "Sprite.h"
 
 class GameObject
 {
@@ -31,10 +30,10 @@ public:
     virtual void loadSprites() = 0;
 
     //Moves function which depends on elapsed time since last render
-    virtual int moveValueX(int elapsedTime, bool left = true) const;
-    virtual int moveValueY(int elapsedTime, bool left = true) const;
-    virtual void moveX(int elapsedTime, bool left = true);
-    virtual void moveY(int elapsedTime, bool forward = true);
+    virtual int moveValueX(bool left = true) const;
+    virtual int moveValueY(bool left = true) const;
+    virtual void moveX(bool left = true);
+    virtual void moveY(bool forward = true);
     virtual void move(bool forward = true, bool left = true);
 
     //Index image of the sprite to be displayed.

@@ -2,8 +2,8 @@
 #include "Global.h"
 
 #include <iostream>
-
 using namespace std;
+
 GameObject::GameObject(void)
 {
     sprite = nullptr;
@@ -27,25 +27,23 @@ void GameObject::updateAnimation()
     }
 }
 
-void GameObject::moveX(int elapsedTime, bool left)
+void GameObject::moveX(bool left)
 {
-    //cout << "Trying to move after " << elapsedTime << " ms" << endl;
-    x+=moveValueX(elapsedTime, left);
-    //cout << "Moved at " << SDL_GetTicks() << " of " << moveValueX(elapsedTime, left) << endl;
+    x+=moveValueX(left);
 }
 
-void GameObject::moveY(int elapsedTime, bool forward)
+void GameObject::moveY(bool forward)
 {
-    y+=moveValueY(elapsedTime, forward);
+    y+=moveValueY(forward);
 }
 
 void GameObject::move(bool forward, bool left)
 {
-    moveX(1, left);
-    moveY(1, forward);
+    moveX(left);
+    moveY(forward);
 }
 
-int GameObject::moveValueX(int elapsedTime, bool left) const
+int GameObject::moveValueX(bool left) const
 {
     if(left)
         return -speedX*10/FPS;
@@ -53,10 +51,10 @@ int GameObject::moveValueX(int elapsedTime, bool left) const
         return speedX*10/FPS;
 }
 
-int GameObject::moveValueY(int elapsedTime, bool forward) const
+int GameObject::moveValueY(bool forward) const
 {
     if(forward)
-        return -speedY*FPS;
+        return -speedY*10/FPS;
     else
-        return speedY*FPS;
+        return speedY*10/FPS;
 }

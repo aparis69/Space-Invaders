@@ -1,6 +1,6 @@
 #ifndef GLOBAL_H_INCLUDED
 #define GLOBAL_H_INCLUDED
 
-#define FPS 100
+#define FPS 60
 
 #endif // GLOBAL_H_INCLUDED

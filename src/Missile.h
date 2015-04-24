@@ -7,9 +7,6 @@ class Missile : public GameObject
 private:
     MissileType missileType;
 
-    int startingXPos;
-    int startingYPos;
-
 public:
     // Constructor & Destructor
     Missile(void);

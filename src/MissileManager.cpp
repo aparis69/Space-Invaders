@@ -5,6 +5,7 @@ using namespace std;
 
 MissileManager::MissileManager(void)
 {
+    timer = -1;
 }
 
 MissileManager::~MissileManager(void)
@@ -17,7 +18,6 @@ void MissileManager::shootMissile(int xPos, int yPos, int speed, MissileType typ
         return;
 
     missileInProgress.push_back(new Missile(xPos, yPos, speed, type));
-
     timer = SDL_GetTicks() + 500;
 }
 
