@@ -12,6 +12,9 @@
 #include <iostream>
 using namespace std;
 
+// Init static array of gameObjects
+vector<GameObject*> Context::gameObjects = vector<GameObject*> ();
+
 Context::Context(void)
 {
     // Init Window and Managers
@@ -27,6 +30,15 @@ Context::Context(void)
 
 Context::~Context(void)
 {
+    /*for (auto it = gameObjects.begin() ; it != gameObjects.end() ; it++)
+        delete (*it);
+    gameObjects.clear();*/
+
+    delete player;
+    delete background;
+    delete missileManager;
+    delete physicsManager;
+    delete enemyManager;
     delete assetManager;
     delete window;
 }
@@ -125,6 +137,7 @@ void Context::render()
                         player->getX(),
                         player->getY());
 
+    // Enemy blitting
     for (int i = 0; i < enemyManager->getNumberOfEnemy(); i++)
         window->blitSurface(assetManager->getSurface(enemyManager->getEnemy(i)->getCurrentSpriteIndex()),
                             enemyManager->getEnemy(i)->getX(),
@@ -142,4 +155,36 @@ void Context::render()
 bool Context::gameOver()
 {
     return false;
+}
+
+// Static member functions
+void Context::addGameObject(GameObject* object)
+{
+    gameObjects.push_back(object);
+}
+
+void Context::deleteGameObject(GameObject* object)
+{
+    vector<GameObject*>::iterator it;
+    for (it = gameObjects.begin() ; it != gameObjects.end() ; it++)
+    {
+        if((*it) == object)
+        {
+            gameObjects.erase(it);
+            return;
+        }
+    }
+}
+
+vector<GameObject*>::iterator Context::getGameObjectIterator(int i)
+{
+    vector<GameObject*>::iterator it = gameObjects.begin();
+    std::advance(it, i);
+    
+    return it;
+}
+
+int Context::getGameObjectCount()
+{ 
+    return gameObjects.size(); 
 }

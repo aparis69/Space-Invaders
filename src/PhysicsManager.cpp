@@ -1,4 +1,8 @@
 #include "PhysicsManager.h"
+#include "GameObject.h"
+#include "Context.h"
+#include <vector>
+using namespace std;
 
 PhysicsManager::PhysicsManager(void)
 {
@@ -12,16 +16,30 @@ PhysicsManager::PhysicsManager(int xres, int yres)
     YRES = yres;
 }
 
-bool PhysicsManager::collideWith(int xPosM, int yPosM, int xSizeM, int ySizeM,
-        int xPosO, int yPosO, int xSizeO, int ySizeO)
+GameObject* PhysicsManager::collideWith(GameObject* movedObject)
 {
-    if ((xPosM >= xPosO + xSizeO)
-            || (xPosM + xSizeM <= xPosO)
-            || (yPosM >= yPosO + ySizeO)
-            || (yPosM + ySizeM <= yPosO))
-        return false;
-    else
-        return true;
+    vector<GameObject*>::iterator it;
+    for (int i = 0 ; i < Context::getGameObjectCount() ; i++)
+    {
+        it = Context::getGameObjectIterator(i);
+        if(collideWithGameObject(movedObject->getX(), movedObject->getY(), movedObject->getXSize(), movedObject->getYSize(),
+            (*it)->getX(), (*it)->getY(), (*it)->getXSize(), (*it)->getYSize()))
+            return (*it);
+    }
+
+    return nullptr;
+}
+
+bool PhysicsManager::collideWithGameObject(int xPosM, int yPosM, int xSizeM, int ySizeM,
+                                           int xPosE, int yPosE, int xSizeE, int ySizeE)
+{
+    if(xPosM + xSizeM < xPosE ||
+       xPosM > xPosE + xSizeE ||
+       yPosM + ySizeM < yPosE ||
+       yPosM > yPosE + ySizeE)
+       return false;
+    
+    return true;
 }
 
 bool PhysicsManager::isOutOfScreen(int xPos, int yPos, int xSize, int ySize)
