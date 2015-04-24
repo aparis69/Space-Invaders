@@ -4,9 +4,8 @@
 
 using namespace std;
 
-Window::Window(void)
-{
-}
+int Window::XRES = -1;
+int Window::YRES = -1;
 
 Window::Window(int xres, int yres, std::string name)
 {
@@ -42,5 +41,5 @@ void Window::flipScreen()
 {
     //while (SDL_Flip(screen) != 0)
         //SDL_Delay(1); // vertical sync, better for graphic card
-    cout << "Retour SDL_Flip : " << SDL_Flip(screen) << endl;
+    SDL_Flip(screen);
 }

@@ -5,13 +5,12 @@
 class Window
 {
 private:
-    int XRES, YRES;
+    static int XRES, YRES;
     std::string windowName;
     SDL_Surface* screen;
 
 public:
     // Constructor & Destructor
-    Window(void);
     Window(int xres, int yres, std::string name);
     ~Window(void);
 
