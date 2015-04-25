@@ -77,3 +77,8 @@ ActionTypes Player::reactToCollision(GameObject* hitObject)
             return ActionTypes::Nothing;
     }
 }
+
+unsigned int Player::getLifePoints() const
+{
+    return lifePoints;
+}
