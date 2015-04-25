@@ -6,8 +6,7 @@ Player::Player(void)
     speedY = speedX = 0.1;
     xSize = 93;
     ySize = 97;
-    x = 200;
-    y = 200;
+    spawn();
     numberOfSprite = 4;
     currentSprite = 0;
     animDuration = 50;
@@ -21,8 +20,7 @@ Player::Player(float speed)
     speedY = speedX = speed;
     xSize = 93;
     ySize = 97;
-    x = 200;
-    y = 200;
+    spawn();
     numberOfSprite = 4;
     currentSprite = 0;
     animDuration = 50;
@@ -68,17 +66,27 @@ void Player::stop()
 
 ActionTypes Player::reactToCollision(GameObject* hitObject)
 {
+    ActionTypes ret;
     switch(hitObject->getObjectType())
     {
         case ObjectTypes::Enemy:
             // currently calling Context::gameOver(), which does nothing
-            return ActionTypes::Destroy;
+            ret = ActionTypes::Destroy;
+            lifePoints--;
+            spawn();
         default:
-            return ActionTypes::Nothing;
+            ret = ActionTypes::Nothing;
     }
+    return ret;
 }
 
 unsigned int Player::getLifePoints() const
 {
     return lifePoints;
+}
+
+void Player::spawn()
+{
+    x = X_SPAWN;
+    y = Y_SPAWN;
 }

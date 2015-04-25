@@ -2,12 +2,21 @@
 #include "GameObject.h"
 
 #define START_LP 5
+#define X_SPAWN 250
+#define Y_SPAWN 330
 
 class Player : public GameObject
 {
 private:
     bool movingForward, movingBackward;
     unsigned int lifePoints;
+
+    /** \brief Resets player's position.
+     *
+     * \return void
+     *
+     */
+    void spawn();
 public:
     // Constructor & Destructor
     Player(void);
