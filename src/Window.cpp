@@ -1,5 +1,6 @@
 #include "Window.h"
 
+#include <SDL_ttf.h>
 #include <iostream>
 
 using namespace std;
@@ -12,6 +13,7 @@ Window::Window(int xres, int yres, int FPS, std::string name)
 {
     SDL_Init(SDL_INIT_VIDEO);
     SDL_WM_SetCaption(name.c_str(), NULL);
+    TTF_Init();
 
     XRES = xres;
     YRES = yres;
