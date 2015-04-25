@@ -1,10 +1,13 @@
 #pragma once
 #include "GameObject.h"
 
+#define START_LP 5
+
 class Player : public GameObject
 {
 private:
     bool movingForward, movingBackward;
+    unsigned int lifePoints;
 public:
     // Constructor & Destructor
     Player(void);
@@ -13,6 +16,8 @@ public:
     ~Player(void)
     {
     }
+
+    unsigned int getLifePoints() const;
 
     void loadSprites();
 
