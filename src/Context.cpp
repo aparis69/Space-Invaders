@@ -128,9 +128,9 @@ void Context::updateAI()
 {
     // Decide if a new enemy spawn or not
     enemyManager->manageEnemySpawn();
-    
+
     // Update enemy position and animation
-    for (unsigned int i = 0; i < enemyManager->getNumberOfEnemy() ; i++)
+    for (int i = 0; i < enemyManager->getNumberOfEnemy() ; i++)
     {
         enemyManager->getEnemy(i)->move();
         enemyManager->getEnemy(i)->updateAnimation();
@@ -142,7 +142,7 @@ void Context::updateAI()
 void Context::updateGameObjects()
 {
     // Update missiles in progress and animation
-    for (unsigned int i = 0; i < missileManager->getNumberOfMissile() ; i++)
+    for (int i = 0; i < missileManager->getNumberOfMissile() ; i++)
     {
         missileManager->getMissile(i)->move();
         missileManager->getMissile(i)->updateAnimation();
@@ -250,6 +250,7 @@ void Context::handleReaction(GameObject* object, ActionTypes reaction)
             object->setXSpeed(-object->getXSpeed());
             object->setYSpeed(-object->getYSpeed());
             break;
+        default:;
     }
 }
 

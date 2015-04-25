@@ -6,11 +6,11 @@ Enemy::Enemy(void)
     enemyType = EnemyType::Easy;
     x = -1;
     y = -1;
-    
+
     // Size of enemy type 1
     xSize = 40;
-    ySize = 57;    
-    
+    ySize = 57;
+
     speedX = -1;
     speedY = -1;
     numberOfSprite = 4;
@@ -43,7 +43,7 @@ void Enemy::loadSprites()
     sprite[2] = 11;
     sprite[3] = 12;
 
-    switch (type)
+    switch (enemyType)
     {
         case EnemyType::Easy:
             break;
