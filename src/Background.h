@@ -2,11 +2,15 @@
 #include "GameObject.h"
 #include "SDLinclude.h"
 
+#define SPEED_ADJUST 100
+
 class Background : public GameObject
 {
 private:
     SDL_Rect scroll;
     int scrollSpeed;
+    bool speedingUp, slowingDown;
+    Uint32 lastScroll; /**< Ticks when background last scrolled. */
 
 public:
     // Constructor & Destructor
@@ -27,7 +31,32 @@ public:
         return scroll;
     }
 
-    //Resets scroll Rect after having reached end of screen.
+    /** \brief Resets scroll Rect after having reached end of screen.
+     *
+     * \return void
+     *
+     */
     void resetScroll();
+
+    /** \brief Speeds up the speed when player is moving foward.
+     *
+     * \return void
+     *
+     */
+    void speedUp();
+
+    /** \brief Slows scrolling down when player stops moving foward.
+     *
+     * \return void
+     *
+     */
+    void slowDown();
+
+    /** \brief Back to normal speed.
+     *
+     * \return void
+     *
+     */
+    void idle();
 };
 

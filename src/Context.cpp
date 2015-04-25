@@ -54,13 +54,34 @@ void Context::updatePlayer(Input& in)
     int ySize = player->getYSize();
     int xPos = player->getX();
     int yPos = player->getY();
+    bool wasForward = player->isMovingForward(), wasBackward = player->isMovingBackward();
+
+    if(!in.Key(SDLK_UP) && !in.Key(SDLK_DOWN))
+        player->stop();
 
     // Move the player after checking screen bounds
-    if (in.Key(SDLK_UP) && !physicsManager->isOutOfScreen(xPos, yPos + player->moveValueY(), xSize, ySize)) // Up
-        player->moveY();
+    if (in.Key(SDLK_UP)) // Up
+    {
+        if(!physicsManager->isOutOfScreen(xPos, yPos + player->moveValueY(), xSize, ySize))
+        {
+            player->moveY();
+            player->forward();
+        }
+        else
+            player->stop();
+    }
 
-    if (in.Key(SDLK_DOWN) && !physicsManager->isOutOfScreen(xPos, yPos + player->moveValueY(false), xSize, ySize)) // Down
-        player->moveY(false);
+
+    if (in.Key(SDLK_DOWN)) // Down
+    {
+        if(!physicsManager->isOutOfScreen(xPos, yPos + player->moveValueY(false), xSize, ySize))
+        {
+            player->moveY(false);
+            player->backward();
+        }
+        else
+            player->stop();
+    }
 
     if (in.Key(SDLK_LEFT) && !physicsManager->isOutOfScreen(xPos + player->moveValueX(), yPos, xSize, ySize)) // left
         player->moveX();
@@ -70,6 +91,13 @@ void Context::updatePlayer(Input& in)
 
     if (in.Key(SDLK_SPACE)) // Shoot missile
         missileManager->shootMissile(xPos, yPos, 40, MissileType::Small);
+
+    if(!wasForward && player->isMovingForward())
+        background->speedUp();
+    else if(!wasBackward && player->isMovingBackward())
+        background->slowDown();
+    else if((wasForward && !player->isMovingForward()) || (wasBackward && !player->isMovingBackward()))
+        background->idle();
 
     player->updateAnimation();
 }

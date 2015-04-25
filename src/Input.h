@@ -4,7 +4,7 @@
 class Input
 {
 protected:
-    char key[SDLK_LAST];
+    bool key[SDLK_LAST];
     int mousex, mousey;
     int mousexrel, mouseyrel;
     char mousebuttons[8];
@@ -22,7 +22,7 @@ public:
 
     // Getter & Setter
 
-    inline char& Key(int i)
+    inline bool Key(int i)
     {
         return key[i];
     }
@@ -56,4 +56,11 @@ public:
     {
         return quit;
     }
+
+    /** \brief Tells wether the player is pressing any direction arrow.
+     *
+     * \return bool True if player is moving
+     *
+     */
+    bool isMoving() const;
 };
