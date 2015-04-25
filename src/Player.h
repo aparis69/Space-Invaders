@@ -31,5 +31,5 @@ public:
 
     bool isMovingBackward() const;
 
-    ActionTypes reactToCollision(GameObject* hitObject) { return ActionTypes::Nothing; }
+    ActionTypes reactToCollision(GameObject* hitObject);
 };

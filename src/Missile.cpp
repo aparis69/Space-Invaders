@@ -24,6 +24,10 @@ Missile::Missile(int xPos, int yPos, int speed, MissileType mtype)
     x = xPos;
     y = yPos;
 
+    // Size for the basic missile
+    xSize = 19;
+    ySize = 48;
+
     loadSprites();
 }
 
@@ -34,4 +38,11 @@ void Missile::loadSprites()
     sprite[1] = 6;
     sprite[2] = 7;
     sprite[3] = 8;
+}
+
+ActionTypes Missile::reactToCollision(GameObject* hitObject) 
+{
+    if(hitObject->getObjectType() != ObjectTypes::Player)
+        return ActionTypes::Destroy; 
+    return ActionTypes::Nothing;
 }

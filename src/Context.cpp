@@ -121,11 +121,15 @@ void Context::updateAI()
     enemyManager->manageEnemySpawn();
     
     // Update enemy position and animation
-    for (unsigned int i = 0; i < enemyManager->getNumberOfEnemy() ; i++)
+    for (int i = 0; i < enemyManager->getNumberOfEnemy() ; i++)
     {
         enemyManager->getEnemy(i)->move();
         enemyManager->getEnemy(i)->updateAnimation();
     }
+
+    // Indicate to the physics manager that the enemies have moved
+    for (int i = 0; i < enemyManager->getNumberOfEnemy() ; i++)
+        objectHasMoved(enemyManager->getEnemy(i));
 
     enemyManager->manageVectorSize(physicsManager);
 }
@@ -133,11 +137,15 @@ void Context::updateAI()
 void Context::updateGameObjects()
 {
     // Update missiles in progress and animation
-    for (unsigned int i = 0; i < missileManager->getNumberOfMissile() ; i++)
+    for (int i = 0; i < missileManager->getNumberOfMissile() ; i++)
     {
         missileManager->getMissile(i)->move();
         missileManager->getMissile(i)->updateAnimation();
     }
+
+    // Indicate to the physics manager that the missiles have moved
+    for (int i = 0; i < missileManager->getNumberOfMissile() ; i++)
+        objectHasMoved(missileManager->getMissile(i));
 
     // Delete missile out of screen
     missileManager->manageVectorSize(physicsManager);
@@ -227,10 +235,7 @@ void Context::handleReaction(GameObject* object, ActionTypes reaction)
             if(object->getObjectType() == ObjectTypes::Player)
                 gameOver();
             break;
-        case ActionTypes::ChangeDirection:
-            object->setXSpeed(-object->getXSpeed());
-            object->setYSpeed(-object->getYSpeed());
-            break;
+        default: ;
     }
 }
 

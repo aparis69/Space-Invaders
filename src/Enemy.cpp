@@ -43,7 +43,7 @@ void Enemy::loadSprites()
     sprite[2] = 11;
     sprite[3] = 12;
 
-    switch (type)
+    switch (enemyType)
     {
         case EnemyType::Easy:
             break;
@@ -53,5 +53,19 @@ void Enemy::loadSprites()
             break;
         case EnemyType::Insane:
             break;
+    }
+}
+
+ActionTypes Enemy::reactToCollision(GameObject* hitObject)
+{
+    switch(hitObject->getObjectType())
+    {
+        case ObjectTypes::Enemy:
+            speedX = -speedX;
+            speedY = -speedY;
+            move();
+            return ActionTypes::ChangeDirection;
+        default:
+            return ActionTypes::Destroy;
     }
 }

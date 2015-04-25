@@ -18,5 +18,5 @@ public:
 
     // Member functions
     void loadSprites();
-    ActionTypes reactToCollision(GameObject* hitObject) { return ActionTypes::Destroy; }
+    ActionTypes reactToCollision(GameObject* hitObject);
 };
