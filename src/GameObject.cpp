@@ -1,6 +1,7 @@
 #include "GameObject.h"
 #include "Window.h"
 #include "Context.h"
+#include "AssetManager.h"
 
 #include <iostream>
 using namespace std;
@@ -64,4 +65,10 @@ int GameObject::moveValueY(bool forward) const
         return (int)(-speedY*10/Window::FPS);
     else
         return (int)(speedY*10/Window::FPS);
+}
+
+void GameObject::loadSpriteSize()
+{
+    xSize = AssetManager::getSpriteXSize(sprite[currentSprite]);
+    ySize = AssetManager::getSpriteYSize(sprite[currentSprite]);
 }

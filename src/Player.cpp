@@ -18,14 +18,14 @@ Player::Player(float speed)
 {
     type = ObjectTypes::Player;
     speedY = speedX = speed;
-    xSize = 93;
-    ySize = 97;
     spawn();
     numberOfSprite = 4;
     currentSprite = 0;
     animDuration = 50;
     lifePoints = START_LP;
+    
     loadSprites();
+    loadSpriteSize();
 }
 
 void Player::loadSprites()

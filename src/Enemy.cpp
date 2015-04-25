@@ -5,12 +5,7 @@ Enemy::Enemy(void)
     type = ObjectTypes::Enemy;
     enemyType = EnemyType::Easy;
     x = -1;
-    y = -1;
-    
-    // Size of enemy type 1
-    xSize = 40;
-    ySize = 57;    
-    
+    y = -1;   
     speedX = -1;
     speedY = -1;
     numberOfSprite = 4;
@@ -27,12 +22,8 @@ Enemy::Enemy(int xPos, int yPos, int xSpeed, int ySpeed, EnemyType etype)
     speedY = ySpeed;
     numberOfSprite = 4;
     currentSprite = 0;
-
-    // Size of enemy type 1
-    xSize = 40;
-    ySize = 57;
-
     loadSprites();
+    loadSpriteSize();
 }
 
 void Enemy::loadSprites()
