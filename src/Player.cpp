@@ -3,7 +3,7 @@
 Player::Player(void)
 {
     type = ObjectTypes::Player;
-    speedY = speedX = 0.1;
+    speedY = speedX = 0.1f;
     xSize = 93;
     ySize = 97;
     spawn();

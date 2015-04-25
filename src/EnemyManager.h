@@ -34,6 +34,5 @@ public:
     void destroyEnemy(Enemy* en);
 
     inline Enemy* getEnemy(int index) const { return enemiesInProgress.at(index); }
-
     inline int getNumberOfEnemy() const { return enemiesInProgress.size(); }
 };
