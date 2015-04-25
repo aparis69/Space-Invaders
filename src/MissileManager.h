@@ -22,17 +22,16 @@ public:
 
     // Member functions
     void shootMissile(int xPos, int yPos, int speed, MissileType type);
-    void updateMissileInProgress();
     void manageVectorSize(PhysicsManager* physicsManager);
+    void destroyMissile(Missile* m);
 
     // Getter & Setter
-
-    int getNumberOfMissile() const
+    inline int getNumberOfMissile() const
     {
         return missileInProgress.size();
     }
 
-    Missile* getMissile(int index) const
+    inline Missile* getMissile(int index) const
     {
         return missileInProgress.at(index);
     }

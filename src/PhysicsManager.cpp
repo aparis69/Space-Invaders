@@ -22,7 +22,7 @@ GameObject* PhysicsManager::collideWith(GameObject* movedObject)
     for (int i = 0 ; i < Context::getGameObjectCount() ; i++)
     {
         it = Context::getGameObjectIterator(i);
-        if(collideWithGameObject(movedObject->getX(), movedObject->getY(), movedObject->getXSize(), movedObject->getYSize(),
+        if((*it) != movedObject && collideWithGameObject(movedObject->getX(), movedObject->getY(), movedObject->getXSize(), movedObject->getYSize(),
             (*it)->getX(), (*it)->getY(), (*it)->getXSize(), (*it)->getYSize()))
             return (*it);
     }

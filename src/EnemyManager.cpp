@@ -31,15 +31,6 @@ EnemyManager::~EnemyManager()
     enemiesInProgress.clear();
 }
 
-void EnemyManager::updateEnemiesInProgress()
-{
-    for (unsigned int i = 0; i < enemiesInProgress.size(); i++)
-    {
-        enemiesInProgress.at(i)->move();
-        enemiesInProgress.at(i)->updateAnimation();
-    }
-}
-
 void EnemyManager::manageEnemySpawn()
 {
     if(SDL_GetTicks() < timerSpawn)
@@ -85,5 +76,17 @@ void EnemyManager::randomSpawnPoint(int& x, int &y, int& xSpeed, int& ySpeed)
         x = XRES;
         xSpeed = 15;
         ySpeed = 0;
+    }
+}
+
+void EnemyManager::destroyEnemy(Enemy* en)
+{
+    for (eIterator = enemiesInProgress.begin(); eIterator != enemiesInProgress.end(); eIterator++)
+    {
+        if((*eIterator) == en)
+        {
+            enemiesInProgress.erase(eIterator);
+            break;
+        }
     }
 }

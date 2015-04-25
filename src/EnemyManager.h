@@ -26,10 +26,11 @@ public:
     ~EnemyManager();
 
     // Member functions
-    void updateEnemiesInProgress();
     void manageEnemySpawn();
 
-    Enemy* getEnemy(int index) const { return enemiesInProgress.at(index); }
+    void destroyEnemy(Enemy* en);
 
-    int getNumberOfEnemy() const { return enemiesInProgress.size(); }
+    inline Enemy* getEnemy(int index) const { return enemiesInProgress.at(index); }
+
+    inline int getNumberOfEnemy() const { return enemiesInProgress.size(); }
 };

@@ -25,15 +25,6 @@ void MissileManager::shootMissile(int xPos, int yPos, int speed, MissileType typ
     timer = SDL_GetTicks() + 500;
 }
 
-void MissileManager::updateMissileInProgress()
-{
-    for (unsigned int i = 0; i < missileInProgress.size(); i++)
-    {
-        missileInProgress.at(i)->move();
-        missileInProgress.at(i)->updateAnimation();
-    }
-}
-
 void MissileManager::manageVectorSize(PhysicsManager* physicsManager)
 {
     // Regarde les missiles en dehors de l'écran, et les détruit
@@ -51,5 +42,17 @@ void MissileManager::manageVectorSize(PhysicsManager* physicsManager)
             ++it;
         else if (it == missileInProgress.end())
             break;
+    }
+}
+
+void MissileManager::destroyMissile(Missile* m)
+{
+    for (mIterator = missileInProgress.begin(); mIterator != missileInProgress.end(); mIterator++)
+    {
+        if((*mIterator) == m)
+        {
+            missileInProgress.erase(mIterator);
+            break;
+        }
     }
 }

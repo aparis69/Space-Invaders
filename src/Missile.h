@@ -10,7 +10,7 @@ private:
 public:
     // Constructor & Destructor
     Missile(void);
-    Missile(int xPos, int yPos, int speed, MissileType type);
+    Missile(int xPos, int yPos, int speed, MissileType mtype);
 
     ~Missile(void)
     {

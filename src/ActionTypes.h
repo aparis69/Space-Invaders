@@ -6,6 +6,8 @@
 typedef enum class ActionTypes
 {
     Destroy,
+    ChangeDirection,
+    Nothing,
 } ActionTypes;
 
 #endif

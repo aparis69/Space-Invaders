@@ -5,7 +5,7 @@
 class Enemy : public GameObject
 {
 private:
-    EnemyType type;
+    EnemyType enemyType;
 
 public:
     // Constructor & Destructor
