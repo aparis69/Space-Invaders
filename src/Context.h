@@ -4,7 +4,7 @@
 #include "ActionTypes.h"
 
 #include <vector>
-#include <SDL_ttf.h>
+#include <SDL/SDL_ttf.h>
 
 class Window;
 class AssetManager;
