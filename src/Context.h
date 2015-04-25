@@ -1,5 +1,6 @@
 #pragma once
 #include "Input.h"
+#include <vector>
 
 class Window;
 class AssetManager;
@@ -8,11 +9,13 @@ class PhysicsManager;
 class EnemyManager;
 class Player;
 class Background;
+class GameObject;
 
 class Context
 {
 private:
-    Window* window;
+    // Static array of all the gameObject in the scene
+    static std::vector<GameObject*> gameObjects;
 
     // Managers
     AssetManager* assetManager;
@@ -23,6 +26,7 @@ private:
     // Unique Objects
     Player* player;
     Background* background;
+    Window* window;
 
     // Private functions
     void initGameObjects();
@@ -42,4 +46,10 @@ public:
 
     // Getter & Setter
     bool gameOver();
+
+    // Static function, interact with the gameObject array
+    static void addGameObject(GameObject* object);
+    static void deleteGameObject(GameObject* object);
+    static std::vector<GameObject*>::iterator getGameObjectIterator(int i);
+    static int getGameObjectCount();
 };

@@ -1,10 +1,14 @@
 #pragma once
+class GameObject;
 
 class PhysicsManager
 {
 private:
     int XRES;
     int YRES;
+
+    bool collideWithGameObject(int xPosM, int yPosM, int xSizeM, int ySizeM,
+                               int xPosE, int yPosE, int xSizeE, int ySizeE);
 
 public:
     // Constructor & Destructor
@@ -15,8 +19,10 @@ public:
     {
     }
 
+    // Return the gameobject hit by movedObject, or null if there is not
+    GameObject* collideWith(GameObject* movedObject);
+    
     // Member functions
-    bool collideWith(int xPosM, int yPosM, int xSizeM, int ySizeM, int xPosO, int yPosO, int xSizeO, int ySizeO);
     bool isOutOfScreen(int xPos, int yPos, int xSize, int ySize);
     bool isOutOfScreen(int xPos, int yPos);
 
@@ -42,4 +48,3 @@ public:
         return YRES;
     }
 };
-

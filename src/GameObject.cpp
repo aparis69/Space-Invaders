@@ -1,17 +1,24 @@
 #include "GameObject.h"
 #include "Window.h"
+#include "Context.h"
 
 #include <iostream>
 using namespace std;
 
 GameObject::GameObject(void)
 {
+    // Add itself to the gameObject list stored in context class
+    Context::addGameObject(this);
+
     sprite = nullptr;
     ticksSinceAnim = -1;
 }
 
 GameObject::~GameObject(void)
 {
+    // Delete itself from the gameobject list stored in context class
+    Context::deleteGameObject(this);
+    
     delete sprite;
 }
 
