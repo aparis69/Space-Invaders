@@ -1,6 +1,7 @@
 #pragma once
 #include <vector>
 class Enemy;
+class PhysicsManager;
 
 class EnemyManager
 {
@@ -27,7 +28,9 @@ public:
 
     // Member functions
     void manageEnemySpawn();
+    void manageVectorSize(PhysicsManager* physicsManager);
 
+    // Erase the object in the vector<Enemy*>
     void destroyEnemy(Enemy* en);
 
     inline Enemy* getEnemy(int index) const { return enemiesInProgress.at(index); }

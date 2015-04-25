@@ -33,10 +33,10 @@ GameObject* PhysicsManager::collideWith(GameObject* movedObject)
 bool PhysicsManager::collideWithGameObject(int xPosM, int yPosM, int xSizeM, int ySizeM,
                                            int xPosE, int yPosE, int xSizeE, int ySizeE)
 {
-    if(xPosM + xSizeM < xPosE ||
-       xPosM > xPosE + xSizeE ||
-       yPosM + ySizeM < yPosE ||
-       yPosM > yPosE + ySizeE)
+    if(xPosM + xSizeM <= xPosE ||
+       xPosM >= xPosE + xSizeE ||
+       yPosM + ySizeM <= yPosE ||
+       yPosM >= yPosE + ySizeE)
        return false;
     
     return true;

@@ -125,7 +125,9 @@ void Context::updateAI()
     {
         enemyManager->getEnemy(i)->move();
         enemyManager->getEnemy(i)->updateAnimation();
-}
+    }
+
+    enemyManager->manageVectorSize(physicsManager);
 }
 
 void Context::updateGameObjects()

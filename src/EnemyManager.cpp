@@ -1,5 +1,6 @@
 #include "EnemyManager.h"
 #include "Enemy.h"
+#include "PhysicsManager.h"
 #include <time.h>
 using namespace std;
 
@@ -79,12 +80,34 @@ void EnemyManager::randomSpawnPoint(int& x, int &y, int& xSpeed, int& ySpeed)
     }
 }
 
+void EnemyManager::manageVectorSize(PhysicsManager* physicsManager)
+{
+    // Look at every enemy position on the screen and delete if not visible
+    bool erased = false;
+    for (eIterator = enemiesInProgress.begin(); eIterator != enemiesInProgress.end();)
+    {
+        erased = false;
+        if (physicsManager->isOutOfScreen((*eIterator)->getX(), (*eIterator)->getY()))
+        {
+            erased = true;
+            delete (*eIterator);
+            eIterator = enemiesInProgress.erase(eIterator);
+        }
+
+        if (!erased)
+            ++eIterator;
+        else if (eIterator == enemiesInProgress.end())
+            break;
+    }
+}
+
 void EnemyManager::destroyEnemy(Enemy* en)
 {
     for (eIterator = enemiesInProgress.begin(); eIterator != enemiesInProgress.end(); eIterator++)
     {
         if((*eIterator) == en)
         {
+            delete (*eIterator);
             enemiesInProgress.erase(eIterator);
             break;
         }

@@ -27,20 +27,21 @@ void MissileManager::shootMissile(int xPos, int yPos, int speed, MissileType typ
 
 void MissileManager::manageVectorSize(PhysicsManager* physicsManager)
 {
-    // Regarde les missiles en dehors de l'écran, et les détruit
+    // Look at missile out of screen bounds, and delete them
     bool erased = false;
-    for (std::vector<Missile*>::iterator it = missileInProgress.begin(); it != missileInProgress.end();)
+    for (mIterator = missileInProgress.begin(); mIterator != missileInProgress.end();)
     {
         erased = false;
-        if (physicsManager->isOutOfScreen((*it)->getX(), (*it)->getY()))
+        if (physicsManager->isOutOfScreen((*mIterator)->getX(), (*mIterator)->getY()))
         {
             erased = true;
-            it = missileInProgress.erase(it);
+            delete (*mIterator);
+            mIterator = missileInProgress.erase(mIterator);
         }
 
         if (!erased)
-            ++it;
-        else if (it == missileInProgress.end())
+            ++mIterator;
+        else if (mIterator == missileInProgress.end())
             break;
     }
 }
@@ -51,6 +52,7 @@ void MissileManager::destroyMissile(Missile* m)
     {
         if((*mIterator) == m)
         {
+            delete (*mIterator);
             missileInProgress.erase(mIterator);
             break;
         }
