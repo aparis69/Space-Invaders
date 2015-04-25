@@ -36,3 +36,30 @@ void Player::loadSprites()
     sprite[2] = 3;
     sprite[3] = 4;
 }
+
+void Player::forward()
+{
+    movingForward = true;
+    movingBackward = false;
+}
+
+void Player::backward()
+{
+    movingForward = false;
+    movingBackward = true;
+}
+
+bool Player::isMovingForward() const
+{
+    return movingForward;
+}
+
+bool Player::isMovingBackward() const
+{
+    return movingBackward;
+}
+
+void Player::stop()
+{
+    movingBackward = movingForward = false;
+}

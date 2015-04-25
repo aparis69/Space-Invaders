@@ -17,10 +17,10 @@ void Input::Update()
         switch (event.type)
         {
             case SDL_KEYDOWN:
-                key[event.key.keysym.sym] = 1;
+                key[event.key.keysym.sym] = true;
                 break;
             case SDL_KEYUP:
-                key[event.key.keysym.sym] = 0;
+                key[event.key.keysym.sym] = false;
                 break;
             case SDL_MOUSEMOTION:
                 mousex = event.motion.x;
@@ -42,4 +42,9 @@ void Input::Update()
                 break;
         }
     }
+}
+
+bool Input::isMoving() const
+{
+    return key[SDLK_UP] || key[SDLK_LEFT] || key[SDLK_RIGHT] || key[SDLK_DOWN];
 }
