@@ -3,11 +3,11 @@
 
 // Define the possible actions return by a ReactToCollision
 
-typedef enum class ActionTypes
+typedef enum class ReactionTypes
 {
     Destroy,
     ChangeDirection,
     Nothing,
-} ActionTypes;
+} ReactionTypes;
 
 #endif

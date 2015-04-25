@@ -56,7 +56,7 @@ void Enemy::loadSprites()
     }
 }
 
-ActionTypes Enemy::reactToCollision(GameObject* hitObject)
+ReactionTypes Enemy::reactToCollision(GameObject* hitObject)
 {
     switch(hitObject->getObjectType())
     {
@@ -64,8 +64,8 @@ ActionTypes Enemy::reactToCollision(GameObject* hitObject)
             speedX = -speedX;
             speedY = -speedY;
             move();
-            return ActionTypes::ChangeDirection;
+            return ReactionTypes::ChangeDirection;
         default:
-            return ActionTypes::Destroy;
+            return ReactionTypes::Destroy;
     }
 }

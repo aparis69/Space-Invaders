@@ -1,7 +1,7 @@
 #pragma once
 
 #include "Input.h"
-#include "ActionTypes.h"
+#include "ReactionTypes.h"
 
 #include <vector>
 #include <SDL/SDL_ttf.h>
@@ -47,7 +47,7 @@ private:
     // Call the physicsManager to check collision, and react depending on the return value
     void objectHasMoved(GameObject* movedObject);
 
-    void handleReaction(GameObject* object, ActionTypes reaction);
+    void handleReaction(GameObject* object, ReactionTypes reaction);
 
 public:
     // Constructor & Destructor

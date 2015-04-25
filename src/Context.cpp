@@ -234,19 +234,19 @@ void Context::objectHasMoved(GameObject* movedObject)
     GameObject* hitObject = physicsManager->collideWith(movedObject);
     if(hitObject != nullptr && hitObject->getObjectType() != ObjectTypes::Other)
     {
-        ActionTypes movedObjectAction = movedObject->reactToCollision(hitObject);
-        ActionTypes hitObjectAction = hitObject->reactToCollision(movedObject);
+        ReactionTypes movedObjectAction = movedObject->reactToCollision(hitObject);
+        ReactionTypes hitObjectAction = hitObject->reactToCollision(movedObject);
 
         handleReaction(movedObject, movedObjectAction);
         handleReaction(hitObject, hitObjectAction);
     }
 }
 
-void Context::handleReaction(GameObject* object, ActionTypes reaction)
+void Context::handleReaction(GameObject* object, ReactionTypes reaction)
 {
     switch(reaction)
     {
-        case ActionTypes::Destroy:
+        case ReactionTypes::Destroy:
             if(object->getObjectType() == ObjectTypes::Enemy)
                 enemyManager->destroyEnemy((Enemy*)object);
             if(object->getObjectType() == ObjectTypes::Missile)

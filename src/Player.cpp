@@ -66,15 +66,15 @@ void Player::stop()
     movingBackward = movingForward = false;
 }
 
-ActionTypes Player::reactToCollision(GameObject* hitObject)
+ReactionTypes Player::reactToCollision(GameObject* hitObject)
 {
     switch(hitObject->getObjectType())
     {
         case ObjectTypes::Enemy:
             // currently calling Context::gameOver(), which does nothing
-            return ActionTypes::Destroy;
+            return ReactionTypes::Destroy;
         default:
-            return ActionTypes::Nothing;
+            return ReactionTypes::Nothing;
     }
 }
 

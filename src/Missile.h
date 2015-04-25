@@ -18,5 +18,5 @@ public:
 
     // Member functions
     void loadSprites();
-    ActionTypes reactToCollision(GameObject* hitObject);
+    ReactionTypes reactToCollision(GameObject* hitObject);
 };
