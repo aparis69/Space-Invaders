@@ -83,7 +83,7 @@ void Context::updatePlayer(Input& in)
     {
         if(!physicsManager->isOutOfScreen(xPos, yPos + player->moveValueY(), xSize, ySize))
         {
-            player->moveY();
+        player->moveY();
             player->forward();
         }
         else
@@ -95,7 +95,7 @@ void Context::updatePlayer(Input& in)
     {
         if(!physicsManager->isOutOfScreen(xPos, yPos + player->moveValueY(false), xSize, ySize))
         {
-            player->moveY(false);
+        player->moveY(false);
             player->backward();
         }
         else
@@ -118,19 +118,37 @@ void Context::updatePlayer(Input& in)
     else if((wasForward && !player->isMovingForward()) || (wasBackward && !player->isMovingBackward()))
         background->idle();
 
+    // Indicate to physicsManager an object has moved and can potentially collide with another
+    objectHasMoved(player);
+
     player->updateAnimation();
 }
 
 void Context::updateAI()
 {
+    // Decide if a new enemy spawn or not
     enemyManager->manageEnemySpawn();
-    enemyManager->updateEnemiesInProgress();
+    
+    // Update enemy position and animation
+    for (unsigned int i = 0; i < enemyManager->getNumberOfEnemy() ; i++)
+    {
+        enemyManager->getEnemy(i)->move();
+        enemyManager->getEnemy(i)->updateAnimation();
+    }
+
+    enemyManager->manageVectorSize(physicsManager);
 }
 
 void Context::updateGameObjects()
 {
-    // Missiles in progress
-    missileManager->updateMissileInProgress();
+    // Update missiles in progress and animation
+    for (unsigned int i = 0; i < missileManager->getNumberOfMissile() ; i++)
+    {
+        missileManager->getMissile(i)->move();
+        missileManager->getMissile(i)->updateAnimation();
+    }
+
+    // Delete missile out of screen
     missileManager->manageVectorSize(physicsManager);
 }
 
@@ -200,6 +218,39 @@ void Context::render()
 bool Context::gameOver()
 {
     return false;
+}
+
+void Context::objectHasMoved(GameObject* movedObject)
+{
+    // If there is a collision
+    GameObject* hitObject = physicsManager->collideWith(movedObject);
+    if(hitObject != nullptr && hitObject->getObjectType() != ObjectTypes::Other)
+    {
+        ActionTypes movedObjectAction = movedObject->reactToCollision(hitObject);
+        ActionTypes hitObjectAction = hitObject->reactToCollision(movedObject);
+
+        handleReaction(movedObject, movedObjectAction);
+        handleReaction(hitObject, hitObjectAction);
+    }
+}
+
+void Context::handleReaction(GameObject* object, ActionTypes reaction)
+{
+    switch(reaction)
+    {
+        case ActionTypes::Destroy:
+            if(object->getObjectType() == ObjectTypes::Enemy)
+                enemyManager->destroyEnemy((Enemy*)object);
+            if(object->getObjectType() == ObjectTypes::Missile)
+                missileManager->destroyMissile((Missile*)object);
+            if(object->getObjectType() == ObjectTypes::Player)
+                gameOver();
+            break;
+        case ActionTypes::ChangeDirection:
+            object->setXSpeed(-object->getXSpeed());
+            object->setYSpeed(-object->getYSpeed());
+            break;
+    }
 }
 
 // Static member functions

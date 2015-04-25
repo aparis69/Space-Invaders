@@ -1,10 +1,14 @@
 #pragma once
 #include "SDLinclude.h"
 #include "ActionTypes.h"
+#include "ObjectTypes.h"
 
 class GameObject
 {
 protected:
+    // Indicate the type of the gameObject
+    ObjectTypes type;
+
     int* sprite;
     int currentSprite;
     int numberOfSprite;
@@ -73,4 +77,10 @@ public:
     {
         return speedY;
     }
+
+    inline void setYSpeed(float s) { speedY = s; }
+
+    inline void setXSpeed(float s) { speedX = s; }
+
+    inline ObjectTypes getObjectType() const { return type; }
 };

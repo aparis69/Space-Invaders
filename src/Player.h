@@ -36,5 +36,5 @@ public:
 
     bool isMovingBackward() const;
 
-    ActionTypes reactToCollision(GameObject* hitObject) { return ActionTypes::Destroy; }
+    ActionTypes reactToCollision(GameObject* hitObject) { return ActionTypes::Nothing; }
 };

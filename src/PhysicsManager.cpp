@@ -22,7 +22,7 @@ GameObject* PhysicsManager::collideWith(GameObject* movedObject)
     for (int i = 0 ; i < Context::getGameObjectCount() ; i++)
     {
         it = Context::getGameObjectIterator(i);
-        if(collideWithGameObject(movedObject->getX(), movedObject->getY(), movedObject->getXSize(), movedObject->getYSize(),
+        if((*it) != movedObject && collideWithGameObject(movedObject->getX(), movedObject->getY(), movedObject->getXSize(), movedObject->getYSize(),
             (*it)->getX(), (*it)->getY(), (*it)->getXSize(), (*it)->getYSize()))
             return (*it);
     }
@@ -33,10 +33,10 @@ GameObject* PhysicsManager::collideWith(GameObject* movedObject)
 bool PhysicsManager::collideWithGameObject(int xPosM, int yPosM, int xSizeM, int ySizeM,
                                            int xPosE, int yPosE, int xSizeE, int ySizeE)
 {
-    if(xPosM + xSizeM < xPosE ||
-       xPosM > xPosE + xSizeE ||
-       yPosM + ySizeM < yPosE ||
-       yPosM > yPosE + ySizeE)
+    if(xPosM + xSizeM <= xPosE ||
+       xPosM >= xPosE + xSizeE ||
+       yPosM + ySizeM <= yPosE ||
+       yPosM >= yPosE + ySizeE)
        return false;
     
     return true;

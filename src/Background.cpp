@@ -5,6 +5,7 @@
 
 Background::Background(int scrollSpeed)
 {
+    type = ObjectTypes::Other;
     currentSprite = 0;
     scroll.x = 0;
     scroll.y = 480;

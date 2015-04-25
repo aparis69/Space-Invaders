@@ -2,6 +2,7 @@
 
 Player::Player(void)
 {
+    type = ObjectTypes::Player;
     speedY = speedX = 0.1;
     xSize = 93;
     ySize = 97;
@@ -16,6 +17,7 @@ Player::Player(void)
 
 Player::Player(float speed)
 {
+    type = ObjectTypes::Player;
     speedY = speedX = speed;
     xSize = 93;
     ySize = 97;
