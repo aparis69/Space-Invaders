@@ -1,7 +1,10 @@
 #pragma once
+
 #include "Input.h"
 #include "ActionTypes.h"
+
 #include <vector>
+#include <SDL_ttf.h>
 
 class Window;
 class AssetManager;
@@ -26,8 +29,13 @@ private:
 
     // Unique Objects
     Player* player;
+    unsigned int lastPlayerLifePoints;
     Background* background;
     Window* window;
+
+    TTF_Font* font;
+    SDL_Color fontColor;
+    SDL_Surface* lifePointsSurface;
 
     // Private functions
     void initGameObjects();

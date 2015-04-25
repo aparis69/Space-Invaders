@@ -11,6 +11,7 @@ Player::Player(void)
     numberOfSprite = 4;
     currentSprite = 0;
     animDuration = 50;
+    lifePoints = START_LP;
     loadSprites();
 }
 
@@ -25,6 +26,7 @@ Player::Player(float speed)
     numberOfSprite = 4;
     currentSprite = 0;
     animDuration = 50;
+    lifePoints = START_LP;
     loadSprites();
 }
 
@@ -62,4 +64,9 @@ bool Player::isMovingBackward() const
 void Player::stop()
 {
     movingBackward = movingForward = false;
+}
+
+unsigned int Player::getLifePoints() const
+{
+    return lifePoints;
 }

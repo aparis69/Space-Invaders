@@ -10,6 +10,9 @@
 #include "Enemy.h"
 
 #include <iostream>
+#include <string>
+#include <SDL_ttf.h>
+
 using namespace std;
 
 // Init static array of gameObjects
@@ -26,6 +29,12 @@ Context::Context(void)
 
     // Init GameObjects in the scene
     initGameObjects();
+    lastPlayerLifePoints = 0;
+
+    //Init font
+    font = TTF_OpenFont("TlwgTypo.ttf", 25);
+    fontColor.b = fontColor.r = fontColor.g = 0;
+    lifePointsSurface = nullptr;
 }
 
 Context::~Context(void)
@@ -180,6 +189,16 @@ void Context::render()
     window->blitSurface(assetManager->getSurface(player->getCurrentSpriteIndex()),
                         player->getX(),
                         player->getY());
+    //Lifepointsblitting
+    if(lastPlayerLifePoints != player->getLifePoints())
+    {
+        if(lifePointsSurface != nullptr)
+            SDL_FreeSurface(lifePointsSurface);
+        lastPlayerLifePoints = player->getLifePoints();
+        lifePointsSurface = TTF_RenderText_Solid(font, to_string(lastPlayerLifePoints).c_str(), fontColor);
+    }
+    window->blitSurface(lifePointsSurface, 5, 5);
+
 
     // Enemy blitting
     for (int i = 0; i < enemyManager->getNumberOfEnemy(); i++)
@@ -257,11 +276,11 @@ vector<GameObject*>::iterator Context::getGameObjectIterator(int i)
 {
     vector<GameObject*>::iterator it = gameObjects.begin();
     std::advance(it, i);
-    
+
     return it;
 }
 
 int Context::getGameObjectCount()
-{ 
-    return gameObjects.size(); 
+{
+    return gameObjects.size();
 }
