@@ -71,8 +71,10 @@ ReactionTypes Player::reactToCollision(GameObject* hitObject)
     {
         case ObjectTypes::Enemy:
             // currently calling Context::gameOver(), which does nothing
-            ret = ReactionTypes::Destroy;
-            lifePoints--;
+            if(--lifePoints <= 0)
+                ret = ReactionTypes::Destroy;
+            else
+                ret = ReactionTypes::Nothing;
             spawn();
         default:
             ret = ReactionTypes::Nothing;
