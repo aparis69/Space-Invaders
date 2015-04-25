@@ -1,6 +1,6 @@
 #pragma once
 #include "SDLinclude.h"
-#include "ActionTypes.h"
+#include "ReactionTypes.h"
 #include "ObjectTypes.h"
 
 class GameObject
@@ -33,7 +33,7 @@ public:
 
     // Virtual functions
     virtual void loadSprites() = 0;
-    virtual ActionTypes reactToCollision(GameObject* hitObject) = 0;
+    virtual ReactionTypes reactToCollision(GameObject* hitObject) = 0;
 
     //Moves function which depends on elapsed time since last render
     virtual int moveValueX(bool left = true) const;

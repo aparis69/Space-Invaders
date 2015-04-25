@@ -23,7 +23,7 @@ public:
     // Member functions
     void updateScroll();
     void loadSprites();
-    ActionTypes reactToCollision(GameObject* hitObject) { return ActionTypes::Nothing; }
+    ReactionTypes reactToCollision(GameObject* hitObject) { return ReactionTypes::Nothing; }
 
     // Getter & Setter
     SDL_Rect getPosition()

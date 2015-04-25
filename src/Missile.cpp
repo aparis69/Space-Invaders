@@ -40,9 +40,9 @@ void Missile::loadSprites()
     sprite[3] = 8;
 }
 
-ActionTypes Missile::reactToCollision(GameObject* hitObject) 
+ReactionTypes Missile::reactToCollision(GameObject* hitObject) 
 {
     if(hitObject->getObjectType() != ObjectTypes::Player)
-        return ActionTypes::Destroy; 
-    return ActionTypes::Nothing;
+        return ReactionTypes::Destroy; 
+    return ReactionTypes::Nothing;
 }

@@ -45,5 +45,6 @@ public:
 
     bool isMovingBackward() const;
 
-    ActionTypes reactToCollision(GameObject* hitObject);
+    ReactionTypes reactToCollision(GameObject* hitObject);
+
 };
