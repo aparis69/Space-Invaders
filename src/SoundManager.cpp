@@ -80,15 +80,8 @@ void SoundManager::toggleMusic()
 
 void SoundManager::update(Input& in)
 {
-    Uint32 now = SDL_GetTicks();
-    if(now - lastInputUpdate > 50)
-    {
-        lastInputUpdate = now;
-        if(in.Key(SDLK_m))
-        {
-            toggleMusic();
-        }
-    }
+    if(in.wasKeyUpped(SDLK_m))
+        toggleMusic();
 }
 
 void SoundManager::playerCollide(int i)
