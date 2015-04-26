@@ -8,6 +8,7 @@
 #include "AssetManager.h"
 #include "EnemyManager.h"
 #include "Enemy.h"
+#include "SoundManager.h"
 
 #include <iostream>
 #include <string>
@@ -62,6 +63,7 @@ void Context::update(Input& in)
     updateAI();
     updateGameObjects();
     updateBackground();
+    SoundManager::update(in);
 
     render();
 }
@@ -128,7 +130,7 @@ void Context::updateAI()
 {
     // Decide if a new enemy spawn or not
     enemyManager->manageEnemySpawn();
-    
+
     // Update enemy position and animation
     for (int i = 0; i < enemyManager->getNumberOfEnemy() ; i++)
     {
@@ -281,11 +283,11 @@ vector<GameObject*>::iterator Context::getGameObjectIterator(int i)
 {
     vector<GameObject*>::iterator it = gameObjects.begin();
     std::advance(it, i);
-    
+
     return it;
 }
 
 int Context::getGameObjectCount()
-{ 
-    return gameObjects.size(); 
+{
+    return gameObjects.size();
 }
