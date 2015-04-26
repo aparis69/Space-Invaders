@@ -1,5 +1,6 @@
 #include "SoundManager.h"
 #include "Input.h"
+#include "Enemy.h"
 
 #include <iostream>
 #include <exception>
@@ -9,6 +10,7 @@ using namespace std;
 FMOD::System* SoundManager::system = nullptr;
 FMOD::Sound* SoundManager::fireSounds[1];
 FMOD::Sound* SoundManager::musics[1];
+FMOD::Sound* SoundManager::playerCollisions[1];
 FMOD::Channel* SoundManager::musicChannel;
 Uint32 SoundManager::lastInputUpdate;
 
@@ -24,7 +26,7 @@ void SoundManager::errCheck(FMOD_RESULT result)
 void SoundManager::init()
 {
     errCheck(FMOD::System_Create(&system));
-    errCheck(system->init(2, FMOD_INIT_NORMAL, 0));
+    errCheck(system->init(10, FMOD_INIT_NORMAL, 0));
     loadRessources();
     lastInputUpdate = -1;
 }
@@ -43,6 +45,8 @@ void SoundManager::loadRessources()
     errCheck(system->createSound("Audio/Music/Teleporter.mp3", FMOD_CREATESTREAM | FMOD_SOFTWARE | FMOD_2D | FMOD_LOOP_NORMAL,
                                  0, &musics[0]));
     musics[0]->setLoopCount(-1);
+    errCheck(system->createSound("Audio/Collisions/Player/Enemy1.wav", FMOD_CREATESAMPLE, 0, &playerCollisions[0]));
+
     errCheck(system->playSound(FMOD_CHANNEL_FREE, musics[0], true, &musicChannel));
 
 }
@@ -85,4 +89,24 @@ void SoundManager::update(Input& in)
             toggleMusic();
         }
     }
+}
+
+void SoundManager::playerCollide(int i)
+{
+    errCheck(system->playSound(FMOD_CHANNEL_FREE, playerCollisions[0], false, nullptr));
+}
+
+void SoundManager::playerCollide(ObjectTypes o)
+{
+    int ind;
+    switch(o)
+    {
+        case ObjectTypes::Enemy:
+            ind = 0;
+            break;
+        default:
+            ind = -1;
+    }
+    if(ind >= 0)
+        playerCollide(ind);
 }

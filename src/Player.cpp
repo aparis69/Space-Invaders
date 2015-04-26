@@ -1,4 +1,5 @@
 #include "Player.h"
+#include "SoundManager.h"
 
 Player::Player(void)
 {
@@ -75,6 +76,7 @@ ReactionTypes Player::reactToCollision(GameObject* hitObject)
                 ret = ReactionTypes::Destroy;
             else
                 ret = ReactionTypes::Nothing;
+                SoundManager::playerCollide(hitObject->getObjectType());
             spawn();
         default:
             ret = ReactionTypes::Nothing;
