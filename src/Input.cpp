@@ -1,5 +1,6 @@
 #include "Input.h"
 
+using namespace std;
 Input::Input()
 {
     memset(this, 0, sizeof (*this));
@@ -11,6 +12,7 @@ void Input::Update()
     SDL_Event event;
     mousebuttons[SDL_BUTTON_WHEELUP] = 0;
     mousebuttons[SDL_BUTTON_WHEELDOWN] = 0;
+    uppedKeys.clear();
 
     while (SDL_PollEvent(&event))
     {
@@ -21,6 +23,7 @@ void Input::Update()
                 break;
             case SDL_KEYUP:
                 key[event.key.keysym.sym] = false;
+                uppedKeys.push_back(event.key.keysym.sym);
                 break;
             case SDL_MOUSEMOTION:
                 mousex = event.motion.x;
@@ -47,4 +50,18 @@ void Input::Update()
 bool Input::isMoving() const
 {
     return key[SDLK_UP] || key[SDLK_LEFT] || key[SDLK_RIGHT] || key[SDLK_DOWN];
+}
+
+bool Input::wasKeyUpped(SDLKey k) const
+{
+    bool ret = false;
+    for(SDLKey key : uppedKeys)
+    {
+        if(key == k)
+        {
+            ret = true;
+            break;
+        }
+    }
+    return ret;
 }

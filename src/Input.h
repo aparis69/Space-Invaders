@@ -1,10 +1,12 @@
 #pragma once
 #include "SDLinclude.h"
 
+#include <vector>
 class Input
 {
 protected:
     bool key[SDLK_LAST];
+    std::vector<SDLKey> uppedKeys;
     int mousex, mousey;
     int mousexrel, mouseyrel;
     char mousebuttons[8];
@@ -63,4 +65,6 @@ public:
      *
      */
     bool isMoving() const;
+
+    bool wasKeyUpped(SDLKey) const;
 };
