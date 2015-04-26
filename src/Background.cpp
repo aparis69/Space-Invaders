@@ -13,6 +13,7 @@ Background::Background(int scrollSpeed)
     scroll.h = 480;
     this->scrollSpeed = scrollSpeed;
     lastScroll = SDL_GetTicks();
+    
     loadSprites();
 }
 

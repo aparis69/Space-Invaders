@@ -1,6 +1,8 @@
 #include "AssetManager.h"
 using namespace std;
 
+std::vector<SDL_Surface*> AssetManager::graphicsRessources = std::vector<SDL_Surface*>();
+
 AssetManager::AssetManager(void)
 {
     graphicsRessources = vector<SDL_Surface*>();
@@ -47,4 +49,14 @@ SDL_Surface* AssetManager::loadImage(char const *file)
     SDL_SetColorKey(OptimizedImg, SDL_SRCCOLORKEY, SDL_MapRGB(OptimizedImg->format, 0, 0, 0));
 
     return OptimizedImg;
+}
+
+int AssetManager::getSpriteXSize(int index)
+{
+    return graphicsRessources.at(index)->w;
+}
+
+int AssetManager::getSpriteYSize(int index)
+{
+    return graphicsRessources.at(index)->h;
 }
