@@ -1,4 +1,5 @@
 #include "Missile.h"
+#include "SoundManager.h"
 
 Missile::Missile(void)
 {
@@ -29,6 +30,7 @@ Missile::Missile(int xPos, int yPos, int speed, MissileType mtype)
     ySize = 48;
 
     loadSprites();
+    SoundManager::fire(this);
 }
 
 void Missile::loadSprites()
@@ -40,9 +42,9 @@ void Missile::loadSprites()
     sprite[3] = 8;
 }
 
-ReactionTypes Missile::reactToCollision(GameObject* hitObject) 
+ReactionTypes Missile::reactToCollision(GameObject* hitObject)
 {
     if(hitObject->getObjectType() != ObjectTypes::Player)
-        return ReactionTypes::Destroy; 
+        return ReactionTypes::Destroy;
     return ReactionTypes::Nothing;
 }

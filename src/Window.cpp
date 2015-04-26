@@ -1,4 +1,5 @@
 #include "Window.h"
+#include "SoundManager.h"
 
 #include <SDL/SDL_ttf.h>
 #include <iostream>
@@ -14,6 +15,7 @@ Window::Window(int xres, int yres, int FPS, std::string name)
     SDL_Init(SDL_INIT_VIDEO);
     SDL_WM_SetCaption(name.c_str(), NULL);
     TTF_Init();
+    SoundManager::init();
 
     XRES = xres;
     YRES = yres;

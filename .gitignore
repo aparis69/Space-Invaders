@@ -2,6 +2,7 @@
 /*/
 !/src/
 !/Assets/
+!/Audio/
 !.gitignore
 !.editorconfig
 !*.ttf
