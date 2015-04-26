@@ -29,7 +29,8 @@ Window::Window(int xres, int yres, int FPS, std::string name)
 Window::~Window(void)
 {
     SDL_FreeSurface(screen);
-
+    TTF_Quit();
+    SoundManager::quit();
     SDL_Quit();
 }
 

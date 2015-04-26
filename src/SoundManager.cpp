@@ -35,6 +35,10 @@ void SoundManager::quit()
 {
     for(FMOD::Sound* s : fireSounds)
         s->release();
+    for(FMOD::Sound* s : playerCollisions)
+        s->release();
+    for(FMOD::Sound* s : musics)
+        s->release();
     errCheck(system->close());
     errCheck(system->release());
 }
