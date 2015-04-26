@@ -30,6 +30,7 @@ public:
 
     // Member functions
     void updateAnimation();
+    void loadSpriteSize();
 
     // Virtual functions
     virtual void loadSprites() = 0;
@@ -43,7 +44,7 @@ public:
     virtual void move(bool forward = true, bool left = true);
 
     //Index image of the sprite to be displayed.
-    virtual inline int getCurrentSpriteIndex() const
+    inline int getCurrentSpriteIndex() const
     {
         return sprite[currentSprite];
     }
@@ -78,9 +79,18 @@ public:
         return speedY;
     }
 
-    inline void setYSpeed(float s) { speedY = s; }
+    inline void setYSpeed(float s) 
+    { 
+        speedY = s; 
+    }
 
-    inline void setXSpeed(float s) { speedX = s; }
+    inline void setXSpeed(float s) 
+    { 
+        speedX = s; 
+    }
 
-    inline ObjectTypes getObjectType() const { return type; }
+    inline ObjectTypes getObjectType() const 
+    { 
+        return type; 
+    }
 };

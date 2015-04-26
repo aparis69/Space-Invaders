@@ -6,7 +6,7 @@ class AssetManager
 {
 private:
     // Variables
-    std::vector<SDL_Surface*> graphicsRessources;
+    static std::vector<SDL_Surface*> graphicsRessources;
     std::vector<SDL_Surface*>::iterator gIterator;
 
     // Private function
@@ -19,6 +19,8 @@ public:
     ~AssetManager(void);
 
     // Member functions
+    static int getSpriteXSize(int index);
+    static int getSpriteYSize(int index);
 
     // Getter & Setter
 

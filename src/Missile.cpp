@@ -20,15 +20,11 @@ Missile::Missile(int xPos, int yPos, int speed, MissileType mtype)
     speedX = 0;
     animDuration = 40;
     missileType = mtype;
-
     x = xPos;
     y = yPos;
 
-    // Size for the basic missile
-    xSize = 19;
-    ySize = 48;
-
     loadSprites();
+    loadSpriteSize();
 }
 
 void Missile::loadSprites()

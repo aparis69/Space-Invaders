@@ -46,7 +46,7 @@ private:
 
     // Call the physicsManager to check collision, and react depending on the return value
     void objectHasMoved(GameObject* movedObject);
-
+    // Handle the gameObject reaction to collision
     void handleReaction(GameObject* object, ReactionTypes reaction);
 
 public:
