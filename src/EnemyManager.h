@@ -6,6 +6,11 @@ class PhysicsManager;
 class EnemyManager
 {
 private:
+    // Difficulty of the game, increase at every frame
+    float difficulty;
+    int* enemySpawnProbability;
+    int totalProbability;
+
     // Timer regulating the spawn frequency
     float timerSpawn;
     // An enemy will be spawn every <spawnFrequency> second
@@ -19,6 +24,10 @@ private:
     void spawnNewEnemy();
     // Determine the spawn position
     void randomSpawnPoint(int& x, int& y, int& xSpeed, int& ySpeed);
+    // Get a random number from a probability array
+    int getRandomEnemyType();
+    // Update enemy spawn probability
+    void updateProbabilities();
 
 public:
     // Constructor & Destructor

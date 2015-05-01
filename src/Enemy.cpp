@@ -20,7 +20,6 @@ Enemy::Enemy(int xPos, int yPos, int xSpeed, int ySpeed, EnemyType etype)
     y = yPos;
     speedX = xSpeed;
     speedY = ySpeed;
-    numberOfSprite = 4;
     currentSprite = 0;
     loadSprites();
     loadSpriteSize();
@@ -28,21 +27,33 @@ Enemy::Enemy(int xPos, int yPos, int xSpeed, int ySpeed, EnemyType etype)
 
 void Enemy::loadSprites()
 {
-    sprite = new int[numberOfSprite];
-    sprite[0] = 9;
-    sprite[1] = 10;
-    sprite[2] = 11;
-    sprite[3] = 12;
-
     switch (enemyType)
     {
         case EnemyType::Easy:
+                numberOfSprite = 1;
+                sprite = new int[numberOfSprite];
+                sprite[0] = 9;
             break;
         case EnemyType::Medium:
+                numberOfSprite = 4;
+                sprite = new int[numberOfSprite];
+                sprite[0] = 10;
+                sprite[1] = 11;
+                sprite[2] = 12;
+                sprite[3] = 13;
             break;
         case EnemyType::Hard:
+                numberOfSprite = 4;
+                sprite = new int[numberOfSprite];
+                sprite[0] = 14;
+                sprite[1] = 15;
+                sprite[2] = 16;
+                sprite[3] = 17;
             break;
         case EnemyType::Insane:
+                numberOfSprite = 1;
+                sprite = new int[numberOfSprite];
+                sprite[0] = 13;
             break;
     }
 }

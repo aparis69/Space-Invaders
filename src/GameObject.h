@@ -17,7 +17,7 @@ protected:
     // Size of the game object
     int xSize, ySize;
     //Speeds of the object in pixels/ms
-    float speedX, speedY;
+    int speedX, speedY;
     //Animation duration in ms (time a sprite stays on screen)
     int animDuration;
     //Ticks when sprite was changed for animation
@@ -69,22 +69,22 @@ public:
         return ySize;
     }
 
-    inline float getXSpeed() const
+    inline int getXSpeed() const
     {
         return speedX;
     }
 
-    inline float getYSpeed() const
+    inline int getYSpeed() const
     {
         return speedY;
     }
 
-    inline void setYSpeed(float s) 
+    inline void setYSpeed(int s) 
     { 
         speedY = s; 
     }
 
-    inline void setXSpeed(float s) 
+    inline void setXSpeed(int s) 
     { 
         speedX = s; 
     }

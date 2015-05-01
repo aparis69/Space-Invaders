@@ -9,6 +9,8 @@ EnemyManager::EnemyManager()
     enemiesInProgress = vector<Enemy*>();
     timerSpawn = 0;
     spawnFrequency = 0;
+    difficulty = 0;
+    enemySpawnProbability = nullptr;
 
     XRES = -1;
     YRES = -1;
@@ -19,6 +21,14 @@ EnemyManager::EnemyManager(int xres, int yres)
     enemiesInProgress = vector<Enemy*>();
     timerSpawn = 0;
     spawnFrequency = 1000;
+    difficulty = 0;
+    totalProbability = 0;
+    enemySpawnProbability = new int[(int)EnemyType::Insane];
+    for (int i = 0 ; i < (int)EnemyType::Insane ; i++)
+    {
+        enemySpawnProbability[i] = (int)EnemyType::Insane - i;
+        totalProbability += enemySpawnProbability[i];
+    }
 
     XRES = xres;
     YRES = yres;
@@ -34,9 +44,10 @@ EnemyManager::~EnemyManager()
 
 void EnemyManager::manageEnemySpawn()
 {
+    difficulty += 0.1f;
     if(SDL_GetTicks() < timerSpawn)
         return;
- 
+
     spawnNewEnemy();
 
     timerSpawn = SDL_GetTicks() + spawnFrequency;
@@ -47,8 +58,38 @@ void EnemyManager::spawnNewEnemy()
     // Intialized in randomSpawnPoint()
     int xSpawn, ySpawn, xSpeed, ySpeed;
     randomSpawnPoint(xSpawn, ySpawn, xSpeed, ySpeed);
+    int enemyType = getRandomEnemyType();
 
-    enemiesInProgress.push_back(new Enemy(xSpawn, ySpawn, xSpeed, ySpeed, EnemyType::Easy));
+    enemiesInProgress.push_back(new Enemy(xSpawn, ySpawn, xSpeed, ySpeed, (EnemyType)enemyType));
+
+    updateProbabilities();
+}
+
+int EnemyManager::getRandomEnemyType()
+{
+    int i = rand() % totalProbability + 1;
+    int sum = 0;
+    int i2 = 0;
+
+    while (sum < i)
+        sum += enemySpawnProbability[i2++];
+
+    if(i2 - 1 > 0)
+        return i2;
+    else
+        return 0;
+}
+
+void EnemyManager::updateProbabilities()
+{
+    totalProbability = 0;
+    for (int i = 0 ; i < (int)EnemyType::Insane ; i++)
+    {
+        if(rand() % 100 > 50)
+            enemySpawnProbability[i] += 1;
+
+        totalProbability += enemySpawnProbability[i];
+    }
 }
 
 void EnemyManager::randomSpawnPoint(int& x, int &y, int& xSpeed, int& ySpeed)
