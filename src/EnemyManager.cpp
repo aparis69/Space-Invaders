@@ -17,19 +17,21 @@ EnemyManager::EnemyManager()
 
 EnemyManager::EnemyManager(int xres, int yres)
 {
+    XRES = xres;
+    YRES = yres;
+
     enemiesInProgress = vector<Enemy*>();
     timerSpawn = 0;
     spawnFrequency = 1000;
+    // Initialized all the spawn probability variables
     totalProbability = 0;
-    enemySpawnProbability = new int[(int)EnemyType::Insane];
-    for (int i = 0 ; i < (int)EnemyType::Insane ; i++)
+    int numberOfEnemyType = (int)EnemyType::Insane;
+    enemySpawnProbability = new int[numberOfEnemyType];
+    for (int i = 0 ; i < numberOfEnemyType ; i++)
     {
-        enemySpawnProbability[i] = (int)EnemyType::Insane - i;
+        enemySpawnProbability[i] = numberOfEnemyType - i;
         totalProbability += enemySpawnProbability[i];
     }
-
-    XRES = xres;
-    YRES = yres;
 }
 
 EnemyManager::~EnemyManager()
@@ -42,23 +44,22 @@ EnemyManager::~EnemyManager()
 
 void EnemyManager::manageEnemySpawn()
 {
+    // Look if the timer is finished
     if(SDL_GetTicks() < timerSpawn)
         return;
 
     spawnNewEnemy();
-
     timerSpawn = SDL_GetTicks() + spawnFrequency;
 }
 
 void EnemyManager::spawnNewEnemy()
 {
-    // Intialized in randomSpawnPoint()
+    // These variables are intialized in randomSpawnPoint() by references
     int xSpawn, ySpawn, xSpeed, ySpeed;
     randomSpawnPoint(xSpawn, ySpawn, xSpeed, ySpeed);
     int enemyType = getRandomEnemyType();
 
     enemiesInProgress.push_back(new Enemy(xSpawn, ySpawn, xSpeed, ySpeed, (EnemyType)enemyType));
-
     updateProbabilities();
 }
 
@@ -141,6 +142,7 @@ void EnemyManager::manageVectorSize(PhysicsManager* physicsManager)
 
 void EnemyManager::destroyEnemy(Enemy* en)
 {
+    // Search for the enemy en, delete it and return
     for (eIterator = enemiesInProgress.begin(); eIterator != enemiesInProgress.end(); eIterator++)
     {
         if((*eIterator) == en)

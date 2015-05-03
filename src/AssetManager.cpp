@@ -5,8 +5,6 @@ std::vector<SDL_Surface*> AssetManager::graphicsRessources = std::vector<SDL_Sur
 
 AssetManager::AssetManager(void)
 {
-    graphicsRessources = vector<SDL_Surface*>();
-
     loadRessources();
 }
 
@@ -23,13 +21,13 @@ void AssetManager::loadRessources()
     // Background : 0
     graphicsRessources.push_back(loadImage("Assets/Background/Background01.bmp"));
 
-    // Player : 1 a 4
+    // Player : 1 to 4
     graphicsRessources.push_back(loadImage("Assets/Spaceships/ShipPlayer01.bmp"));
     graphicsRessources.push_back(loadImage("Assets/Spaceships/ShipPlayer02.bmp"));
     graphicsRessources.push_back(loadImage("Assets/Spaceships/ShipPlayer03.bmp"));
     graphicsRessources.push_back(loadImage("Assets/Spaceships/ShipPlayer04.bmp"));
 
-    // Basic Missile : 5 a 8
+    // Basic Missile : 5 to 8
     graphicsRessources.push_back(loadImage("Assets/Missiles/basicMissile01.bmp"));
     graphicsRessources.push_back(loadImage("Assets/Missiles/basicMissile02.bmp"));
     graphicsRessources.push_back(loadImage("Assets/Missiles/basicMissile03.bmp"));
@@ -38,13 +36,13 @@ void AssetManager::loadRessources()
     // Enemy easy : 9 
     graphicsRessources.push_back(loadImage("Assets/Spaceships/Neutron01.bmp"));
 
-    // Enemy medium : 10 a 13 
+    // Enemy medium : 10 to 13 
     graphicsRessources.push_back(loadImage("Assets/Spaceships/ShipE01.bmp"));
     graphicsRessources.push_back(loadImage("Assets/Spaceships/ShipE02.bmp"));
     graphicsRessources.push_back(loadImage("Assets/Spaceships/ShipE03.bmp"));
     graphicsRessources.push_back(loadImage("Assets/Spaceships/ShipE04.bmp"));
 
-    // Enemy hard : 14 à 17
+    // Enemy hard : 14 to 17
     graphicsRessources.push_back(loadImage("Assets/Spaceships/ShipM01.bmp"));
     graphicsRessources.push_back(loadImage("Assets/Spaceships/ShipM02.bmp"));
     graphicsRessources.push_back(loadImage("Assets/Spaceships/ShipM03.bmp"));

@@ -18,6 +18,7 @@ MissileManager::~MissileManager(void)
 
 void MissileManager::shootMissile(int xPos, int yPos, int speed, MissileTypes type)
 {
+    // Look if the timer is finished
     if (SDL_GetTicks() < timer)
         return;
 
@@ -48,6 +49,7 @@ void MissileManager::manageVectorSize(PhysicsManager* physicsManager)
 
 void MissileManager::destroyMissile(Missile* m)
 {
+    // Search for the missile m, delete it and return
     for (mIterator = missileInProgress.begin(); mIterator != missileInProgress.end(); mIterator++)
     {
         if((*mIterator) == m)

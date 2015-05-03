@@ -32,6 +32,6 @@ void GameLoop()
 
         elapsed = SDL_GetTicks() - lasttime;
         if (elapsed < 1000/Window::FPS)
-            SDL_Delay(1000/Window::FPS - elapsed); // synchronisation à 60 FPS
+            SDL_Delay(1000/Window::FPS - elapsed); // synchronized at Window::FPS count
     }
 }

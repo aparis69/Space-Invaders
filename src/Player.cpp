@@ -73,15 +73,15 @@ ReactionTypes Player::reactToCollision(GameObject* hitObject)
     ReactionTypes ret;
     switch(hitObject->getObjectType())
     {
-    case ObjectTypes::Enemy:
-        // currently calling Context::gameOver(), which does nothing
-        if(--lifePoints <= 0)
-            ret = ReactionTypes::Destroy;
-        else
+        case ObjectTypes::Enemy:
+            // currently re spawning the player into the start position
+            if(--lifePoints <= 0)
+                ret = ReactionTypes::Destroy;
+            else
+                ret = ReactionTypes::Nothing;
+            spawn();
+        default:
             ret = ReactionTypes::Nothing;
-        spawn();
-    default:
-        ret = ReactionTypes::Nothing;
     }
     return ret;
 }

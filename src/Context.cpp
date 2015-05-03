@@ -83,34 +83,30 @@ void Context::updatePlayer(Input& in)
     {
         if(!physicsManager->isOutOfScreen(xPos, yPos + player->moveValueY(), xSize, ySize))
         {
-        player->moveY();
+            player->moveY();
             player->forward();
         }
         else
             player->stop();
     }
-
-
     if (in.Key(SDLK_DOWN)) // Down
     {
         if(!physicsManager->isOutOfScreen(xPos, yPos + player->moveValueY(false), xSize, ySize))
         {
-        player->moveY(false);
+            player->moveY(false);
             player->backward();
         }
         else
             player->stop();
     }
-
     if (in.Key(SDLK_LEFT) && !physicsManager->isOutOfScreen(xPos + player->moveValueX(), yPos, xSize, ySize)) // left
         player->moveX();
-
     if (in.Key(SDLK_RIGHT) && !physicsManager->isOutOfScreen(xPos + player->moveValueX(false), yPos, xSize, ySize)) // right
         player->moveX(false);
-
     if (in.Key(SDLK_SPACE)) // Shoot missile
         missileManager->shootMissile(xPos, yPos, 40, MissileTypes::Small);
 
+    // Update the background behaviour based on the player move
     if(!wasForward && player->isMovingForward())
         background->speedUp();
     else if(!wasBackward && player->isMovingBackward())
@@ -126,10 +122,10 @@ void Context::updatePlayer(Input& in)
 
 void Context::updateAI()
 {
-    // Decide if a new enemy spawn or not
+    // Decide if new enemies spawn or not
     enemyManager->manageEnemySpawn();
     
-    // Update enemy position and animation
+    // Update enemies position and animation
     for (int i = 0; i < enemyManager->getNumberOfEnemy() ; i++)
     {
         enemyManager->getEnemy(i)->move();
@@ -140,6 +136,7 @@ void Context::updateAI()
     for (int i = 0; i < enemyManager->getNumberOfEnemy() ; i++)
         objectHasMoved(enemyManager->getEnemy(i));
 
+    // Manage enemy out of screen
     enemyManager->manageVectorSize(physicsManager);
 }
 
@@ -162,6 +159,7 @@ void Context::updateGameObjects()
 
 void Context::updateBackground()
 {
+    // Update the portion of background to display
     background->updateScroll();
 }
 
@@ -197,7 +195,8 @@ void Context::render()
     window->blitSurface(assetManager->getSurface(player->getCurrentSpriteIndex()),
                         player->getX(),
                         player->getY());
-    //Lifepointsblitting
+
+    //Lifepoints blitting
     if(lastPlayerLifePoints != player->getLifePoints())
     {
         if(lifePointsSurface != nullptr)
@@ -206,7 +205,6 @@ void Context::render()
         lifePointsSurface = TTF_RenderText_Solid(font, to_string(lastPlayerLifePoints).c_str(), fontColor);
     }
     window->blitSurface(lifePointsSurface, 5, 5);
-
 
     // Enemy blitting
     for (int i = 0; i < enemyManager->getNumberOfEnemy(); i++)
@@ -219,24 +217,28 @@ void Context::render()
         window->blitSurface(assetManager->getSurface(missileManager->getMissile(i)->getCurrentSpriteIndex()),
                             missileManager->getMissile(i)->getX(),
                             missileManager->getMissile(i)->getY());
+    
     // Flip screen
     window->flipScreen();
 }
 
 bool Context::gameOver()
 {
+    // Not implemented yet
     return false;
 }
 
 void Context::objectHasMoved(GameObject* movedObject)
 {
-    // If there is a collision
+    // Check if the movedObject collide with something in the scene
     GameObject* hitObject = physicsManager->collideWith(movedObject);
     if(hitObject != nullptr && hitObject->getObjectType() != ObjectTypes::Other)
     {
+        // Make the object react to the collision, and get their instructions
         ReactionTypes movedObjectAction = movedObject->reactToCollision(hitObject);
         ReactionTypes hitObjectAction = hitObject->reactToCollision(movedObject);
 
+        // Handle the reactions of the two objects
         handleReaction(movedObject, movedObjectAction);
         handleReaction(hitObject, hitObjectAction);
     }
@@ -244,6 +246,8 @@ void Context::objectHasMoved(GameObject* movedObject)
 
 void Context::handleReaction(GameObject* object, ReactionTypes reaction)
 {
+    // For now, the context only handle destruction of the gameobject
+    // The other types of reactions are handled by the gameobject itself
     switch(reaction)
     {
         case ReactionTypes::Destroy:
