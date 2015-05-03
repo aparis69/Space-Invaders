@@ -19,9 +19,6 @@ public:
     void blitSurface(SDL_Surface* surface, int xPos, int yPos);
 
     // Getter & Setter
-    inline SDL_Surface* getSurface() const
-    {
-        return screen;
-    }
+    SDL_Surface* getSurface() const;
 };
 

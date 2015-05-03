@@ -15,49 +15,25 @@ public:
     // Constructor & Destructor
     Input();
 
-    ~Input()
-    {
-    }
+    ~Input();
 
     // Poll events and updates structures.
     void Update();
 
     // Getter & Setter
+    bool Key(int i) const;
 
-    inline bool Key(int i)
-    {
-        return key[i];
-    }
+    int MouseX() const;
 
-    inline int MouseX()
-    {
-        return mousex;
-    }
+    int MouseY() const;
 
-    inline int MouseY()
-    {
-        return mousey;
-    }
+    int MouseXrel() const;
 
-    inline int MouseXrel()
-    {
-        return mousexrel;
-    }
+    int MouseYrel() const;
 
-    inline int MouseYrel()
-    {
-        return mouseyrel;
-    }
+    int MouseButton(int i) const;
 
-    inline int MouseButton(int i)
-    {
-        return mousebuttons[i];
-    }
-
-    inline bool Quit()
-    {
-        return quit;
-    }
+    bool Quit() const;
 
     /** \brief Tells wether the player is pressing any direction arrow.
      *

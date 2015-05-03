@@ -23,14 +23,7 @@ public:
     static int getSpriteYSize(int index);
 
     // Getter & Setter
+    SDL_Surface* getSurface(int index) const;
 
-    inline SDL_Surface* getSurface(int index) const
-    {
-        return graphicsRessources.at(index);
-    }
-
-    inline int getNumberOfSurface() const
-    {
-        return graphicsRessources.size();
-    }
+    int getNumberOfSurface() const;
 };

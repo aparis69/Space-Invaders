@@ -1,10 +1,15 @@
 #include "Input.h"
 
 using namespace std;
+
 Input::Input()
 {
     memset(this, 0, sizeof (*this));
     quit = false;
+}
+
+Input::~Input()
+{
 }
 
 void Input::Update()
@@ -18,31 +23,31 @@ void Input::Update()
     {
         switch (event.type)
         {
-            case SDL_KEYDOWN:
-                key[event.key.keysym.sym] = true;
-                break;
-            case SDL_KEYUP:
-                key[event.key.keysym.sym] = false;
-                uppedKeys.push_back(event.key.keysym.sym);
-                break;
-            case SDL_MOUSEMOTION:
-                mousex = event.motion.x;
-                mousey = event.motion.y;
-                mousexrel = event.motion.xrel;
-                mouseyrel = event.motion.yrel;
-                break;
-            case SDL_MOUSEBUTTONDOWN:
-                mousebuttons[event.button.button] = 1;
-                break;
-            case SDL_MOUSEBUTTONUP:
-                if (event.button.button != SDL_BUTTON_WHEELUP && event.button.button != SDL_BUTTON_WHEELDOWN)
-                    mousebuttons[event.button.button] = 0;
-                break;
-            case SDL_QUIT:
-                quit = true;
-                break;
-            default:
-                break;
+        case SDL_KEYDOWN:
+            key[event.key.keysym.sym] = true;
+            break;
+        case SDL_KEYUP:
+            key[event.key.keysym.sym] = false;
+            uppedKeys.push_back(event.key.keysym.sym);
+            break;
+        case SDL_MOUSEMOTION:
+            mousex = event.motion.x;
+            mousey = event.motion.y;
+            mousexrel = event.motion.xrel;
+            mouseyrel = event.motion.yrel;
+            break;
+        case SDL_MOUSEBUTTONDOWN:
+            mousebuttons[event.button.button] = 1;
+            break;
+        case SDL_MOUSEBUTTONUP:
+            if (event.button.button != SDL_BUTTON_WHEELUP && event.button.button != SDL_BUTTON_WHEELDOWN)
+                mousebuttons[event.button.button] = 0;
+            break;
+        case SDL_QUIT:
+            quit = true;
+            break;
+        default:
+            break;
         }
     }
 }
@@ -64,4 +69,39 @@ bool Input::wasKeyUpped(SDLKey k) const
         }
     }
     return ret;
+}
+
+bool Input::Key(int i) const
+{
+    return key[i];
+}
+
+int Input::MouseX() const
+{
+    return mousex;
+}
+
+int Input::MouseY() const
+{
+    return mousey;
+}
+
+int Input::MouseXrel() const
+{
+    return mousexrel;
+}
+
+int Input::MouseYrel() const
+{
+    return mouseyrel;
+}
+
+int Input::MouseButton(int i) const
+{
+    return mousebuttons[i];
+}
+
+bool Input::Quit() const
+{
+    return quit;
 }

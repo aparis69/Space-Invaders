@@ -25,6 +25,10 @@ Enemy::Enemy(int xPos, int yPos, int xSpeed, int ySpeed, EnemyType etype)
     loadSpriteSize();
 }
 
+Enemy::~Enemy(void)
+{
+}
+
 void Enemy::loadSprites()
 {
     switch (enemyType)

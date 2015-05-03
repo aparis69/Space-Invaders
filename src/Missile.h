@@ -12,9 +12,7 @@ public:
     Missile(void);
     Missile(int xPos, int yPos, int speed, MissileType mtype);
 
-    ~Missile(void)
-    {
-    }
+    ~Missile(void);
 
     // Member functions
     void loadSprites();

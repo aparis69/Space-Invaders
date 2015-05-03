@@ -69,3 +69,13 @@ int AssetManager::getSpriteYSize(int index)
 {
     return graphicsRessources.at(index)->h;
 }
+
+SDL_Surface* AssetManager::getSurface(int index) const
+{
+    return graphicsRessources.at(index);
+}
+
+int AssetManager::getNumberOfSurface() const
+{
+    return graphicsRessources.size();
+}

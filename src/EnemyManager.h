@@ -42,6 +42,6 @@ public:
     // Erase the object in the vector<Enemy*>
     void destroyEnemy(Enemy* en);
 
-    inline Enemy* getEnemy(int index) const { return enemiesInProgress.at(index); }
-    inline int getNumberOfEnemy() const { return enemiesInProgress.size(); }
+    Enemy* getEnemy(int index) const;
+    int getNumberOfEnemy() const;
 };

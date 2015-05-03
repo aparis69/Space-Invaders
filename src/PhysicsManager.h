@@ -15,9 +15,7 @@ public:
     PhysicsManager(void);
     PhysicsManager(int xres, int yres);
 
-    ~PhysicsManager(void)
-    {
-    }
+    ~PhysicsManager(void);
 
     // Return the gameobject hit by movedObject, or null if there is not
     GameObject* collideWith(GameObject* movedObject);
@@ -27,24 +25,11 @@ public:
     bool isOutOfScreen(int xPos, int yPos);
 
     // Getter & Setter
+    void setXRES(int xres);
 
-    inline void setXRES(int xres)
-    {
-        XRES = xres;
-    }
+    void setYRES(int yres);
 
-    inline void setYRES(int yres)
-    {
-        YRES = yres;
-    }
+    int getXRES() const;
 
-    inline int getXRES() const
-    {
-        return XRES;
-    }
-
-    inline int getYRES() const
-    {
-        return YRES;
-    }
+    int getYRES() const;
 };

@@ -11,10 +11,7 @@ public:
     // Constructor & Destructor
     Enemy(void);
     Enemy(int xPos, int yPos, int xSpeed, int ySpeed, EnemyType type);
-
-    ~Enemy(void)
-    {
-    }
+    ~Enemy(void);
 
     // Member functions
     void loadSprites();

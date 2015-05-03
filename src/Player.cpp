@@ -23,9 +23,13 @@ Player::Player(float speed)
     currentSprite = 0;
     animDuration = 50;
     lifePoints = START_LP;
-    
+
     loadSprites();
     loadSpriteSize();
+}
+
+Player::~Player(void)
+{
 }
 
 void Player::loadSprites()
@@ -69,15 +73,15 @@ ReactionTypes Player::reactToCollision(GameObject* hitObject)
     ReactionTypes ret;
     switch(hitObject->getObjectType())
     {
-        case ObjectTypes::Enemy:
-            // currently calling Context::gameOver(), which does nothing
-            if(--lifePoints <= 0)
-                ret = ReactionTypes::Destroy;
-            else
-                ret = ReactionTypes::Nothing;
-            spawn();
-        default:
+    case ObjectTypes::Enemy:
+        // currently calling Context::gameOver(), which does nothing
+        if(--lifePoints <= 0)
+            ret = ReactionTypes::Destroy;
+        else
             ret = ReactionTypes::Nothing;
+        spawn();
+    default:
+        ret = ReactionTypes::Nothing;
     }
     return ret;
 }

@@ -45,3 +45,8 @@ void Window::flipScreen()
 {
     SDL_Flip(screen);
 }
+
+SDL_Surface* Window::getSurface() const
+{
+    return screen;
+}

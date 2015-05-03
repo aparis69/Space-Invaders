@@ -26,13 +26,7 @@ public:
     void destroyMissile(Missile* m);
 
     // Getter & Setter
-    inline int getNumberOfMissile() const
-    {
-        return missileInProgress.size();
-    }
+    int getNumberOfMissile() const;
 
-    inline Missile* getMissile(int index) const
-    {
-        return missileInProgress.at(index);
-    }
+    Missile* getMissile(int index) const;
 };

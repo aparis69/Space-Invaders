@@ -58,3 +58,13 @@ void MissileManager::destroyMissile(Missile* m)
         }
     }
 }
+
+int MissileManager::getNumberOfMissile() const
+{
+    return missileInProgress.size();
+}
+
+Missile* MissileManager::getMissile(int index) const
+{
+    return missileInProgress.at(index);
+}

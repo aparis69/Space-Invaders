@@ -22,9 +22,7 @@ public:
     Player(void);
     Player(float speed);
 
-    ~Player(void)
-    {
-    }
+    ~Player(void);
 
     unsigned int getLifePoints() const;
 

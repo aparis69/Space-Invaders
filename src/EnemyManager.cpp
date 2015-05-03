@@ -154,3 +154,13 @@ void EnemyManager::destroyEnemy(Enemy* en)
         }
     }
 }
+
+Enemy* EnemyManager::getEnemy(int index) const 
+{ 
+    return enemiesInProgress.at(index); 
+}
+
+int EnemyManager::getNumberOfEnemy() const
+{ 
+    return enemiesInProgress.size(); 
+}

@@ -16,6 +16,10 @@ PhysicsManager::PhysicsManager(int xres, int yres)
     YRES = yres;
 }
 
+PhysicsManager::~PhysicsManager(void)
+{
+}
+
 GameObject* PhysicsManager::collideWith(GameObject* movedObject)
 {
     vector<GameObject*>::iterator it;
@@ -34,11 +38,11 @@ bool PhysicsManager::collideWithGameObject(int xPosM, int yPosM, int xSizeM, int
                                            int xPosE, int yPosE, int xSizeE, int ySizeE)
 {
     if(xPosM + xSizeM <= xPosE ||
-       xPosM >= xPosE + xSizeE ||
-       yPosM + ySizeM <= yPosE ||
-       yPosM >= yPosE + ySizeE)
-       return false;
-    
+        xPosM >= xPosE + xSizeE ||
+        yPosM + ySizeM <= yPosE ||
+        yPosM >= yPosE + ySizeE)
+        return false;
+
     return true;
 }
 
@@ -56,4 +60,24 @@ bool PhysicsManager::isOutOfScreen(int xPos, int yPos)
         return true;
 
     return false;
+}
+
+void PhysicsManager::setXRES(int xres)
+{
+    XRES = xres;
+}
+
+void PhysicsManager::setYRES(int yres)
+{
+    YRES = yres;
+}
+
+int PhysicsManager::getXRES() const
+{
+    return XRES;
+}
+
+int PhysicsManager::getYRES() const
+{
+    return YRES;
 }

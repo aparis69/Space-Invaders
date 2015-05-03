@@ -16,9 +16,7 @@ public:
     // Constructor & Destructor
     Background(int scrollSpeed);
 
-    ~Background(void)
-    {
-    }
+    ~Background(void);
 
     // Member functions
     void updateScroll();
@@ -26,10 +24,7 @@ public:
     ReactionTypes reactToCollision(GameObject* hitObject) { return ReactionTypes::Nothing; }
 
     // Getter & Setter
-    SDL_Rect getPosition()
-    {
-        return scroll;
-    }
+    SDL_Rect getPosition();
 
     /** \brief Resets scroll Rect after having reached end of screen.
      *

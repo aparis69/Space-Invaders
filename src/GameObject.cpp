@@ -19,7 +19,7 @@ GameObject::~GameObject(void)
 {
     // Delete itself from the gameobject list stored in context class
     Context::deleteGameObject(this);
-    
+
     delete sprite;
 }
 
@@ -71,4 +71,54 @@ void GameObject::loadSpriteSize()
 {
     xSize = AssetManager::getSpriteXSize(sprite[currentSprite]);
     ySize = AssetManager::getSpriteYSize(sprite[currentSprite]);
+}
+
+int GameObject::getCurrentSpriteIndex() const
+{
+    return sprite[currentSprite];
+}
+
+int GameObject::getX() const
+{
+    return x;
+}
+
+int GameObject::getY() const
+{
+    return y;
+}
+
+int GameObject::getXSize() const
+{
+    return xSize;
+}
+
+int GameObject::getYSize() const
+{
+    return ySize;
+}
+
+int GameObject::getXSpeed() const
+{
+    return speedX;
+}
+
+int GameObject::getYSpeed() const
+{
+    return speedY;
+}
+
+void GameObject::setYSpeed(int s) 
+{ 
+    speedY = s; 
+}
+
+void GameObject::setXSpeed(int s) 
+{ 
+    speedX = s; 
+}
+
+ObjectTypes GameObject::getObjectType() const 
+{ 
+    return type; 
 }

@@ -27,6 +27,10 @@ Missile::Missile(int xPos, int yPos, int speed, MissileType mtype)
     loadSpriteSize();
 }
 
+Missile::~Missile(void)
+{
+}
+
 void Missile::loadSprites()
 {
     sprite = new int[numberOfSprite];

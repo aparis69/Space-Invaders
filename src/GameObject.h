@@ -44,53 +44,23 @@ public:
     virtual void move(bool forward = true, bool left = true);
 
     //Index image of the sprite to be displayed.
-    inline int getCurrentSpriteIndex() const
-    {
-        return sprite[currentSprite];
-    }
+    int getCurrentSpriteIndex() const;
 
-    inline int getX() const
-    {
-        return x;
-    }
+    int getX() const;
 
-    inline int getY() const
-    {
-        return y;
-    }
+    int getY() const;
 
-    inline int getXSize() const
-    {
-        return xSize;
-    }
+    int getXSize() const;
 
-    inline int getYSize() const
-    {
-        return ySize;
-    }
+    int getYSize() const;
 
-    inline int getXSpeed() const
-    {
-        return speedX;
-    }
+    int getXSpeed() const;
 
-    inline int getYSpeed() const
-    {
-        return speedY;
-    }
+    int getYSpeed() const;
 
-    inline void setYSpeed(int s) 
-    { 
-        speedY = s; 
-    }
+    void setYSpeed(int s);
 
-    inline void setXSpeed(int s) 
-    { 
-        speedX = s; 
-    }
+    void setXSpeed(int s);
 
-    inline ObjectTypes getObjectType() const 
-    { 
-        return type; 
-    }
+    ObjectTypes getObjectType() const;
 };
