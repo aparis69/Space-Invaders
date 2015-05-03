@@ -109,7 +109,7 @@ void Context::updatePlayer(Input& in)
         player->moveX(false);
 
     if (in.Key(SDLK_SPACE)) // Shoot missile
-        missileManager->shootMissile(xPos, yPos, 40, MissileType::Small);
+        missileManager->shootMissile(xPos, yPos, 40, MissileTypes::Small);
 
     if(!wasForward && player->isMovingForward())
         background->speedUp();

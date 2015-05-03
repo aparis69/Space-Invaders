@@ -21,7 +21,7 @@ public:
     ~MissileManager(void);
 
     // Member functions
-    void shootMissile(int xPos, int yPos, int speed, MissileType type);
+    void shootMissile(int xPos, int yPos, int speed, MissileTypes type);
     void manageVectorSize(PhysicsManager* physicsManager);
     void destroyMissile(Missile* m);
 

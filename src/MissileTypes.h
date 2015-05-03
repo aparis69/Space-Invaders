@@ -2,11 +2,11 @@
 #define MISSILE_TYPES
 
 // Define the sprite of the missile
-typedef enum class MissileType
+typedef enum class MissileTypes
 {
 	Small,
 	Medium,
 	Big,
-} MissileType;
+} MissileTypes;
 
 #endif

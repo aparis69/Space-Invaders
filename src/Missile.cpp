@@ -11,7 +11,7 @@ Missile::Missile(void)
     animDuration = 0;
 }
 
-Missile::Missile(int xPos, int yPos, int speed, MissileType mtype)
+Missile::Missile(int xPos, int yPos, int speed, MissileTypes mtype)
 {
     type = ObjectTypes::Missile;
     numberOfSprite = 4;
@@ -19,7 +19,7 @@ Missile::Missile(int xPos, int yPos, int speed, MissileType mtype)
     speedY = speed;
     speedX = 0;
     animDuration = 40;
-    missileType = mtype;
+    missileTypes = mtype;
     x = xPos;
     y = yPos;
 

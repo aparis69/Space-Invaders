@@ -5,12 +5,12 @@
 class Missile : public GameObject
 {
 private:
-    MissileType missileType;
+    MissileTypes missileTypes;
 
 public:
     // Constructor & Destructor
     Missile(void);
-    Missile(int xPos, int yPos, int speed, MissileType mtype);
+    Missile(int xPos, int yPos, int speed, MissileTypes mtype);
 
     ~Missile(void);
 

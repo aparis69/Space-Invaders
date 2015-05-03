@@ -16,7 +16,7 @@ MissileManager::~MissileManager(void)
     missileInProgress.clear();
 }
 
-void MissileManager::shootMissile(int xPos, int yPos, int speed, MissileType type)
+void MissileManager::shootMissile(int xPos, int yPos, int speed, MissileTypes type)
 {
     if (SDL_GetTicks() < timer)
         return;
