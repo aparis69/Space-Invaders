@@ -6,15 +6,14 @@ class PhysicsManager;
 class EnemyManager
 {
 private:
-    // Difficulty of the game, increase at every frame
-    float difficulty;
+    // Array of enemy spawn probability, evolues during the game
     int* enemySpawnProbability;
     int totalProbability;
-
     // Timer regulating the spawn frequency
     float timerSpawn;
     // An enemy will be spawn every <spawnFrequency> second
     float spawnFrequency;
+    // vector and iterator for interacting with enemies in the scene
     std::vector<Enemy*> enemiesInProgress;
     std::vector<Enemy*>::iterator eIterator;
 
@@ -37,11 +36,12 @@ public:
 
     // Member functions
     void manageEnemySpawn();
+    // Delete enemies out of screen
     void manageVectorSize(PhysicsManager* physicsManager);
-
     // Erase the object in the vector<Enemy*>
     void destroyEnemy(Enemy* en);
 
+    // Getter & Setter
     Enemy* getEnemy(int index) const;
     int getNumberOfEnemy() const;
 };

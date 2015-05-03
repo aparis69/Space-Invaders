@@ -25,11 +25,8 @@ public:
     ~Player(void);
 
     unsigned int getLifePoints() const;
-
     void loadSprites();
-
     void forward();
-
     void backward();
 
     /** \brief Stops forward of backward movement.
@@ -38,10 +35,7 @@ public:
      *
      */
     void stop();
-
     bool isMovingForward() const;
-
     bool isMovingBackward() const;
-
     ReactionTypes reactToCollision(GameObject* hitObject);
 };

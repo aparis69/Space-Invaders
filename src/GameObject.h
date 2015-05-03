@@ -9,8 +9,11 @@ protected:
     // Indicate the type of the gameObject
     ObjectTypes type;
 
+    // Array of the gameobject sprite
     int* sprite;
+    // current sprite displayed on the screen
     int currentSprite;
+    // size of the sprite* array
     int numberOfSprite;
     //Current positions of object on screen (pixels)
     int x, y;
@@ -45,22 +48,14 @@ public:
 
     //Index image of the sprite to be displayed.
     int getCurrentSpriteIndex() const;
-
+    // Getter & Setter
     int getX() const;
-
     int getY() const;
-
     int getXSize() const;
-
     int getYSize() const;
-
     int getXSpeed() const;
-
     int getYSpeed() const;
-
     void setYSpeed(int s);
-
     void setXSpeed(int s);
-
     ObjectTypes getObjectType() const;
 };

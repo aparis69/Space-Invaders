@@ -1,7 +1,7 @@
 #ifndef ENEMY_TYPES
 #define ENEMY_TYPES
 
-// Define the sprite of the enemy
+// Define the type of an enemy
 typedef enum class EnemyType
 {
     Easy,

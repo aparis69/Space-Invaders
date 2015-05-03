@@ -5,25 +5,25 @@
 class AssetManager
 {
 private:
-    // Variables
+    // vector (with iterator) of all the possible assets that can be load in the game scene
     static std::vector<SDL_Surface*> graphicsRessources;
     std::vector<SDL_Surface*>::iterator gIterator;
 
-    // Private function
-    SDL_Surface* loadImage(char const *file);
+    // Load all the assets into the graphicsRessources vector
     void loadRessources();
+    // Load image with black transparency applied
+    SDL_Surface* loadImage(char const *file);
 
 public:
     // Contructor & Destructor
     AssetManager(void);
     ~AssetManager(void);
 
-    // Member functions
+    // Return X/Y Size of an asset based on his index in the vector
     static int getSpriteXSize(int index);
     static int getSpriteYSize(int index);
 
     // Getter & Setter
     SDL_Surface* getSurface(int index) const;
-
     int getNumberOfSurface() const;
 };

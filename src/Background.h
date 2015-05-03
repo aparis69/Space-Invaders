@@ -10,12 +10,12 @@ private:
     SDL_Rect scroll;
     int scrollSpeed;
     bool speedingUp, slowingDown;
-    Uint32 lastScroll; /**< Ticks when background last scrolled. */
+    // Ticks when background last scrolled.
+    Uint32 lastScroll; 
 
 public:
     // Constructor & Destructor
     Background(int scrollSpeed);
-
     ~Background(void);
 
     // Member functions

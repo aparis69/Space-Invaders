@@ -9,7 +9,6 @@ EnemyManager::EnemyManager()
     enemiesInProgress = vector<Enemy*>();
     timerSpawn = 0;
     spawnFrequency = 0;
-    difficulty = 0;
     enemySpawnProbability = nullptr;
 
     XRES = -1;
@@ -21,7 +20,6 @@ EnemyManager::EnemyManager(int xres, int yres)
     enemiesInProgress = vector<Enemy*>();
     timerSpawn = 0;
     spawnFrequency = 1000;
-    difficulty = 0;
     totalProbability = 0;
     enemySpawnProbability = new int[(int)EnemyType::Insane];
     for (int i = 0 ; i < (int)EnemyType::Insane ; i++)
@@ -44,7 +42,6 @@ EnemyManager::~EnemyManager()
 
 void EnemyManager::manageEnemySpawn()
 {
-    difficulty += 0.1f;
     if(SDL_GetTicks() < timerSpawn)
         return;
 

@@ -11,7 +11,6 @@ public:
     // Constructor & Destructor
     Missile(void);
     Missile(int xPos, int yPos, int speed, MissileTypes mtype);
-
     ~Missile(void);
 
     // Member functions

@@ -33,15 +33,20 @@ private:
     Background* background;
     Window* window;
 
+    // HUD variables
     TTF_Font* font;
     SDL_Color fontColor;
     SDL_Surface* lifePointsSurface;
 
-    // Private functions
+    // Init all the gameobject at the beginning of the game
     void initGameObjects();
+    // Update the background image position (scrolling)
     void updateBackground();
+    // Update the player position and action based on input
     void updatePlayer(Input& in);
+    // Update enemies position and actions
     void updateAI();
+    // Update other game object position and action, like missiles
     void updateGameObjects();
 
     // Call the physicsManager to check collision, and react depending on the return value
