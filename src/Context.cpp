@@ -48,6 +48,8 @@ Context::~Context(void)
     delete enemyManager;
     delete assetManager;
     delete window;
+    delete font;
+    SDL_FreeSurface(lifePointsSurface);
 }
 
 void Context::initGameObjects()
@@ -196,7 +198,7 @@ void Context::render()
                         player->getX(),
                         player->getY());
 
-    //Lifepoints blitting
+    // Lifepoints blitting
     if(lastPlayerLifePoints != player->getLifePoints())
     {
         if(lifePointsSurface != nullptr)
