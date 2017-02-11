@@ -14,7 +14,7 @@ private:
     std::vector<Missile*> missilesOnScreen;
     std::vector<Missile*>::iterator mIt;
     // timer used to manage the ability to shoot a missile
-    float timer;
+    unsigned int timer;
 
 public:
     // Constructors & Destructor
@@ -22,7 +22,7 @@ public:
     ~MissileManager();
 
     // create a missile at a certain position
-    void shootMissile(int xPos, int yPos, int speed, MissileTypes type);
+    void shootMissile(int x, int y, int speed, MissileTypes type);
     // delete all missiles out of screen
     void manageVectorSize(PhysicsManager* physicsManager);
     // destroy a missile into the missileInProgress vector

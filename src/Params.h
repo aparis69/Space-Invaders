@@ -5,6 +5,8 @@
 #define WINDOW_FPS 120
 #define WINDOW_TITLE "Space Invaders 2"
 
+#define SCROLL_SPEED 300
+#define PLAYER_SPEED 50
 #define SPEED_ADJUST 100
 #define START_LP 5
 #define X_SPAWN 250

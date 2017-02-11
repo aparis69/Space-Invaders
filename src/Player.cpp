@@ -1,6 +1,6 @@
 #include "Player.h"
 
-Player::Player(void)
+Player::Player()
 {
     type = ObjectTypes::Player;
 

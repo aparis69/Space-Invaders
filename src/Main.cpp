@@ -20,7 +20,7 @@ void GameLoop()
 {
 	Context c;
 	Input in;
-	srand(time(NULL));
+	srand((unsigned int)time(NULL));
 
 	while (!in.Key(SDLK_ESCAPE) && !in.Quit())
 	{

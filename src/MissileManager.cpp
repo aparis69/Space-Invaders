@@ -3,37 +3,36 @@
 #include "Missile.h"
 using namespace std;
 
-MissileManager::MissileManager(void)
+MissileManager::MissileManager()
 {
-    timer = -1;
+    timer = 0;
 }
 
-MissileManager::~MissileManager(void)
+MissileManager::~MissileManager()
 {
     for (mIt = missilesOnScreen.begin(); mIt != missilesOnScreen.end(); mIt++)
         delete (*mIt);
-
     missilesOnScreen.clear();
 }
 
-void MissileManager::shootMissile(int xPos, int yPos, int speed, MissileTypes type)
+void MissileManager::shootMissile(int x, int y, int speed, MissileTypes type)
 {
     // Look if the timer is finished
     if (SDL_GetTicks() < timer)
         return;
-
-    missilesOnScreen.push_back(new Missile(xPos, yPos, speed, type));
-    timer = (float)SDL_GetTicks() + 500;
+    missilesOnScreen.push_back(new Missile(x, y, speed, type));
+    timer = SDL_GetTicks() + 500;
 }
 
 void MissileManager::manageVectorSize(PhysicsManager* physicsManager)
 {
     // Look at missile out of screen bounds, and delete them
     bool erased = false;
-    for (mIt = missilesOnScreen.begin(); mIt != missilesOnScreen.end();)
+    for (mIt = missilesOnScreen.begin(); mIt != missilesOnScreen.end(); ) // no mIt++ intentionally
     {
         erased = false;
-        if (physicsManager->isOutOfScreen((*mIt)->getTransform().X(), (*mIt)->getTransform().Y()))
+        if (physicsManager->isOutOfScreen((*mIt)->getTransform().X(), 
+										  (*mIt)->getTransform().Y()))
         {
             erased = true;
             delete (*mIt);
@@ -66,7 +65,7 @@ int MissileManager::getMissileCount() const
     return missilesOnScreen.size();
 }
 
-Missile* MissileManager::getMissile(int index) const
+Missile* MissileManager::getMissile(int i) const
 {
-    return missilesOnScreen.at(index);
+    return missilesOnScreen.at(i);
 }

@@ -18,7 +18,7 @@ private:
 public:
     // Constructor & Destructor
     Player();
-    Player(int);
+    Player(int speed);
 
     ~Player();
 

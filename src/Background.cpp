@@ -34,7 +34,7 @@ ReactionTypes Background::reactToCollision(GameObject* hitObject)
 
 void Background::updateScroll()
 {
-	float adjust = scrollSpeed;
+	float adjust = (float)scrollSpeed;
 	if (slowingDown)
 		adjust -= SPEED_ADJUST;
 	else if (speedingUp)

@@ -10,9 +10,9 @@ private:
     int* enemySpawnProbability;
     int totalProbability;
     // Timer regulating the spawn frequency
-    float timerSpawn;
-    // An enemy will be spawn every <spawnFrequency> second
-    float spawnFrequency;
+    unsigned int timerSpawn;
+    // An enemy will be spawn every <spawnFrequency> ms
+    int spawnFrequency;
     // vector and iterator for interacting with enemies in the scene
     std::vector<Enemy*> enemiesOnScreen;
     std::vector<Enemy*>::iterator eIt;

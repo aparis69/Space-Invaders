@@ -12,7 +12,6 @@ AssetManager::~AssetManager(void)
 {
     for (gIt = graphicsRessources.begin(); gIt != graphicsRessources.end(); gIt++)
         SDL_FreeSurface(*gIt);
-
     graphicsRessources.clear();
 }
 
@@ -52,10 +51,9 @@ void AssetManager::loadRessources()
 SDL_Surface* AssetManager::loadImage(char const *file)
 {
     SDL_Surface* loadImg = SDL_LoadBMP(file);
-    SDL_Surface *OptimizedImg = SDL_DisplayFormat(loadImg);
-    SDL_SetColorKey(OptimizedImg, SDL_SRCCOLORKEY, SDL_MapRGB(OptimizedImg->format, 0, 0, 0));
-
-    return OptimizedImg;
+    SDL_Surface* optImg = SDL_DisplayFormat(loadImg);
+    SDL_SetColorKey(optImg, SDL_SRCCOLORKEY, SDL_MapRGB(optImg->format, 0, 0, 0));
+    return optImg;
 }
 
 int AssetManager::getSpriteXSize(int index)

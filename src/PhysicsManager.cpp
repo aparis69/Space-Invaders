@@ -30,7 +30,8 @@ GameObject* PhysicsManager::collideWith(GameObject* movedObject)
 		if ((*it) != movedObject)
 		{
 			Transform itT = (*it)->getTransform();
-			if (collideWithGameObject(x, y, xSize, ySize, itT.X(), itT.Y(), itT.XSize(), itT.YSize()))
+			if (collideWithGameObject(x, y, xSize, ySize, 
+									  itT.X(), itT.Y(), itT.XSize(), itT.YSize()))
 				return (*it);
 		}
     }
