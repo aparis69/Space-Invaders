@@ -8,117 +8,82 @@ using namespace std;
 
 GameObject::GameObject(void)
 {
-    // Add itself to the gameObject list stored in context class
-    Context::addGameObject(this);
+	// Add itself to the gameObject list stored in context class
+	Context::addGameObject(this);
 
-    sprite = nullptr;
-    ticksSinceAnim = -1;
+	sprite = nullptr;
+	ticksSinceAnim = -1;
 }
 
 GameObject::~GameObject(void)
 {
-    // Delete itself from the gameobject list stored in context class
-    Context::deleteGameObject(this);
+	// Delete itself from the gameobject list stored in context class
+	Context::deleteGameObject(this);
 
-    delete sprite;
+	delete sprite;
 }
 
 void GameObject::updateAnimation()
 {
-    int now = SDL_GetTicks();
-    // Change animation's image
-    if(now-ticksSinceAnim > animDuration)
-    {
-        currentSprite++;
-        currentSprite %= numberOfSprite;
-        ticksSinceAnim = now;
-    }
+	int now = SDL_GetTicks();
+	// Change animation's image
+	if (now - ticksSinceAnim > animDuration)
+	{
+		currentSprite++;
+		currentSprite %= numberOfSprite;
+		ticksSinceAnim = now;
+	}
 }
 
 void GameObject::moveX(bool left)
 {
-    x+=moveValueX(left);
+	transform.setX(transform.X() + moveValueX(left));
 }
 
 void GameObject::moveY(bool forward)
 {
-    y+=moveValueY(forward);
+	transform.setY(transform.Y() + moveValueY(forward));
 }
 
 void GameObject::move(bool forward, bool left)
 {
-    moveX(left);
-    moveY(forward);
+	moveX(left);
+	moveY(forward);
 }
 
 int GameObject::moveValueX(bool left) const
 {
-    if(left)
-        return (int)(-speedX*10/Window::FPS);
-    else
-        return (int)(speedX*10/Window::FPS);
+	if (left)
+		return (int)(-transform.XSpeed() * 10 / Window::FPS);
+	else
+		return (int)(transform.XSpeed() * 10 / Window::FPS);
 }
 
 int GameObject::moveValueY(bool forward) const
 {
-    if(forward)
-        return (int)(-speedY*10/Window::FPS);
-    else
-        return (int)(speedY*10/Window::FPS);
+	if (forward)
+		return (int)(-transform.YSpeed() * 10 / Window::FPS);
+	else
+		return (int)(transform.YSpeed() * 10 / Window::FPS);
 }
 
 void GameObject::loadSpriteSize()
 {
-    xSize = AssetManager::getSpriteXSize(sprite[currentSprite]);
-    ySize = AssetManager::getSpriteYSize(sprite[currentSprite]);
+	transform.setXSize(AssetManager::getSpriteXSize(sprite[currentSprite]));
+	transform.setYSize(AssetManager::getSpriteYSize(sprite[currentSprite]));
 }
 
 int GameObject::getCurrentSpriteIndex() const
 {
-    return sprite[currentSprite];
+	return sprite[currentSprite];
 }
 
-int GameObject::getX() const
+Transform GameObject::getTransform() const
 {
-    return x;
+	return transform;
 }
 
-int GameObject::getY() const
+ObjectTypes GameObject::getObjectType() const
 {
-    return y;
-}
-
-int GameObject::getXSize() const
-{
-    return xSize;
-}
-
-int GameObject::getYSize() const
-{
-    return ySize;
-}
-
-int GameObject::getXSpeed() const
-{
-    return speedX;
-}
-
-int GameObject::getYSpeed() const
-{
-    return speedY;
-}
-
-void GameObject::setYSpeed(int s) 
-{ 
-    speedY = s; 
-}
-
-void GameObject::setXSpeed(int s) 
-{ 
-    speedX = s; 
-}
-
-ObjectTypes GameObject::getObjectType() const 
-{ 
-    return type; 
+	return type;
 }

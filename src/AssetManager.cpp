@@ -10,8 +10,8 @@ AssetManager::AssetManager(void)
 
 AssetManager::~AssetManager(void)
 {
-    for (gIterator = graphicsRessources.begin(); gIterator != graphicsRessources.end(); gIterator++)
-        SDL_FreeSurface(*gIterator);
+    for (gIt = graphicsRessources.begin(); gIt != graphicsRessources.end(); gIt++)
+        SDL_FreeSurface(*gIt);
 
     graphicsRessources.clear();
 }
@@ -73,7 +73,7 @@ SDL_Surface* AssetManager::getSurface(int index) const
     return graphicsRessources.at(index);
 }
 
-int AssetManager::getNumberOfSurface() const
+int AssetManager::getSurfaceCount() const
 {
     return graphicsRessources.size();
 }

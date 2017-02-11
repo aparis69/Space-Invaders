@@ -1,6 +1,6 @@
 #include "Window.h"
 
-#include <SDL/SDL_ttf.h>
+#include <SDL_ttf.h>
 #include <iostream>
 
 using namespace std;
@@ -44,6 +44,13 @@ void Window::blitSurface(SDL_Surface* surface, int xPos, int yPos)
 void Window::flipScreen()
 {
     SDL_Flip(screen);
+}
+
+void Window::sync(unsigned int lastTime)
+{
+	int elapsed = SDL_GetTicks() - lastTime;
+	if (elapsed < 1000 / Window::FPS)
+		SDL_Delay(1000 / Window::FPS - elapsed); // Synchronize at Window::FPS count
 }
 
 SDL_Surface* Window::getSurface() const

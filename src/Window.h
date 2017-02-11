@@ -16,9 +16,9 @@ public:
 
     // Member functions
     void flipScreen();
-    void blitSurface(SDL_Surface* surface, int xPos, int yPos);
+    void blitSurface(SDL_Surface* surface, int, int);
+	static void sync(unsigned int);
 
     // Getter & Setter
     SDL_Surface* getSurface() const;
 };
-

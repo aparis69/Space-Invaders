@@ -8,10 +8,10 @@ private:
     MissileTypes missileTypes;
 
 public:
-    // Constructor & Destructor
-    Missile(void);
-    Missile(int xPos, int yPos, int speed, MissileTypes mtype);
-    ~Missile(void);
+    // Constructors & Destructor
+    Missile();
+    Missile(int, int, int, MissileTypes);
+    ~Missile();
 
     // Member functions
     void loadSprites();

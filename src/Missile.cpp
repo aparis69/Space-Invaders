@@ -5,9 +5,6 @@ Missile::Missile(void)
     type = ObjectTypes::Missile;
     numberOfSprite = 4;
     currentSprite = 0;
-    speedY = -6;
-    x = -1;
-    y = -1;
     animDuration = 0;
 }
 
@@ -16,12 +13,13 @@ Missile::Missile(int xPos, int yPos, int speed, MissileTypes mtype)
     type = ObjectTypes::Missile;
     numberOfSprite = 4;
     currentSprite = 0;
-    speedY = speed;
-    speedX = 0;
+	transform.setX(xPos);
+	transform.setY(yPos);
+	transform.SetXSpeed(0);
+	transform.SetYSpeed(speed);
+
     animDuration = 40;
     missileTypes = mtype;
-    x = xPos;
-    y = yPos;
 
     loadSprites();
     loadSpriteSize();

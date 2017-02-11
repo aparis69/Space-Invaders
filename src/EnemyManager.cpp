@@ -1,45 +1,32 @@
 #include "EnemyManager.h"
 #include "Enemy.h"
 #include "PhysicsManager.h"
+#include "Window.h"
 #include <time.h>
 using namespace std;
 
 EnemyManager::EnemyManager()
 {
-    enemiesInProgress = vector<Enemy*>();
-    timerSpawn = 0;
-    spawnFrequency = 0;
-    enemySpawnProbability = nullptr;
-
-    XRES = -1;
-    YRES = -1;
-}
-
-EnemyManager::EnemyManager(int xres, int yres)
-{
-    XRES = xres;
-    YRES = yres;
-
-    enemiesInProgress = vector<Enemy*>();
-    timerSpawn = 0;
-    spawnFrequency = 1000;
-    // Initialized all the spawn probability variables
-    totalProbability = 0;
-    int numberOfEnemyType = (int)EnemyType::Insane;
-    enemySpawnProbability = new int[numberOfEnemyType];
-    for (int i = 0 ; i < numberOfEnemyType ; i++)
-    {
-        enemySpawnProbability[i] = numberOfEnemyType - i;
-        totalProbability += enemySpawnProbability[i];
-    }
+	enemiesOnScreen = vector<Enemy*>();
+	timerSpawn = 0;
+	spawnFrequency = 1000;
+	// Initialized all the spawn probability variables
+	totalProbability = 0;
+	int numberOfEnemyType = (int)EnemyType::Insane;
+	enemySpawnProbability = new int[numberOfEnemyType];
+	for (int i = 0; i < numberOfEnemyType; i++)
+	{
+		enemySpawnProbability[i] = numberOfEnemyType - i;
+		totalProbability += enemySpawnProbability[i];
+	}
 }
 
 EnemyManager::~EnemyManager()
 {
-    for (eIterator = enemiesInProgress.begin(); eIterator != enemiesInProgress.end(); eIterator++)
-        delete (*eIterator);
+    for (eIt = enemiesOnScreen.begin(); eIt != enemiesOnScreen.end(); eIt++)
+        delete (*eIt);
 
-    enemiesInProgress.clear();
+    enemiesOnScreen.clear();
 }
 
 void EnemyManager::manageEnemySpawn()
@@ -59,7 +46,7 @@ void EnemyManager::spawnNewEnemy()
     randomSpawnPoint(xSpawn, ySpawn, xSpeed, ySpeed);
     int enemyType = getRandomEnemyType();
 
-    enemiesInProgress.push_back(new Enemy(xSpawn, ySpawn, xSpeed, ySpeed, (EnemyType)enemyType));
+    enemiesOnScreen.push_back(new Enemy(xSpawn, ySpawn, xSpeed, ySpeed, (EnemyType)enemyType));
     updateProbabilities();
 }
 
@@ -96,7 +83,7 @@ void EnemyManager::randomSpawnPoint(int& x, int &y, int& xSpeed, int& ySpeed)
     // Left side
     if(side < 33)
     {
-        y = rand() % YRES / 2;
+        y = rand() % Window::YRES / 2;
         x = 0;
         xSpeed = -15;
         ySpeed = 0;
@@ -104,7 +91,7 @@ void EnemyManager::randomSpawnPoint(int& x, int &y, int& xSpeed, int& ySpeed)
     // Up side
     else if (side < 66)
     {
-        x = rand() % XRES;
+        x = rand() % Window::XRES;
         y = 0;
         xSpeed = 0;
         ySpeed = -25;
@@ -112,8 +99,8 @@ void EnemyManager::randomSpawnPoint(int& x, int &y, int& xSpeed, int& ySpeed)
     // Right side
     else
     {
-        y = rand() % YRES / 2;
-        x = XRES;
+        y = rand() % Window::YRES / 2;
+        x = Window::XRES;
         xSpeed = 15;
         ySpeed = 0;
     }
@@ -123,19 +110,19 @@ void EnemyManager::manageVectorSize(PhysicsManager* physicsManager)
 {
     // Look at every enemy position on the screen and delete if not visible
     bool erased = false;
-    for (eIterator = enemiesInProgress.begin(); eIterator != enemiesInProgress.end();)
+    for (eIt = enemiesOnScreen.begin(); eIt != enemiesOnScreen.end();)
     {
         erased = false;
-        if (physicsManager->isOutOfScreen((*eIterator)->getX(), (*eIterator)->getY()))
+        if (physicsManager->isOutOfScreen((*eIt)->getTransform().X(), (*eIt)->getTransform().Y()))
         {
             erased = true;
-            delete (*eIterator);
-            eIterator = enemiesInProgress.erase(eIterator);
+            delete (*eIt);
+            eIt = enemiesOnScreen.erase(eIt);
         }
 
         if (!erased)
-            ++eIterator;
-        else if (eIterator == enemiesInProgress.end())
+            ++eIt;
+        else if (eIt == enemiesOnScreen.end())
             break;
     }
 }
@@ -143,12 +130,12 @@ void EnemyManager::manageVectorSize(PhysicsManager* physicsManager)
 void EnemyManager::destroyEnemy(Enemy* en)
 {
     // Search for the enemy en, delete it and return
-    for (eIterator = enemiesInProgress.begin(); eIterator != enemiesInProgress.end(); eIterator++)
+    for (eIt = enemiesOnScreen.begin(); eIt != enemiesOnScreen.end(); eIt++)
     {
-        if((*eIterator) == en)
+        if((*eIt) == en)
         {
-            delete (*eIterator);
-            enemiesInProgress.erase(eIterator);
+            delete (*eIt);
+            enemiesOnScreen.erase(eIt);
             break;
         }
     }
@@ -156,10 +143,10 @@ void EnemyManager::destroyEnemy(Enemy* en)
 
 Enemy* EnemyManager::getEnemy(int index) const 
 { 
-    return enemiesInProgress.at(index); 
+    return enemiesOnScreen.at(index); 
 }
 
-int EnemyManager::getNumberOfEnemy() const
+int EnemyManager::getEnemyCount() const
 { 
-    return enemiesInProgress.size(); 
+    return enemiesOnScreen.size(); 
 }

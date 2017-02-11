@@ -4,7 +4,7 @@
 #include "ReactionTypes.h"
 
 #include <vector>
-#include <SDL/SDL_ttf.h>
+#include <SDL_ttf.h>
 
 class Window;
 class AssetManager;
@@ -49,7 +49,7 @@ private:
     // Update other game object position and action, like missiles
     void updateGameObjects();
 
-    // Call the physicsManager to check collision, and react depending on the return value
+    // Call physicsManager to check collision & react depending on return value
     void objectHasMoved(GameObject* movedObject);
     // Handle the gameObject reaction to collision
     void handleReaction(GameObject* object, ReactionTypes reaction);

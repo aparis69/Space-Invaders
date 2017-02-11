@@ -14,10 +14,8 @@ private:
     // An enemy will be spawn every <spawnFrequency> second
     float spawnFrequency;
     // vector and iterator for interacting with enemies in the scene
-    std::vector<Enemy*> enemiesInProgress;
-    std::vector<Enemy*>::iterator eIterator;
-
-    int XRES, YRES;
+    std::vector<Enemy*> enemiesOnScreen;
+    std::vector<Enemy*>::iterator eIt;
 
     // Instanciate a new enemy
     void spawnNewEnemy();
@@ -30,8 +28,7 @@ private:
 
 public:
     // Constructor & Destructor
-    EnemyManager(void);
-    EnemyManager(int xres, int yres);
+    EnemyManager();
     ~EnemyManager();
 
     // Member functions
@@ -42,6 +39,6 @@ public:
     void destroyEnemy(Enemy* en);
 
     // Getter & Setter
-    Enemy* getEnemy(int index) const;
-    int getNumberOfEnemy() const;
+    Enemy* getEnemy(int) const;
+    int getEnemyCount() const;
 };

@@ -11,27 +11,26 @@
 
 #include <iostream>
 #include <string>
-#include <SDL/SDL_ttf.h>
+#include <SDL_ttf.h>
 
 using namespace std;
 
 // Init static array of gameObjects
 vector<GameObject*> Context::gameObjects = vector<GameObject*> ();
 
-Context::Context(void)
+Context::Context()
 {
     // Init Window and Managers
-    window = new Window(640, 480, 120, "Space Invaders 2");
+    window = new Window(WINDOW_SIZE_X, WINDOW_SIZE_Y, WINDOW_FPS, WINDOW_TITLE);
     assetManager = new AssetManager();
-    physicsManager = new PhysicsManager(Window::XRES, Window::YRES);
+    physicsManager = new PhysicsManager();
     missileManager = new MissileManager();
-    enemyManager = new EnemyManager(Window::XRES, Window::YRES);
+    enemyManager = new EnemyManager();
 
     // Init GameObjects in the scene
     initGameObjects();
-    lastPlayerLifePoints = 0;
 
-    //Init font
+    // Init font
     font = TTF_OpenFont("TlwgTypo.ttf", 25);
     fontColor.b = fontColor.r = fontColor.g = 0;
     lifePointsSurface = nullptr;
@@ -48,7 +47,6 @@ Context::~Context(void)
     delete enemyManager;
     delete assetManager;
     delete window;
-    delete font;
     SDL_FreeSurface(lifePointsSurface);
 }
 
@@ -56,6 +54,7 @@ void Context::initGameObjects()
 {
     player = new Player(50);
     background = new Background(300);
+	lastPlayerLifePoints = 0;
 }
 
 void Context::update(Input& in)
@@ -71,11 +70,9 @@ void Context::update(Input& in)
 void Context::updatePlayer(Input& in)
 {
     // Storing temporary object to improve readability
-    int xSize = player->getXSize();
-    int ySize = player->getYSize();
-    int xPos = player->getX();
-    int yPos = player->getY();
-    bool wasForward = player->isMovingForward(), wasBackward = player->isMovingBackward();
+	Transform t = player->getTransform();
+	bool wasForward = player->isMovingForward();
+	bool wasBackward = player->isMovingBackward();
 
     if(!in.Key(SDLK_UP) && !in.Key(SDLK_DOWN))
         player->stop();
@@ -83,7 +80,7 @@ void Context::updatePlayer(Input& in)
     // Move the player after checking screen bounds
     if (in.Key(SDLK_UP)) // Up
     {
-        if(!physicsManager->isOutOfScreen(xPos, yPos + player->moveValueY(), xSize, ySize))
+        if(!physicsManager->isOutOfScreen(t.X(), t.Y() + player->moveValueY(), t.XSize(), t.YSize()))
         {
             player->moveY();
             player->forward();
@@ -93,7 +90,7 @@ void Context::updatePlayer(Input& in)
     }
     if (in.Key(SDLK_DOWN)) // Down
     {
-        if(!physicsManager->isOutOfScreen(xPos, yPos + player->moveValueY(false), xSize, ySize))
+        if(!physicsManager->isOutOfScreen(t.X(), t.Y() + player->moveValueY(false), t.XSize(), t.YSize()))
         {
             player->moveY(false);
             player->backward();
@@ -101,12 +98,12 @@ void Context::updatePlayer(Input& in)
         else
             player->stop();
     }
-    if (in.Key(SDLK_LEFT) && !physicsManager->isOutOfScreen(xPos + player->moveValueX(), yPos, xSize, ySize)) // left
+    if (in.Key(SDLK_LEFT) && !physicsManager->isOutOfScreen(t.X() + player->moveValueX(), t.Y(), t.XSize(), t.YSize())) // left
         player->moveX();
-    if (in.Key(SDLK_RIGHT) && !physicsManager->isOutOfScreen(xPos + player->moveValueX(false), yPos, xSize, ySize)) // right
+    if (in.Key(SDLK_RIGHT) && !physicsManager->isOutOfScreen(t.X() + player->moveValueX(false), t.Y(), t.XSize(), t.YSize())) // right
         player->moveX(false);
     if (in.Key(SDLK_SPACE)) // Shoot missile
-        missileManager->shootMissile(xPos, yPos, 40, MissileTypes::Small);
+        missileManager->shootMissile(t.X(), t.Y(), 40, MissileTypes::Small);
 
     // Update the background behaviour based on the player move
     if(!wasForward && player->isMovingForward())
@@ -128,14 +125,14 @@ void Context::updateAI()
     enemyManager->manageEnemySpawn();
     
     // Update enemies position and animation
-    for (int i = 0; i < enemyManager->getNumberOfEnemy() ; i++)
+    for (int i = 0; i < enemyManager->getEnemyCount() ; i++)
     {
         enemyManager->getEnemy(i)->move();
         enemyManager->getEnemy(i)->updateAnimation();
     }
 
     // Indicate to the physics manager that the enemies have moved
-    for (int i = 0; i < enemyManager->getNumberOfEnemy() ; i++)
+    for (int i = 0; i < enemyManager->getEnemyCount() ; i++)
         objectHasMoved(enemyManager->getEnemy(i));
 
     // Manage enemy out of screen
@@ -145,14 +142,14 @@ void Context::updateAI()
 void Context::updateGameObjects()
 {
     // Update missiles in progress and animation
-    for (int i = 0; i < missileManager->getNumberOfMissile() ; i++)
+    for (int i = 0; i < missileManager->getMissileCount() ; i++)
     {
         missileManager->getMissile(i)->move();
         missileManager->getMissile(i)->updateAnimation();
     }
 
     // Indicate to the physics manager that the missiles have moved
-    for (int i = 0; i < missileManager->getNumberOfMissile() ; i++)
+    for (int i = 0; i < missileManager->getMissileCount() ; i++)
         objectHasMoved(missileManager->getMissile(i));
 
     // Delete missile out of screen
@@ -195,8 +192,8 @@ void Context::render()
 
     // Player blitting
     window->blitSurface(assetManager->getSurface(player->getCurrentSpriteIndex()),
-                        player->getX(),
-                        player->getY());
+                        player->getTransform().X(),
+                        player->getTransform().Y());
 
     // Lifepoints blitting
     if(lastPlayerLifePoints != player->getLifePoints())
@@ -204,21 +201,23 @@ void Context::render()
         if(lifePointsSurface != nullptr)
             SDL_FreeSurface(lifePointsSurface);
         lastPlayerLifePoints = player->getLifePoints();
-        lifePointsSurface = TTF_RenderText_Solid(font, to_string(lastPlayerLifePoints).c_str(), fontColor);
+        lifePointsSurface = TTF_RenderText_Solid(font, 
+												to_string(lastPlayerLifePoints).c_str(), 
+												fontColor);
     }
     window->blitSurface(lifePointsSurface, 5, 5);
 
     // Enemy blitting
-    for (int i = 0; i < enemyManager->getNumberOfEnemy(); i++)
+    for (int i = 0; i < enemyManager->getEnemyCount(); i++)
         window->blitSurface(assetManager->getSurface(enemyManager->getEnemy(i)->getCurrentSpriteIndex()),
-                            enemyManager->getEnemy(i)->getX(),
-                            enemyManager->getEnemy(i)->getY());
+                            enemyManager->getEnemy(i)->getTransform().X(),
+                            enemyManager->getEnemy(i)->getTransform().Y());
 
     // Missiles in progress blitting
-    for (int i = 0; i < missileManager->getNumberOfMissile(); i++)
+    for (int i = 0; i < missileManager->getMissileCount(); i++)
         window->blitSurface(assetManager->getSurface(missileManager->getMissile(i)->getCurrentSpriteIndex()),
-                            missileManager->getMissile(i)->getX(),
-                            missileManager->getMissile(i)->getY());
+                            missileManager->getMissile(i)->getTransform().X(),
+                            missileManager->getMissile(i)->getTransform().Y());
     
     // Flip screen
     window->flipScreen();
@@ -226,7 +225,7 @@ void Context::render()
 
 bool Context::gameOver()
 {
-    // Not implemented yet
+    // TO DO
     return false;
 }
 

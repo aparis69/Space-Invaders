@@ -8,12 +8,12 @@ private:
     EnemyType enemyType;
 
 public:
-    // Constructor & Destructor
-    Enemy(void);
-    Enemy(int xPos, int yPos, int xSpeed, int ySpeed, EnemyType type);
-    ~Enemy(void);
+    // Constructors & Destructor
+    Enemy();
+    Enemy(int, int, int, int, EnemyType);
+    ~Enemy();
 
     // Member functions
     void loadSprites();
-    ReactionTypes reactToCollision(GameObject* hitObject);
+    ReactionTypes reactToCollision(GameObject*);
 };

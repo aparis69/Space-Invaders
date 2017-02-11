@@ -2,6 +2,7 @@
 #include "SDLinclude.h"
 #include "ReactionTypes.h"
 #include "ObjectTypes.h"
+#include "Transform.h"
 
 class GameObject
 {
@@ -9,27 +10,25 @@ protected:
     // Indicate the type of the gameObject
     ObjectTypes type;
 
+	// Transform, store basic info on gameobject (size, position...)
+	Transform transform;
+
     // Array of the gameobject sprite
     int* sprite;
     // current sprite displayed on the screen
     int currentSprite;
     // size of the sprite* array
     int numberOfSprite;
-    //Current positions of object on screen (pixels)
-    int x, y;
-    // Size of the game object
-    int xSize, ySize;
-    //Speeds of the object in pixels/ms
-    int speedX, speedY;
+
     //Animation duration in ms (time a sprite stays on screen)
     int animDuration;
     //Ticks when sprite was changed for animation
     int ticksSinceAnim;
 
 public:
-    // Constructor & Destructor
-    GameObject(void);
-    virtual ~GameObject(void);
+    // Constructors & Destructor
+    GameObject();
+    virtual ~GameObject();
 
     // Member functions
     void updateAnimation();
@@ -49,13 +48,6 @@ public:
     //Index image of the sprite to be displayed.
     int getCurrentSpriteIndex() const;
     // Getter & Setter
-    int getX() const;
-    int getY() const;
-    int getXSize() const;
-    int getYSize() const;
-    int getXSpeed() const;
-    int getYSpeed() const;
-    void setYSpeed(int s);
-    void setXSpeed(int s);
+	Transform getTransform() const;
     ObjectTypes getObjectType() const;
 };

@@ -1,7 +1,7 @@
 #pragma once
 #include "SDLinclude.h"
-
 #include <vector>
+
 class Input
 {
 protected:
@@ -14,7 +14,6 @@ protected:
 public:
     // Constructor & Destructor
     Input();
-
     ~Input();
 
     // Poll events and updates structures.
@@ -22,17 +21,11 @@ public:
 
     // Getter & Setter
     bool Key(int i) const;
-
     int MouseX() const;
-
     int MouseY() const;
-
     int MouseXrel() const;
-
     int MouseYrel() const;
-
     int MouseButton(int i) const;
-
     bool Quit() const;
 
     /** \brief Tells wether the player is pressing any direction arrow.

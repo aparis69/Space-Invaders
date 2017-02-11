@@ -1,9 +1,6 @@
 #pragma once
 #include "GameObject.h"
-
-#define START_LP 5
-#define X_SPAWN 250
-#define Y_SPAWN 330
+#include "Params.h"
 
 class Player : public GameObject
 {
@@ -17,12 +14,13 @@ private:
      *
      */
     void spawn();
+
 public:
     // Constructor & Destructor
-    Player(void);
-    Player(float speed);
+    Player();
+    Player(int);
 
-    ~Player(void);
+    ~Player();
 
     unsigned int getLifePoints() const;
     void loadSprites();

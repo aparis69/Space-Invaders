@@ -2,8 +2,6 @@
 #include "GameObject.h"
 #include "SDLinclude.h"
 
-#define SPEED_ADJUST 100
-
 class Background : public GameObject
 {
 private:
@@ -21,7 +19,7 @@ public:
     // Member functions
     void updateScroll();
     void loadSprites();
-    ReactionTypes reactToCollision(GameObject* hitObject) { return ReactionTypes::Nothing; }
+	ReactionTypes reactToCollision(GameObject*);
 
     // Getter & Setter
     SDL_Rect getPosition();

@@ -40,7 +40,8 @@ void Input::Update()
             mousebuttons[event.button.button] = 1;
             break;
         case SDL_MOUSEBUTTONUP:
-            if (event.button.button != SDL_BUTTON_WHEELUP && event.button.button != SDL_BUTTON_WHEELDOWN)
+            if (event.button.button != SDL_BUTTON_WHEELUP && 
+				event.button.button != SDL_BUTTON_WHEELDOWN)
                 mousebuttons[event.button.button] = 0;
             break;
         case SDL_QUIT:

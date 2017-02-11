@@ -1,38 +1,42 @@
 #include "PhysicsManager.h"
 #include "GameObject.h"
 #include "Context.h"
+#include "Window.h"
+
 #include <vector>
 using namespace std;
 
-PhysicsManager::PhysicsManager(void)
+PhysicsManager::PhysicsManager()
 {
-    XRES = -1;
-    YRES = -1;
 }
 
-PhysicsManager::PhysicsManager(int xres, int yres)
-{
-    XRES = xres;
-    YRES = yres;
-}
-
-PhysicsManager::~PhysicsManager(void)
+PhysicsManager::~PhysicsManager()
 {
 }
 
 GameObject* PhysicsManager::collideWith(GameObject* movedObject)
 {
     vector<GameObject*>::iterator it;
+	Transform t = movedObject->getTransform();
+	int x = t.X();
+	int y = t.Y();
+	int xSize = t.XSize();
+	int ySize = t.YSize();
+
     for (int i = 0 ; i < Context::getGameObjectCount() ; i++)
     {
         it = Context::getGameObjectIterator(i);
-        if((*it) != movedObject && collideWithGameObject(movedObject->getX(), movedObject->getY(), movedObject->getXSize(), movedObject->getYSize(),
-            (*it)->getX(), (*it)->getY(), (*it)->getXSize(), (*it)->getYSize()))
-            return (*it);
-    }
 
+		if ((*it) != movedObject)
+		{
+			Transform itT = (*it)->getTransform();
+			if (collideWithGameObject(x, y, xSize, ySize, itT.X(), itT.Y(), itT.XSize(), itT.YSize()))
+				return (*it);
+		}
+    }
     return nullptr;
 }
+
 
 bool PhysicsManager::collideWithGameObject(int xPosM, int yPosM, int xSizeM, int ySizeM,
                                            int xPosE, int yPosE, int xSizeE, int ySizeE)
@@ -46,38 +50,14 @@ bool PhysicsManager::collideWithGameObject(int xPosM, int yPosM, int xSizeM, int
     return true;
 }
 
+
 bool PhysicsManager::isOutOfScreen(int xPos, int yPos, int xSize, int ySize)
 {
-    if (xPos + xSize >= XRES || yPos + ySize >= YRES || xPos <= 0 || yPos <= 0)
+    if (xPos + xSize >= Window::XRES 
+		|| yPos + ySize >= Window::YRES 
+		|| xPos <= 0 
+		|| yPos <= 0)
         return true;
 
     return false;
-}
-
-bool PhysicsManager::isOutOfScreen(int xPos, int yPos)
-{
-    if (xPos >= XRES || yPos >= YRES || xPos <= 0 || yPos <= 0)
-        return true;
-
-    return false;
-}
-
-void PhysicsManager::setXRES(int xres)
-{
-    XRES = xres;
-}
-
-void PhysicsManager::setYRES(int yres)
-{
-    YRES = yres;
-}
-
-int PhysicsManager::getXRES() const
-{
-    return XRES;
-}
-
-int PhysicsManager::getYRES() const
-{
-    return YRES;
 }

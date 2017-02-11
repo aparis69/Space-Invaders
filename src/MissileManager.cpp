@@ -10,10 +10,10 @@ MissileManager::MissileManager(void)
 
 MissileManager::~MissileManager(void)
 {
-    for (mIterator = missileInProgress.begin(); mIterator != missileInProgress.end(); mIterator++)
-        delete (*mIterator);
+    for (mIt = missilesOnScreen.begin(); mIt != missilesOnScreen.end(); mIt++)
+        delete (*mIt);
 
-    missileInProgress.clear();
+    missilesOnScreen.clear();
 }
 
 void MissileManager::shootMissile(int xPos, int yPos, int speed, MissileTypes type)
@@ -22,27 +22,27 @@ void MissileManager::shootMissile(int xPos, int yPos, int speed, MissileTypes ty
     if (SDL_GetTicks() < timer)
         return;
 
-    missileInProgress.push_back(new Missile(xPos, yPos, speed, type));
-    timer = SDL_GetTicks() + 500;
+    missilesOnScreen.push_back(new Missile(xPos, yPos, speed, type));
+    timer = (float)SDL_GetTicks() + 500;
 }
 
 void MissileManager::manageVectorSize(PhysicsManager* physicsManager)
 {
     // Look at missile out of screen bounds, and delete them
     bool erased = false;
-    for (mIterator = missileInProgress.begin(); mIterator != missileInProgress.end();)
+    for (mIt = missilesOnScreen.begin(); mIt != missilesOnScreen.end();)
     {
         erased = false;
-        if (physicsManager->isOutOfScreen((*mIterator)->getX(), (*mIterator)->getY()))
+        if (physicsManager->isOutOfScreen((*mIt)->getTransform().X(), (*mIt)->getTransform().Y()))
         {
             erased = true;
-            delete (*mIterator);
-            mIterator = missileInProgress.erase(mIterator);
+            delete (*mIt);
+            mIt = missilesOnScreen.erase(mIt);
         }
 
         if (!erased)
-            ++mIterator;
-        else if (mIterator == missileInProgress.end())
+            ++mIt;
+        else if (mIt == missilesOnScreen.end())
             break;
     }
 }
@@ -50,23 +50,23 @@ void MissileManager::manageVectorSize(PhysicsManager* physicsManager)
 void MissileManager::destroyMissile(Missile* m)
 {
     // Search for the missile m, delete it and return
-    for (mIterator = missileInProgress.begin(); mIterator != missileInProgress.end(); mIterator++)
+    for (mIt = missilesOnScreen.begin(); mIt != missilesOnScreen.end(); mIt++)
     {
-        if((*mIterator) == m)
+        if((*mIt) == m)
         {
-            delete (*mIterator);
-            missileInProgress.erase(mIterator);
+            delete (*mIt);
+            missilesOnScreen.erase(mIt);
             break;
         }
     }
 }
 
-int MissileManager::getNumberOfMissile() const
+int MissileManager::getMissileCount() const
 {
-    return missileInProgress.size();
+    return missilesOnScreen.size();
 }
 
 Missile* MissileManager::getMissile(int index) const
 {
-    return missileInProgress.at(index);
+    return missilesOnScreen.at(index);
 }

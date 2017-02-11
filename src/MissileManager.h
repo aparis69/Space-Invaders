@@ -11,15 +11,15 @@ class MissileManager
 {
 private:
     // Vector and iterator of all the missiles in the scene
-    std::vector<Missile*> missileInProgress;
-    std::vector<Missile*>::iterator mIterator;
+    std::vector<Missile*> missilesOnScreen;
+    std::vector<Missile*>::iterator mIt;
     // timer used to manage the ability to shoot a missile
     float timer;
 
 public:
-    // Constructor & Destructor
-    MissileManager(void);
-    ~MissileManager(void);
+    // Constructors & Destructor
+    MissileManager();
+    ~MissileManager();
 
     // create a missile at a certain position
     void shootMissile(int xPos, int yPos, int speed, MissileTypes type);
@@ -29,6 +29,6 @@ public:
     void destroyMissile(Missile* m);
 
     // Getter & Setter
-    int getNumberOfMissile() const;
+    int getMissileCount() const;
     Missile* getMissile(int index) const;
 };

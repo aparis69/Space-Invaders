@@ -3,9 +3,10 @@
 Player::Player(void)
 {
     type = ObjectTypes::Player;
-    speedY = speedX = 0.1f;
-    xSize = 93;
-    ySize = 97;
+
+	transform.setX(93);
+	transform.setY(97);
+
     spawn();
     numberOfSprite = 4;
     currentSprite = 0;
@@ -14,10 +15,11 @@ Player::Player(void)
     loadSprites();
 }
 
-Player::Player(float speed)
+Player::Player(int speed)
 {
     type = ObjectTypes::Player;
-    speedY = speedX = speed;
+	transform.SetXSpeed(speed);
+	transform.SetYSpeed(speed);
     spawn();
     numberOfSprite = 4;
     currentSprite = 0;
@@ -93,6 +95,6 @@ unsigned int Player::getLifePoints() const
 
 void Player::spawn()
 {
-    x = X_SPAWN;
-    y = Y_SPAWN;
+	transform.setX(X_SPAWN);
+	transform.setY(Y_SPAWN);
 }
