@@ -4,7 +4,9 @@
 
 #include "Input.h"
 #include "Context.h"
+#include "Menu.h"
 #include "Window.h"
+#include "Params.h"
 using namespace std;
 
 void GameLoop();
@@ -18,15 +20,27 @@ int main(int argc, char *argv[])
 void GameLoop()
 {
 	Context c;
+	Menu m(c.getWindow());
 	Input in;
+	unsigned int timerToogleMenu = SDL_GetTicks() + 500;
+	bool menuShown = true;
 	srand((unsigned int)time(NULL));
 
-	while (!in.Key(SDLK_ESCAPE) && !in.Quit())
+	while (!in.Key(SDLK_ESCAPE) && !in.Quit() && !m.quit())
 	{
 		unsigned int lastTime = SDL_GetTicks();
 
 		in.Update();
-		c.update(in);
+		if ((in.wasKeyUpped(MENU_KEY) || m.getLastEvent() == RESUME) && timerToogleMenu < lastTime)
+		{
+			menuShown = !menuShown;
+			timerToogleMenu = SDL_GetTicks() + 500;
+		}
+
+		if (menuShown)
+			m.update(in);
+		else
+			c.update(in);
 
 		Window::sync(lastTime);
 	}

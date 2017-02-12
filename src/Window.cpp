@@ -20,6 +20,8 @@ Window::Window(int xres, int yres, int FPS, std::string name)
 	this->FPS = FPS;
 	screen = SDL_SetVideoMode(XRES, YRES, 32, SDL_HWSURFACE | SDL_DOUBLEBUF);
 
+	font = TTF_OpenFont("TlwgTypo.ttf", 25);
+
 	if (screen == NULL)
 		return;
 }
@@ -55,4 +57,9 @@ void Window::sync(unsigned int lastTime)
 SDL_Surface* Window::getSurface() const
 {
 	return screen;
+}
+
+TTF_Font* Window::getFont() const
+{
+	return font;
 }

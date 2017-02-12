@@ -11,7 +11,6 @@
 
 #include <iostream>
 #include <string>
-#include <SDL_ttf.h>
 
 using namespace std;
 
@@ -32,7 +31,6 @@ Context::Context()
 	initGameObjects();
 
 	// Init font
-	font = TTF_OpenFont("TlwgTypo.ttf", 25);
 	fontColor.b = fontColor.r = fontColor.g = 0;
 	lifePointsSurface = nullptr;
 }
@@ -200,7 +198,7 @@ void Context::render()
 		if (lifePointsSurface != nullptr)
 			SDL_FreeSurface(lifePointsSurface);
 		lastPlayerLifePoints = player->getLifePoints();
-		lifePointsSurface = TTF_RenderText_Solid(font,
+		lifePointsSurface = TTF_RenderText_Solid(window->getFont(),
 												to_string(lastPlayerLifePoints).c_str(),
 												fontColor);
 	}
@@ -260,6 +258,11 @@ void Context::handleReaction(GameObject* object, ReactionTypes reaction)
 			break;
 		default:;
 	}
+}
+
+Window* Context::getWindow() const
+{
+	return window;
 }
 
 

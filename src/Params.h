@@ -1,4 +1,5 @@
 #pragma once
+#include <SDL.h>
 
 // Window settings
 #define WINDOW_SIZE_X 640
@@ -11,6 +12,7 @@
 #define PLAYER_SPEED 50
 #define X_SPAWN 250
 #define Y_SPAWN 330
+#define MENU_KEY SDLK_m
 
 // Spawning settings
 #define ENEMY_SPAWN_DELAY 1000

@@ -1,5 +1,6 @@
 #pragma once
 #include "SDLinclude.h"
+#include <SDL_ttf.h>
 #include <string>
 
 class Window
@@ -7,6 +8,7 @@ class Window
 private:
     std::string windowName;
     SDL_Surface* screen;
+	TTF_Font* font;
 
 public:
     static int XRES, YRES, FPS;
@@ -21,4 +23,5 @@ public:
 
     // Getter & Setter
     SDL_Surface* getSurface() const;
+	TTF_Font* getFont() const;
 };

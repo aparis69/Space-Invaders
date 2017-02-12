@@ -34,7 +34,6 @@ private:
 	Window* window;
 
 	// HUD variables
-	TTF_Font* font;
 	SDL_Color fontColor;
 	SDL_Surface* lifePointsSurface;
 
@@ -62,9 +61,10 @@ public:
 	// Member functions
 	void update(Input& in);
 	void render();
+	bool gameOver();
 
 	// Getter & Setter
-	bool gameOver();
+	Window* getWindow() const;
 
 	// Static function, interact with the gameObject array
 	static void addGameObject(GameObject* object);

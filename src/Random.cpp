@@ -10,5 +10,5 @@ int Random::RandomRange(int a, int b)
 
 double Random::Rand()
 {
-	return ((double)rand() / (RAND_MAX))
+	return ((double)rand() / (RAND_MAX));
 }

@@ -9,7 +9,7 @@ protected:
     std::vector<SDLKey> uppedKeys;
     int mousex, mousey;
     int mousexrel, mouseyrel;
-    char mousebuttons[8];
+    bool mousebuttons[8];
     bool quit;
 public:
     // Constructor & Destructor
@@ -25,7 +25,7 @@ public:
     int MouseY() const;
     int MouseXrel() const;
     int MouseYrel() const;
-    int MouseButton(int i) const;
+    bool MouseButton(int i) const;
     bool Quit() const;
 
     /** \brief Tells wether the player is pressing any direction arrow.
