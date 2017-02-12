@@ -31,7 +31,8 @@ void GameLoop()
 		unsigned int lastTime = SDL_GetTicks();
 
 		in.Update();
-		if ((in.wasKeyUpped(MENU_KEY) || m.getLastEvent() == RESUME) && timerToogleMenu < lastTime)
+		if ((in.wasKeyUpped(MENU_KEY) || m.getLastEvent() == RESUME) 
+			&& timerToogleMenu < lastTime)
 		{
 			menuShown = !menuShown;
 			timerToogleMenu = SDL_GetTicks() + 500;

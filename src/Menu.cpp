@@ -18,6 +18,7 @@ Menu::Menu(Window* w)
 	menuFontColor.r = menuFontColor.g = menuFontColor.b = 0;
 	menuFontColorSelected.r = menuFontColorSelected.b = menuFontColorSelected.g = 60;
 
+	// TO DO : adapt to resolution dynamically
 	buttons.push_back(MenuButton("Resume", Window::XRES / 2 - 80, 50));
 	buttons.push_back(MenuButton("Options", Window::XRES / 2 - 95, 150));
 	buttons.push_back(MenuButton("Quit", Window::XRES / 2 - 55, 250));
@@ -25,7 +26,6 @@ Menu::Menu(Window* w)
 
 Menu::~Menu()
 {
-
 }
 
 
@@ -66,7 +66,7 @@ void Menu::render(Input& in)
 
 	// Render each button
 	SDL_Color usedColor;
-	for (int i = 0; i < buttons.size(); i++)
+	for (unsigned int i = 0; i < buttons.size(); i++)
 	{
 		usedColor = buttons[i].selected(in) ? menuFontColorSelected : menuFontColor;
 		buttons[i].setSurface(TTF_RenderText_Solid(menuFont,

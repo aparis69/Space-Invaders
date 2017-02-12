@@ -3,6 +3,7 @@
 
 using namespace std;
 
+// Constructors & Destructor
 Input::Input()
 {
 	memset(this, 0, sizeof(*this));
@@ -13,6 +14,8 @@ Input::~Input()
 {
 }
 
+
+// Member Functions
 void Input::Update()
 {
 	SDL_Event event;

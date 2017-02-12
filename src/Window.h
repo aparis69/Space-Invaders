@@ -11,7 +11,9 @@ private:
 	TTF_Font* font;
 
 public:
+	// Public static data about the window
     static int XRES, YRES, FPS;
+
     // Constructor & Destructor
     Window(int xres, int yres, int FPS, std::string name);
     ~Window(void);
