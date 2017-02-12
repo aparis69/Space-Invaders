@@ -2,6 +2,7 @@
 
 #include "Input.h"
 #include "ReactionTypes.h"
+#include "Params.h"
 
 #include <vector>
 #include <SDL_ttf.h>
@@ -48,6 +49,9 @@ private:
 	// Update other game object position and action, like missiles
 	void updateGameObjects();
 
+	// Determine the GameState of the next frame
+	void determineGameState(Input&, GameState&);
+	
 	// Call physicsManager to check collision & react depending on return value
 	void objectHasMoved(GameObject* movedObject);
 	// Handle the gameObject reaction to collision
@@ -59,7 +63,7 @@ public:
 	~Context();
 
 	// Member functions
-	void update(Input& in);
+	GameState update(Input& in);
 	void render();
 	bool gameOver();
 

@@ -58,14 +58,19 @@ void Context::initGameObjects()
 	lastPlayerLifePoints = 0;
 }
 
-void Context::update(Input& in)
+GameState Context::update(Input& in)
 {
+	GameState s = GAME;
+
 	updatePlayer(in);
 	updateAI();
 	updateGameObjects();
 	updateBackground();
+	determineGameState(in, s);
 
 	render();
+
+	return s;
 }
 
 void Context::updatePlayer(Input& in)
@@ -258,6 +263,14 @@ void Context::handleReaction(GameObject* object, ReactionTypes reaction)
 			break;
 		default:;
 	}
+}
+
+void Context::determineGameState(Input& in, GameState& s)
+{
+	if (in.wasKeyUpped(MENU_KEY))
+		s = MENU;
+	else
+		s = GAME;
 }
 
 Window* Context::getWindow() const

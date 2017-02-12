@@ -22,3 +22,11 @@
 #define MEDIUM_MISSILE_SPEED 50
 #define SCROLL_SPEED 300
 #define SPEED_ADJUST 100
+
+enum GameState
+{
+	MENU,
+	GAME,
+	GAME_OVER,
+	QUIT,
+};

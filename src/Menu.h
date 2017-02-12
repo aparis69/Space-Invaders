@@ -1,7 +1,8 @@
 #pragma once
 #include "Input.h"
 #include "MenuButton.h"
-#include "MenuEvents.h"
+#include "Params.h"
+
 #include <SDL_ttf.h>
 #include <vector>
 class Window;
@@ -16,9 +17,9 @@ private:
 	SDL_Color menuFontColor;
 	SDL_Color menuFontColorSelected;
 	SDL_Color menuBackgroundColor;
-	MenuEvents lastEvent;
+	unsigned int timerToogleMenu;
 
-	void processEvents(Input&);
+	void processEvents(Input&, GameState&);
 	void render(Input&);
 
 public:
@@ -28,9 +29,5 @@ public:
 	~Menu();
 
 	// Member function
-	void update(Input&);
-
-	// Getter & Setter
-	bool quit() const;
-	MenuEvents getLastEvent();
+	GameState update(Input&);
 };

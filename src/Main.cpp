@@ -19,30 +19,26 @@ int main(int argc, char *argv[])
 
 void GameLoop()
 {
+	GameState currentState = MENU;
 	Context c;
 	Menu m(c.getWindow());
 	Input in;
-	unsigned int timerToogleMenu = SDL_GetTicks() + 500;
-	bool menuShown = true;
+
 	srand((unsigned int)time(NULL));
 
-	while (!in.Key(SDLK_ESCAPE) && !in.Quit() && !m.quit())
+	while (!in.Key(SDLK_ESCAPE) && !in.Quit())
 	{
 		unsigned int lastTime = SDL_GetTicks();
 
 		in.Update();
-		if ((in.wasKeyUpped(MENU_KEY) || m.getLastEvent() == RESUME) 
-			&& timerToogleMenu < lastTime)
-		{
-			menuShown = !menuShown;
-			timerToogleMenu = SDL_GetTicks() + 500;
-		}
-
-		if (menuShown)
-			m.update(in);
-		else
-			c.update(in);
-
+		if (currentState == MENU)
+			currentState = m.update(in);
+		else if (currentState == GAME)
+			currentState = c.update(in);
+		else if (currentState == GAME_OVER)
+			currentState = c.update(in);
+		else if (currentState == QUIT)
+			break;
 		Window::sync(lastTime);
 	}
 }

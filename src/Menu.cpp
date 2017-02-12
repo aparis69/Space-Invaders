@@ -5,6 +5,7 @@
 Menu::Menu()
 {
 	window = nullptr;
+	timerToogleMenu = 0;
 }
 
 Menu::Menu(Window* w)
@@ -22,6 +23,8 @@ Menu::Menu(Window* w)
 	buttons.push_back(MenuButton("Resume", Window::XRES / 2 - 80, 50));
 	buttons.push_back(MenuButton("Options", Window::XRES / 2 - 95, 150));
 	buttons.push_back(MenuButton("Quit", Window::XRES / 2 - 55, 250));
+
+	timerToogleMenu = 0;
 }
 
 Menu::~Menu()
@@ -30,28 +33,31 @@ Menu::~Menu()
 
 
 // Member Functions
-void Menu::update(Input& in)
+GameState Menu::update(Input& in)
 {
-	processEvents(in);
+	GameState s = MENU;
+	processEvents(in, s);
 	render(in);
+	return s;
 }
 
-void Menu::processEvents(Input& in)
+void Menu::processEvents(Input& in, GameState& s)
 {
 	// Resume
-	if (buttons[0].selected(in) && in.MouseButton(1))
+	if (buttons[0].selected(in) && in.MouseButton(1) && timerToogleMenu < SDL_GetTicks())
 	{
-		lastEvent = RESUME;
+		s = GAME;
+		timerToogleMenu = SDL_GetTicks() + 500;
 	}
 	// Options
 	else if (buttons[1].selected(in) && in.MouseButton(1))
 	{
-		lastEvent = NONE;
+		
 	}
 	// Quit
 	else if (buttons[2].selected(in) && in.MouseButton(1))
 	{
-		lastEvent = QUIT;
+		s = QUIT;
 	}
 }
 
@@ -77,18 +83,4 @@ void Menu::render(Input& in)
 
 	// Flip screen
 	window->flipScreen();
-}
-
-MenuEvents Menu::getLastEvent()
-{
-	// When Main retreives last event, we also clear it here
-	MenuEvents ret = lastEvent;
-	lastEvent = NONE;
-	return ret;
-}
-
-bool Menu::quit() const
-{
-	// Functions used to not modify lastEvent
-	return lastEvent == QUIT;
 }
