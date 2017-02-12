@@ -1,25 +1,19 @@
 #pragma once
 #include <vector>
+#include "ObjectManager.h"
 class Enemy;
 class PhysicsManager;
 
-class EnemyManager
+class EnemyManager : public ObjectManager
 {
 private:
     // Array of enemy spawn probability, evolues during the game
     int* enemySpawnProbability;
     int totalProbability;
-    // Timer regulating the spawn frequency
-    unsigned int timerSpawn;
-    // An enemy will be spawn every <spawnFrequency> ms
-    int spawnFrequency;
-    // vector and iterator for interacting with enemies in the scene
-    std::vector<Enemy*> enemiesOnScreen;
-    std::vector<Enemy*>::iterator eIt;
 
     // Instanciate a new enemy
     void spawnNewEnemy();
-    // Determine the spawn position
+    // Determine the spawn position && speeds
     void randomSpawnPoint(int& x, int& y, int& xSpeed, int& ySpeed);
     // Get a random number from a probability array
     int getRandomEnemyType();
@@ -33,12 +27,4 @@ public:
 
     // Member functions
     void manageEnemySpawn();
-    // Delete enemies out of screen
-    void manageVectorSize(PhysicsManager* physicsManager);
-    // Erase the object in the vector<Enemy*>
-    void destroyEnemy(Enemy* en);
-
-    // Getter & Setter
-    Enemy* getEnemy(int) const;
-    int getEnemyCount() const;
 };

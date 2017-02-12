@@ -2,14 +2,13 @@
 #include "Enemy.h"
 #include "PhysicsManager.h"
 #include "Window.h"
+#include "Params.h"
 #include <time.h>
-using namespace std;
 
 EnemyManager::EnemyManager()
 {
-	enemiesOnScreen = vector<Enemy*>();
-	timerSpawn = 0;
-	spawnFrequency = 1000;
+	spawnTimer = 0;
+	spawnDelay = ENEMY_SPAWN_DELAY;
 
 	// Initialized all the spawn probability variables
 	totalProbability = 0;
@@ -24,19 +23,16 @@ EnemyManager::EnemyManager()
 
 EnemyManager::~EnemyManager()
 {
-	for (eIt = enemiesOnScreen.begin(); eIt != enemiesOnScreen.end(); eIt++)
-		delete (*eIt);
-	enemiesOnScreen.clear();
 	delete[] enemySpawnProbability;
 }
 
 void EnemyManager::manageEnemySpawn()
 {
 	// Look if the timer is finished
-	if (SDL_GetTicks() < timerSpawn)
+	if (SDL_GetTicks() < spawnTimer)
 		return;
 	spawnNewEnemy();
-	timerSpawn = SDL_GetTicks() + spawnFrequency;
+	spawnTimer = SDL_GetTicks() + spawnDelay;
 }
 
 void EnemyManager::spawnNewEnemy()
@@ -46,7 +42,7 @@ void EnemyManager::spawnNewEnemy()
 	randomSpawnPoint(x, y, xSpeed, ySpeed);
 	int enemyType = getRandomEnemyType();
 
-	enemiesOnScreen.push_back(new Enemy(x, y, xSpeed, ySpeed, (EnemyType)enemyType));
+	objectsOnScreen.push_back(new Enemy(x, y, xSpeed, ySpeed, (EnemyType)enemyType));
 	updateProbabilities();
 }
 
@@ -57,7 +53,6 @@ int EnemyManager::getRandomEnemyType()
 	int i2 = 0;
 	while (sum < i)
 		sum += enemySpawnProbability[i2++];
-
 	if (i2 - 1 > 0)
 		return i2;
 	else
@@ -102,50 +97,4 @@ void EnemyManager::randomSpawnPoint(int& x, int &y, int& xSpeed, int& ySpeed)
 		xSpeed = 15;
 		ySpeed = 0;
 	}
-}
-
-void EnemyManager::manageVectorSize(PhysicsManager* physicsManager)
-{
-	// Look at every enemy position on the screen and delete if not visible
-	bool erased = false;
-	for (eIt = enemiesOnScreen.begin(); eIt != enemiesOnScreen.end();) // no eIt++
-	{
-		erased = false;
-		if (physicsManager->isOutOfScreen((*eIt)->getTransform().X(), 
-										  (*eIt)->getTransform().Y()))
-		{
-			erased = true;
-			delete (*eIt);
-			eIt = enemiesOnScreen.erase(eIt);
-		}
-
-		if (!erased)
-			++eIt;
-		else if (eIt == enemiesOnScreen.end())
-			break;
-	}
-}
-
-void EnemyManager::destroyEnemy(Enemy* en)
-{
-	// Search for the enemy en, delete it and return
-	for (eIt = enemiesOnScreen.begin(); eIt != enemiesOnScreen.end(); eIt++)
-	{
-		if ((*eIt) == en)
-		{
-			delete (*eIt);
-			enemiesOnScreen.erase(eIt);
-			break;
-		}
-	}
-}
-
-Enemy* EnemyManager::getEnemy(int i) const
-{
-	return enemiesOnScreen.at(i);
-}
-
-int EnemyManager::getEnemyCount() const
-{
-	return enemiesOnScreen.size();
 }

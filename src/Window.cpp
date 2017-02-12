@@ -11,39 +11,38 @@ int Window::FPS = -1;
 
 Window::Window(int xres, int yres, int FPS, std::string name)
 {
-    SDL_Init(SDL_INIT_VIDEO);
-    SDL_WM_SetCaption(name.c_str(), NULL);
-    TTF_Init();
+	SDL_Init(SDL_INIT_VIDEO);
+	SDL_WM_SetCaption(name.c_str(), NULL);
+	TTF_Init();
 
-    XRES = xres;
-    YRES = yres;
-    this->FPS = FPS;
-    screen = SDL_SetVideoMode(XRES, YRES, 32, SDL_HWSURFACE | SDL_DOUBLEBUF);
+	XRES = xres;
+	YRES = yres;
+	this->FPS = FPS;
+	screen = SDL_SetVideoMode(XRES, YRES, 32, SDL_HWSURFACE | SDL_DOUBLEBUF);
 
-    if (screen == NULL)
-        return;
+	if (screen == NULL)
+		return;
 }
 
 Window::~Window(void)
 {
-    SDL_FreeSurface(screen);
-
-    SDL_Quit();
+	SDL_FreeSurface(screen);
+	SDL_Quit();
 }
 
 void Window::blitSurface(SDL_Surface* surface, int xPos, int yPos)
 {
-    SDL_Rect R;
-    R.x = xPos;
-    R.y = yPos;
-    R.w = R.h = 0;
+	SDL_Rect R;
+	R.x = xPos;
+	R.y = yPos;
+	R.w = R.h = 0;
 
-    SDL_BlitSurface(surface, NULL, screen, &R);
+	SDL_BlitSurface(surface, NULL, screen, &R);
 }
 
 void Window::flipScreen()
 {
-    SDL_Flip(screen);
+	SDL_Flip(screen);
 }
 
 void Window::sync(unsigned int lastTime)
@@ -55,5 +54,5 @@ void Window::sync(unsigned int lastTime)
 
 SDL_Surface* Window::getSurface() const
 {
-    return screen;
+	return screen;
 }

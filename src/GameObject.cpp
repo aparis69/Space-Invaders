@@ -6,7 +6,7 @@
 #include <iostream>
 using namespace std;
 
-GameObject::GameObject(void)
+GameObject::GameObject()
 {
 	// Add itself to the gameObject list stored in context class
 	Context::addGameObject(this);
@@ -15,11 +15,10 @@ GameObject::GameObject(void)
 	ticksSinceAnim = -1;
 }
 
-GameObject::~GameObject(void)
+GameObject::~GameObject()
 {
-	// Delete itself from the gameobject list stored in context class
+	// Delete itself from the gameobject list stored in Context
 	Context::deleteGameObject(this);
-
 	delete sprite;
 }
 

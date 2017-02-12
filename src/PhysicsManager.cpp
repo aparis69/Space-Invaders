@@ -47,7 +47,6 @@ bool PhysicsManager::collideWithGameObject(int xPosM, int yPosM, int xSizeM, int
         yPosM + ySizeM <= yPosE ||
         yPosM >= yPosE + ySizeE)
         return false;
-
     return true;
 }
 
@@ -59,6 +58,5 @@ bool PhysicsManager::isOutOfScreen(int xPos, int yPos, int xSize, int ySize)
 		|| xPos <= 0 
 		|| yPos <= 0)
         return true;
-
     return false;
 }

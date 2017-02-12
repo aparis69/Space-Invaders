@@ -1,34 +1,20 @@
 #pragma once
 #include <vector>
 #include <chrono>
+#include "ObjectManager.h"
 #include "SDLinclude.h"
 #include "MissileTypes.h"
 
 class Missile;
 class PhysicsManager;
 
-class MissileManager
+class MissileManager : public ObjectManager
 {
-private:
-    // Vector and iterator of all the missiles in the scene
-    std::vector<Missile*> missilesOnScreen;
-    std::vector<Missile*>::iterator mIt;
-    // timer used to manage the ability to shoot a missile
-    unsigned int timer;
-
 public:
     // Constructors & Destructor
     MissileManager();
     ~MissileManager();
 
     // create a missile at a certain position
-    void shootMissile(int x, int y, int speed, MissileTypes type);
-    // delete all missiles out of screen
-    void manageVectorSize(PhysicsManager* physicsManager);
-    // destroy a missile into the missileInProgress vector
-    void destroyMissile(Missile* m);
-
-    // Getter & Setter
-    int getMissileCount() const;
-    Missile* getMissile(int index) const;
+    void spawnMissile(int, int, int, MissileTypes);
 };

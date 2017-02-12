@@ -18,6 +18,7 @@ using namespace std;
 // Init static array of gameObjects
 vector<GameObject*> Context::gameObjects = vector<GameObject*>();
 
+// Constructors & Destructor
 Context::Context()
 {
 	// Init Window and Managers
@@ -36,7 +37,7 @@ Context::Context()
 	lifePointsSurface = nullptr;
 }
 
-Context::~Context(void)
+Context::~Context()
 {
 	gameObjects.clear();
 
@@ -50,6 +51,8 @@ Context::~Context(void)
 	SDL_FreeSurface(lifePointsSurface);
 }
 
+
+// Member Functions
 void Context::initGameObjects()
 {
 	player = new Player(PLAYER_SPEED);
@@ -103,7 +106,7 @@ void Context::updatePlayer(Input& in)
 	if (in.Key(SDLK_RIGHT) && !physicsManager->isOutOfScreen(t.X() + player->moveValueX(false), t.Y(), t.XSize(), t.YSize())) // right
 		player->moveX(false);
 	if (in.Key(SDLK_SPACE)) // Shoot missile
-		missileManager->shootMissile(t.X(), t.Y(), 40, MissileTypes::Small);
+		missileManager->spawnMissile(t.X(), t.Y(), MEDIUM_MISSILE_SPEED, MissileTypes::Small);
 
 	// Update the background behaviour based on the player move
 	if (!wasForward && player->isMovingForward())
@@ -126,15 +129,15 @@ void Context::updateAI()
 	enemyManager->manageEnemySpawn();
 
 	// Update enemies position and animation
-	for (int i = 0; i < enemyManager->getEnemyCount(); i++)
+	for (int i = 0; i < enemyManager->getObjectCount(); i++)
 	{
-		enemyManager->getEnemy(i)->move();
-		enemyManager->getEnemy(i)->updateAnimation();
+		enemyManager->getObject(i)->move();
+		enemyManager->getObject(i)->updateAnimation();
 	}
 
 	// Indicate to the physics manager that the enemies have moved
-	for (int i = 0; i < enemyManager->getEnemyCount(); i++)
-		objectHasMoved(enemyManager->getEnemy(i));
+	for (int i = 0; i < enemyManager->getObjectCount(); i++)
+		objectHasMoved(enemyManager->getObject(i));
 
 	// Manage enemy out of screen
 	enemyManager->manageVectorSize(physicsManager);
@@ -143,15 +146,15 @@ void Context::updateAI()
 void Context::updateGameObjects()
 {
 	// Update missiles in progress and animation
-	for (int i = 0; i < missileManager->getMissileCount(); i++)
+	for (int i = 0; i < missileManager->getObjectCount(); i++)
 	{
-		missileManager->getMissile(i)->move();
-		missileManager->getMissile(i)->updateAnimation();
+		missileManager->getObject(i)->move();
+		missileManager->getObject(i)->updateAnimation();
 	}
 
 	// Indicate to the physics manager that the missiles have moved
-	for (int i = 0; i < missileManager->getMissileCount(); i++)
-		objectHasMoved(missileManager->getMissile(i));
+	for (int i = 0; i < missileManager->getObjectCount(); i++)
+		objectHasMoved(missileManager->getObject(i));
 
 	// Delete missile out of screen
 	missileManager->manageVectorSize(physicsManager);
@@ -204,16 +207,16 @@ void Context::render()
 	window->blitSurface(lifePointsSurface, 5, 5);
 
 	// Enemy blitting
-	for (int i = 0; i < enemyManager->getEnemyCount(); i++)
-		window->blitSurface(assetManager->getSurface(enemyManager->getEnemy(i)->getCurrentSpriteIndex()),
-			enemyManager->getEnemy(i)->getTransform().X(),
-			enemyManager->getEnemy(i)->getTransform().Y());
+	for (int i = 0; i < enemyManager->getObjectCount(); i++)
+		window->blitSurface(assetManager->getSurface(enemyManager->getObject(i)->getCurrentSpriteIndex()),
+			enemyManager->getObject(i)->getTransform().X(),
+			enemyManager->getObject(i)->getTransform().Y());
 
 	// Missiles in progress blitting
-	for (int i = 0; i < missileManager->getMissileCount(); i++)
-		window->blitSurface(assetManager->getSurface(missileManager->getMissile(i)->getCurrentSpriteIndex()),
-			missileManager->getMissile(i)->getTransform().X(),
-			missileManager->getMissile(i)->getTransform().Y());
+	for (int i = 0; i < missileManager->getObjectCount(); i++)
+		window->blitSurface(assetManager->getSurface(missileManager->getObject(i)->getCurrentSpriteIndex()),
+			missileManager->getObject(i)->getTransform().X(),
+			missileManager->getObject(i)->getTransform().Y());
 
 	// Flip screen
 	window->flipScreen();
@@ -249,15 +252,16 @@ void Context::handleReaction(GameObject* object, ReactionTypes reaction)
 	{
 		case ReactionTypes::Destroy:
 			if (object->getObjectType() == ObjectTypes::Enemy)
-				enemyManager->destroyEnemy((Enemy*)object);
+				enemyManager->destroyObject(object);
 			if (object->getObjectType() == ObjectTypes::Missile)
-				missileManager->destroyMissile((Missile*)object);
+				missileManager->destroyObject(object);
 			if (object->getObjectType() == ObjectTypes::Player)
 				gameOver();
 			break;
 		default:;
 	}
 }
+
 
 // Static member functions
 void Context::addGameObject(GameObject* object)
@@ -267,8 +271,8 @@ void Context::addGameObject(GameObject* object)
 
 void Context::deleteGameObject(GameObject* object)
 {
-	vector<GameObject*>::iterator it;
-	for (it = gameObjects.begin(); it != gameObjects.end(); it++)
+	vector<GameObject*>::iterator it = getGameObjectIterator(0);
+	for (; it != gameObjects.end(); it++)
 	{
 		if ((*it) == object)
 		{
@@ -281,8 +285,8 @@ void Context::deleteGameObject(GameObject* object)
 vector<GameObject*>::iterator Context::getGameObjectIterator(int i)
 {
 	vector<GameObject*>::iterator it = gameObjects.begin();
-	std::advance(it, i);
-
+	if (i > 0)
+		std::advance(it, i);
 	return it;
 }
 
