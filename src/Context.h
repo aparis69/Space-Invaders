@@ -33,6 +33,7 @@ private:
 	unsigned int lastPlayerLifePoints;
 	Background* background;
 	Window* window;
+	bool hasLoose;
 
 	// HUD variables
 	SDL_Color fontColor;
@@ -43,7 +44,7 @@ private:
 	// Update the background image position (scrolling)
 	void updateBackground();
 	// Update the player position and action based on input
-	void updatePlayer(Input& in);
+	void updatePlayer(Input&);
 	// Update enemies position and actions
 	void updateAI();
 	// Update other game object position and action, like missiles
@@ -65,7 +66,7 @@ public:
 	// Member functions
 	GameState update(Input& in);
 	void render();
-	bool gameOver();
+	void gameOver();
 
 	// Getter & Setter
 	Window* getWindow() const;

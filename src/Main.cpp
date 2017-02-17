@@ -31,14 +31,17 @@ void GameLoop()
 		unsigned int lastTime = SDL_GetTicks();
 
 		in.Update();
+
+		// Kind of a scene management here
 		if (currentState == MENU)
 			currentState = m.update(in);
 		else if (currentState == GAME)
 			currentState = c.update(in);
 		else if (currentState == GAME_OVER)
-			currentState = c.update(in);
+			currentState = m.update(in);
 		else if (currentState == QUIT)
 			break;
+
 		Window::sync(lastTime);
 	}
 }

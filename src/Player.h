@@ -22,6 +22,7 @@ public:
 
     ~Player();
 
+	void resetLifePoints();
     unsigned int getLifePoints() const;
     void loadSprites();
     void forward();

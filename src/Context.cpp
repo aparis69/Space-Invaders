@@ -56,6 +56,7 @@ void Context::initGameObjects()
 	player = new Player(PLAYER_SPEED);
 	background = new Background(SCROLL_SPEED);
 	lastPlayerLifePoints = 0;
+	hasLoose = false;
 }
 
 GameState Context::update(Input& in)
@@ -75,6 +76,14 @@ GameState Context::update(Input& in)
 
 void Context::updatePlayer(Input& in)
 {
+	// Check hasLoose boolean : only updated when transition from menu
+	// to game scene
+	if (hasLoose)
+	{
+		hasLoose = false;
+		player->resetLifePoints();
+	}
+
 	// Storing temporary object to improve readability
 	Transform t = player->getTransform();
 	bool wasForward = player->isMovingForward();
@@ -131,33 +140,31 @@ void Context::updateAI()
 	// Decide if new enemies spawn or not
 	enemyManager->manageEnemySpawn();
 
-	// Update enemies position and animation
 	for (int i = 0; i < enemyManager->getObjectCount(); i++)
 	{
+		// Update enemies position and animation
 		enemyManager->getObject(i)->move();
 		enemyManager->getObject(i)->updateAnimation();
-	}
-
-	// Indicate to the physics manager that the enemies have moved
-	for (int i = 0; i < enemyManager->getObjectCount(); i++)
+		
+		// Indicate to the physics manager that enemy has moved
 		objectHasMoved(enemyManager->getObject(i));
-
+	}
+	
 	// Manage enemy out of screen
 	enemyManager->manageVectorSize(physicsManager);
 }
 
 void Context::updateGameObjects()
 {
-	// Update missiles in progress and animation
 	for (int i = 0; i < missileManager->getObjectCount(); i++)
 	{
+		// Update missiles in progress and animation
 		missileManager->getObject(i)->move();
 		missileManager->getObject(i)->updateAnimation();
-	}
 
-	// Indicate to the physics manager that the missiles have moved
-	for (int i = 0; i < missileManager->getObjectCount(); i++)
+		// Indicate to the physics manager that missile has moved
 		objectHasMoved(missileManager->getObject(i));
+	}
 
 	// Delete missile out of screen
 	missileManager->manageVectorSize(physicsManager);
@@ -225,10 +232,9 @@ void Context::render()
 	window->flipScreen();
 }
 
-bool Context::gameOver()
+void Context::gameOver()
 {
-	// TO DO
-	return false;
+	hasLoose = true;
 }
 
 void Context::objectHasMoved(GameObject* movedObject)
@@ -269,8 +275,8 @@ void Context::determineGameState(Input& in, GameState& s)
 {
 	if (in.wasKeyUpped(MENU_KEY))
 		s = MENU;
-	else
-		s = GAME;
+	if (hasLoose)
+		s = GAME_OVER;
 }
 
 Window* Context::getWindow() const

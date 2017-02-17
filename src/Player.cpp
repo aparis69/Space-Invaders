@@ -77,13 +77,15 @@ ReactionTypes Player::reactToCollision(GameObject* hitObject)
 	{
 	case ObjectTypes::Enemy:
 		// currently re spawning the player into the start position
-		if (--lifePoints <= 0)
+		if ((--lifePoints) <= 0)
 			ret = ReactionTypes::Destroy;
 		else
 			ret = ReactionTypes::Nothing;
 		spawn();
+		break;
 	default:
 		ret = ReactionTypes::Nothing;
+		break;
 	}
 	return ret;
 }
@@ -97,4 +99,9 @@ void Player::spawn()
 {
 	transform.setX(X_SPAWN);
 	transform.setY(Y_SPAWN);
+}
+
+void Player::resetLifePoints()
+{
+	lifePoints = START_LP;
 }

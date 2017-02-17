@@ -26,6 +26,7 @@
 enum GameState
 {
 	MENU,
+	OPTION,
 	GAME,
 	GAME_OVER,
 	QUIT,
