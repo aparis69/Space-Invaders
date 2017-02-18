@@ -1,6 +1,7 @@
 #include "EnemyManager.h"
 #include "Enemy.h"
 #include "PhysicsManager.h"
+#include "MissileManager.h"
 #include "Window.h"
 #include "Params.h"
 #include <time.h>
@@ -84,10 +85,10 @@ void EnemyManager::randomSpawnPoint(int& x, int &y, int& xSpeed, int& ySpeed)
 	// Up side
 	else if (side < 66)
 	{
-		x = rand() % Window::XRES;
+		x = rand() % (Window::XRES - 50);
 		y = 0;
 		xSpeed = 0;
-		ySpeed = -25;
+		ySpeed = -45;
 	}
 	// Right side
 	else

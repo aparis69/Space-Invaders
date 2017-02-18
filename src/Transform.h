@@ -1,14 +1,19 @@
-#pragma once
+#ifndef TRANSFORM_H
+#define TRANSFORM_H
+
+#include "Vec2.h"
 
 class Transform
 {
 private:
 	// Current positions of object on screen (pixels)
-	int x, y;
+	Vec2 position;
+	// Current rotation
+	Vec2 rotation;
 	// Size of the game object
-	int xSize, ySize;
+	Vec2 size;
 	// Speeds of the object in pixels/ms
-	int xSpeed, ySpeed;
+	Vec2 speed;
 
 public:
 	// Constructors & Destructor
@@ -21,6 +26,11 @@ public:
 	void setX(int);
 	void setY(int);
 
+	int XRotation() const;
+	int YRotation() const;
+	void setXRotation(int);
+	void setYRotation(int);
+
 	int XSize() const;
 	int YSize() const;
 	void setXSize(int);
@@ -31,3 +41,5 @@ public:
 	void SetXSpeed(int);
 	void SetYSpeed(int);
 };
+
+#endif // !TRANSFORM_H

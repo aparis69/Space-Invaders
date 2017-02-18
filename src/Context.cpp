@@ -16,12 +16,15 @@ using namespace std;
 
 /*
 TO DO
+-Timer pour collision : notamment sur les hit de missile
+-Clean code with vec2 argument all the waaaay
+-Introduce proper rotation
 -Gérer collisions multiples : Context::ObjectHasMoved
 -Gestion de layers pour les collisions
 -ExplosionEffect/ParticleEffects
 */
 
-// Init static array of gameObjects
+// Init static array of gameObjects : all object in game scene
 vector<GameObject*> Context::gameObjects = vector<GameObject*>();
 
 // Constructors & Destructor
@@ -46,14 +49,14 @@ Context::~Context()
 {
 	gameObjects.clear();
 
+	SDL_FreeSurface(lifePointsSurface);
+	AssetManager::releaseData();
 	delete player;
 	delete background;
 	delete missileManager;
 	delete physicsManager;
 	delete enemyManager;
-	AssetManager::releaseData();
 	delete window;
-	SDL_FreeSurface(lifePointsSurface);
 }
 
 
@@ -68,17 +71,17 @@ void Context::initGameObjects()
 
 GameState Context::update(Input& in)
 {
-	GameState s = GAME;
+	GameState nextState = GAME;
 
 	updatePlayer(in);
 	updateAI();
 	updateGameObjects();
 	updateBackground();
-	determineGameState(in, s);
+	determineGameState(in, nextState);
 
 	render();
 
-	return s;
+	return nextState;
 }
 
 void Context::updatePlayer(Input& in)
@@ -125,11 +128,14 @@ void Context::updatePlayer(Input& in)
 	if (in.Key(SDLK_RIGHT) && !physicsManager->isOutOfScreen(t.X() + player->moveValueX(false), t.Y(), t.XSize(), t.YSize())) // right
 		player->moveX(false);
 	if (in.Key(SDLK_e)) // Shoot medium missile
-		missileManager->spawnMissile(t.X(), t.Y(), MissileTypes::Medium);
+		player->shoot(missileManager, MissileTypes::Medium);
 	if (in.Key(SDLK_SPACE)) // Shoot small missile (two by two)
 	{
-		missileManager->spawnMissile(t.X() + 60, t.Y(), MissileTypes::Small, true);
-		missileManager->spawnMissile(t.X() + 30, t.Y(), MissileTypes::Small);
+		Transform p = player->getTransform();
+		p.setX(p.X() + 30);
+		player->shoot(missileManager, MissileTypes::Small, true, &p);
+		p.setX(p.X() + 30);
+		player->shoot(missileManager, MissileTypes::Small, false, &p);
 	}
 
 	// Update the background behaviour based on the player move
@@ -151,15 +157,17 @@ void Context::updateAI()
 {
 	// Decide if new enemies spawn or not
 	enemyManager->manageEnemySpawn();
-
+	GameObject* o = nullptr;
 	for (int i = 0; i < enemyManager->getObjectCount(); i++)
 	{
 		// Update enemies position and animation
-		enemyManager->getObject(i)->move();
-		enemyManager->getObject(i)->updateAnimation();
+		o = enemyManager->getObject(i);
+		o->shoot(missileManager, MissileTypes::Small, false, nullptr, false);
+		o->move();
+		o->updateAnimation();
 		
 		// Indicate to the physics manager that enemy has moved
-		objectHasMoved(enemyManager->getObject(i));
+		objectHasMoved(o);
 	}
 	
 	// Manage enemy out of screen

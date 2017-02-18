@@ -3,6 +3,8 @@
 #include "Types.h"
 #include "Transform.h"
 
+class MissileManager;
+
 class GameObject
 {
 protected:
@@ -24,12 +26,16 @@ protected:
     // Ticks when sprite was changed for animation
     int ticksSinceAnim;
 
+	int* spawnTimers;
+	int* spawnDelays;
+
 public:
     // Constructors & Destructor
     GameObject();
     virtual ~GameObject();
 
     // Member functions
+	virtual void shoot(MissileManager*, MissileTypes t = MissileTypes::Small, bool ignoreDelay = false, Transform* p = nullptr, bool upward = true);
     void updateAnimation();
     void loadSpriteSize();
 

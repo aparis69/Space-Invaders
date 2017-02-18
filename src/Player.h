@@ -5,35 +5,34 @@
 class Player : public GameObject
 {
 private:
-    bool movingForward, movingBackward;
-    unsigned int lifePoints;
+	bool movingForward, movingBackward;
+	unsigned int lifePoints;
 
-    /** \brief Resets player's position.
-     *
-     * \return void
-     *
-     */
-    void spawn();
+	/** \brief Resets player's position.
+	 *
+	 * \return void
+	 *
+	 */
+	void spawn();
 
 public:
-    // Constructor & Destructor
-    Player();
-
-    ~Player();
+	// Constructor & Destructor
+	Player();
+	~Player();
 
 	void resetLifePoints();
-    unsigned int getLifePoints() const;
-    void loadSprites();
-    void forward();
-    void backward();
+	unsigned int getLifePoints() const;
+	void loadSprites();
+	void forward();
+	void backward();
 
-    /** \brief Stops forward of backward movement.
-     *
-     * \return void
-     *
-     */
-    void stop();
-    bool isMovingForward() const;
-    bool isMovingBackward() const;
-    ReactionTypes reactToCollision(GameObject* hitObject);
+	/** \brief Stops forward of backward movement.
+	 *
+	 * \return void
+	 *
+	 */
+	void stop();
+	bool isMovingForward() const;
+	bool isMovingBackward() const;
+	ReactionTypes reactToCollision(GameObject* hitObject);
 };

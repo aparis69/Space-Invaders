@@ -6,6 +6,8 @@ Enemy::Enemy(void)
 	enemyType = EnemyType::Easy;
 	numberOfSprite = 4;
 	currentSprite = 0;
+	transform.setXRotation(0);
+	transform.setYRotation(-1);
 }
 
 Enemy::Enemy(int xPos, int yPos, int xSpeed, int ySpeed, EnemyType etype)
@@ -17,6 +19,9 @@ Enemy::Enemy(int xPos, int yPos, int xSpeed, int ySpeed, EnemyType etype)
 	transform.SetXSpeed(xSpeed);
 	transform.SetYSpeed(ySpeed);
 	currentSprite = 0;
+	transform.setXRotation(0);
+	transform.setYRotation(-1);
+
 	loadSprites();
 	loadSpriteSize();
 }

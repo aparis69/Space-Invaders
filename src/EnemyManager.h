@@ -1,6 +1,7 @@
 #pragma once
 #include <vector>
 #include "ObjectManager.h"
+
 class Enemy;
 class PhysicsManager;
 
@@ -23,7 +24,7 @@ private:
 public:
     // Constructor & Destructor
     EnemyManager();
-    ~EnemyManager();
+	~EnemyManager();
 
     // Member functions
     void manageEnemySpawn();

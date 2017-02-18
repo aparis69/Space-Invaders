@@ -4,15 +4,15 @@
 class Enemy : public GameObject
 {
 private:
-    EnemyType enemyType;
+	EnemyType enemyType;
 
 public:
-    // Constructors & Destructor
-    Enemy();
-    Enemy(int, int, int, int, EnemyType);
-    ~Enemy();
+	// Constructors & Destructor
+	Enemy();
+	Enemy(int, int, int, int, EnemyType);
+	~Enemy();
 
-    // Member functions
-    void loadSprites();
-    ReactionTypes reactToCollision(GameObject*);
+	// Member functions
+	void loadSprites();
+	ReactionTypes reactToCollision(GameObject*);
 };

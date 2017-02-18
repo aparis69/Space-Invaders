@@ -10,6 +10,8 @@ Player::Player()
 	currentSprite = 0;
 	animDuration = 50;
 	lifePoints = START_LP;
+	transform.setXRotation(0);
+	transform.setYRotation(1);
 
 	loadSprites();
 	loadSpriteSize();
@@ -61,6 +63,7 @@ ReactionTypes Player::reactToCollision(GameObject* hitObject)
 	switch (hitObject->getObjectType())
 	{
 	case ObjectTypes::Enemy:
+	case ObjectTypes::Missile:
 		// currently re spawning the player into the start position
 		if ((--lifePoints) <= 0)
 			ret = ReactionTypes::Destroy;
