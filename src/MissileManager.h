@@ -3,7 +3,7 @@
 #include <chrono>
 #include "ObjectManager.h"
 #include "SDLinclude.h"
-#include "MissileTypes.h"
+#include "Types.h"
 
 class Missile;
 class PhysicsManager;

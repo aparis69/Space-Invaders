@@ -1,7 +1,6 @@
 #pragma once
 #include "SDLinclude.h"
-#include "ReactionTypes.h"
-#include "ObjectTypes.h"
+#include "Types.h"
 #include "Transform.h"
 
 class GameObject

@@ -1,7 +1,7 @@
 #pragma once
 
 #include "Input.h"
-#include "ReactionTypes.h"
+#include "Types.h"
 #include "Params.h"
 
 #include <vector>
@@ -22,8 +22,7 @@ private:
 	// Static array of all the gameObject in the scene
 	static std::vector<GameObject*> gameObjects;
 
-	// Managers
-	AssetManager* assetManager;
+	// Manager
 	MissileManager* missileManager;
 	PhysicsManager* physicsManager;
 	EnemyManager* enemyManager;

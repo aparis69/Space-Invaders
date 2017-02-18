@@ -19,7 +19,6 @@ TO DO
 -Gérer collisions multiples : Context::ObjectHasMoved
 -Gestion de layers pour les collisions
 -ExplosionEffect/ParticleEffects
--AssetManager static
 */
 
 // Init static array of gameObjects
@@ -30,7 +29,7 @@ Context::Context()
 {
 	// Init Window and Managers
 	window = new Window(WINDOW_SIZE_X, WINDOW_SIZE_Y, WINDOW_FPS, WINDOW_TITLE);
-	assetManager = new AssetManager();
+	AssetManager::init();
 	physicsManager = new PhysicsManager();
 	missileManager = new MissileManager();
 	enemyManager = new EnemyManager();
@@ -52,7 +51,7 @@ Context::~Context()
 	delete missileManager;
 	delete physicsManager;
 	delete enemyManager;
-	delete assetManager;
+	AssetManager::releaseData();
 	delete window;
 	SDL_FreeSurface(lifePointsSurface);
 }
@@ -188,7 +187,7 @@ void Context::render()
 {
 	// Background directly blitted to make scrolling work
 	SDL_Rect pos = background->getPosition();
-	SDL_Surface* backgroundSurface = assetManager->getSurface(background->getCurrentSpriteIndex());
+	SDL_Surface* backgroundSurface = AssetManager::getSurface(background->getCurrentSpriteIndex());
 	if (pos.y >= 0)
 		SDL_BlitSurface(backgroundSurface, &pos, window->getSurface(), NULL);
 	else
@@ -208,7 +207,7 @@ void Context::render()
 	}
 
 	// Player blitting
-	window->blitSurface(assetManager->getSurface(player->getCurrentSpriteIndex()),
+	window->blitSurface(AssetManager::getSurface(player->getCurrentSpriteIndex()),
 		player->getTransform().X(),
 		player->getTransform().Y());
 
@@ -226,13 +225,13 @@ void Context::render()
 
 	// Enemy blitting
 	for (int i = 0; i < enemyManager->getObjectCount(); i++)
-		window->blitSurface(assetManager->getSurface(enemyManager->getObject(i)->getCurrentSpriteIndex()),
+		window->blitSurface(AssetManager::getSurface(enemyManager->getObject(i)->getCurrentSpriteIndex()),
 			enemyManager->getObject(i)->getTransform().X(),
 			enemyManager->getObject(i)->getTransform().Y());
 
 	// Missiles in progress blitting
 	for (int i = 0; i < missileManager->getObjectCount(); i++)
-		window->blitSurface(assetManager->getSurface(missileManager->getObject(i)->getCurrentSpriteIndex()),
+		window->blitSurface(AssetManager::getSurface(missileManager->getObject(i)->getCurrentSpriteIndex()),
 			missileManager->getObject(i)->getTransform().X(),
 			missileManager->getObject(i)->getTransform().Y());
 
@@ -256,7 +255,7 @@ void Context::objectHasMoved(GameObject* movedObject)
 		ReactionTypes hitObjectAction = hitObject->reactToCollision(movedObject);
 
 		// Handle the reactions of the two objects
-		handleReaction(movedObject, movedObjectAction);²
+		handleReaction(movedObject, movedObjectAction);
 		handleReaction(hitObject, hitObjectAction);
 	}
 }

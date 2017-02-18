@@ -1,14 +1,28 @@
 #include "AssetManager.h"
+#include <iostream>
 using namespace std;
 
 std::vector<SDL_Surface*> AssetManager::graphicsRessources = std::vector<SDL_Surface*>();
+std::vector<SDL_Surface*>::iterator AssetManager::gIt = std::vector<SDL_Surface*>::iterator();
 
 AssetManager::AssetManager(void)
+{
+	std::cout << "Error : Asset Manager constructor called - Singleton & Static should not be instancied" << std::endl;
+}
+
+AssetManager::~AssetManager(void)
+{
+	for (gIt = graphicsRessources.begin(); gIt != graphicsRessources.end(); gIt++)
+		SDL_FreeSurface(*gIt);
+	graphicsRessources.clear();
+}
+
+void AssetManager::init()
 {
 	loadRessources();
 }
 
-AssetManager::~AssetManager(void)
+void AssetManager::releaseData()
 {
 	for (gIt = graphicsRessources.begin(); gIt != graphicsRessources.end(); gIt++)
 		SDL_FreeSurface(*gIt);
@@ -66,12 +80,12 @@ int AssetManager::getSpriteYSize(int index)
 	return graphicsRessources.at(index)->h;
 }
 
-SDL_Surface* AssetManager::getSurface(int index) const
+SDL_Surface* AssetManager::getSurface(int index)
 {
 	return graphicsRessources.at(index);
 }
 
-int AssetManager::getSurfaceCount() const
+int AssetManager::getSurfaceCount()
 {
 	return graphicsRessources.size();
 }
