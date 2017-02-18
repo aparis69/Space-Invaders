@@ -3,23 +3,8 @@
 Player::Player()
 {
 	type = ObjectTypes::Player;
-
-	transform.setX(93);
-	transform.setY(97);
-
-	spawn();
-	numberOfSprite = 4;
-	currentSprite = 0;
-	animDuration = 50;
-	lifePoints = START_LP;
-	loadSprites();
-}
-
-Player::Player(int speed)
-{
-	type = ObjectTypes::Player;
-	transform.SetXSpeed(speed);
-	transform.SetYSpeed(speed);
+	transform.SetXSpeed(PLAYER_SPEED);
+	transform.SetYSpeed(PLAYER_SPEED);
 	spawn();
 	numberOfSprite = 4;
 	currentSprite = 0;

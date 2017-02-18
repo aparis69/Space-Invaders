@@ -14,6 +14,14 @@
 
 using namespace std;
 
+/*
+TO DO
+-Gérer collisions multiples : Context::ObjectHasMoved
+-Gestion de layers pour les collisions
+-ExplosionEffect/ParticleEffects
+-AssetManager static
+*/
+
 // Init static array of gameObjects
 vector<GameObject*> Context::gameObjects = vector<GameObject*>();
 
@@ -53,8 +61,8 @@ Context::~Context()
 // Member Functions
 void Context::initGameObjects()
 {
-	player = new Player(PLAYER_SPEED);
-	background = new Background(SCROLL_SPEED);
+	player = new Player();
+	background = new Background();
 	lastPlayerLifePoints = 0;
 	hasLoose = false;
 }
@@ -248,7 +256,7 @@ void Context::objectHasMoved(GameObject* movedObject)
 		ReactionTypes hitObjectAction = hitObject->reactToCollision(movedObject);
 
 		// Handle the reactions of the two objects
-		handleReaction(movedObject, movedObjectAction);
+		handleReaction(movedObject, movedObjectAction);²
 		handleReaction(hitObject, hitObjectAction);
 	}
 }
@@ -256,7 +264,7 @@ void Context::objectHasMoved(GameObject* movedObject)
 void Context::handleReaction(GameObject* object, ReactionTypes reaction)
 {
 	// For now, the context only handle destruction of the gameobject
-	// The other types of reactions are handled by the gameobject itself
+	// The others are handled by the gameobject itself
 	switch (reaction)
 	{
 		case ReactionTypes::Destroy:

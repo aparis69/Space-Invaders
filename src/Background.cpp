@@ -4,7 +4,7 @@
 
 #include <iostream>
 
-Background::Background(int scrollSpeed)
+Background::Background()
 {
 	type = ObjectTypes::Other;
 	currentSprite = 0;
@@ -12,7 +12,7 @@ Background::Background(int scrollSpeed)
 	scroll.y = 480;
 	scroll.w = 640;
 	scroll.h = 480;
-	this->scrollSpeed = scrollSpeed;
+	this->scrollSpeed = SCROLL_SPEED;
 	lastScroll = SDL_GetTicks();
 
 	loadSprites();

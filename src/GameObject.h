@@ -20,9 +20,9 @@ protected:
     // size of the sprite* array
     int numberOfSprite;
 
-    //Animation duration in ms (time a sprite stays on screen)
+    // Animation duration in ms (time a sprite stays on screen)
     int animDuration;
-    //Ticks when sprite was changed for animation
+    // Ticks when sprite was changed for animation
     int ticksSinceAnim;
 
 public:

@@ -13,8 +13,8 @@ private:
 
 public:
     // Constructor & Destructor
-    Background(int scrollSpeed);
-    ~Background(void);
+	Background();
+    ~Background();
 
     // Member functions
     void updateScroll();
