@@ -15,11 +15,17 @@
 #define MENU_KEY SDLK_m
 
 // Spawning settings
-#define ENEMY_SPAWN_DELAY 1000
-#define MISSILE_SPAWN_DELAY 500
+#define ENEMY_SPAWN_DELAY 500
+
+// Missile settings
+#define SMALL_MISSILE_SPEED 100
+#define MEDIUM_MISSILE_SPEED 50
+#define BIG_MISSILE_SPEED 100
+
+#define SMALL_MISSILE_SPAWN_DELAY 100
+#define MEDIUM_MISSILE_SPAWN_DELAY 500
 
 // Other settings
-#define MEDIUM_MISSILE_SPEED 50
 #define SCROLL_SPEED 300
 #define SPEED_ADJUST 100
 

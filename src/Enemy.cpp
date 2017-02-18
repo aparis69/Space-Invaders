@@ -63,10 +63,7 @@ ReactionTypes Enemy::reactToCollision(GameObject* hitObject)
 	switch (hitObject->getObjectType())
 	{
 	case ObjectTypes::Enemy:
-		transform.SetXSpeed(transform.XSpeed() * - 1);
-		transform.SetYSpeed(transform.YSpeed() * -1);
-		move();
-		return ReactionTypes::ChangeDirection;
+		return ReactionTypes::Nothing;
 	default:
 		return ReactionTypes::Destroy;
 	}

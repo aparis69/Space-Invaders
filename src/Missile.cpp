@@ -11,8 +11,6 @@ Missile::Missile(void)
 Missile::Missile(int xPos, int yPos, int speed, MissileTypes mtype)
 {
 	type = ObjectTypes::Missile;
-	numberOfSprite = 4;
-	currentSprite = 0;
 	transform.setX(xPos);
 	transform.setY(yPos);
 	transform.SetXSpeed(0);
@@ -31,11 +29,24 @@ Missile::~Missile(void)
 
 void Missile::loadSprites()
 {
-	sprite = new int[numberOfSprite];
-	sprite[0] = 5;
-	sprite[1] = 6;
-	sprite[2] = 7;
-	sprite[3] = 8;
+	switch (missileTypes)
+	{
+	case MissileTypes::Small:
+		numberOfSprite = 1;
+		sprite = new int[numberOfSprite];
+		sprite[0] = 18;
+		break;
+	case MissileTypes::Medium:
+		numberOfSprite = 4;
+		sprite = new int[numberOfSprite];
+		sprite[0] = 5;
+		sprite[1] = 6;
+		sprite[2] = 7;
+		sprite[3] = 8;
+		break;
+	case MissileTypes::Big:
+		break;
+	}
 }
 
 ReactionTypes Missile::reactToCollision(GameObject* hitObject)

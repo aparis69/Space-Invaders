@@ -124,8 +124,13 @@ void Context::updatePlayer(Input& in)
 		player->moveX();
 	if (in.Key(SDLK_RIGHT) && !physicsManager->isOutOfScreen(t.X() + player->moveValueX(false), t.Y(), t.XSize(), t.YSize())) // right
 		player->moveX(false);
-	if (in.Key(SDLK_SPACE)) // Shoot missile
-		missileManager->spawnMissile(t.X(), t.Y(), MEDIUM_MISSILE_SPEED, MissileTypes::Small);
+	if (in.Key(SDLK_e)) // Shoot medium missile
+		missileManager->spawnMissile(t.X(), t.Y(), MissileTypes::Medium);
+	if (in.Key(SDLK_SPACE)) // Shoot small missile (two by two)
+	{
+		missileManager->spawnMissile(t.X() + 60, t.Y(), MissileTypes::Small, true);
+		missileManager->spawnMissile(t.X() + 30, t.Y(), MissileTypes::Small);
+	}
 
 	// Update the background behaviour based on the player move
 	if (!wasForward && player->isMovingForward())

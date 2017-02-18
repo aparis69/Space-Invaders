@@ -31,6 +31,11 @@ void AssetManager::releaseData()
 
 void AssetManager::loadRessources()
 {
+	/*
+	images[i] = SDL_CreateRGBSurface(SDL_HWSURFACE, 1, 10, 32, 255, 255, 255, 0); // Attaque de base indice 9
+	SDL_FillRect(images[i], NULL, 255);
+	*/
+
 	// Background : 0
 	graphicsRessources.push_back(loadImage("Assets/Background/Background01.bmp"));
 
@@ -60,6 +65,11 @@ void AssetManager::loadRessources()
 	graphicsRessources.push_back(loadImage("Assets/Spaceships/ShipM02.bmp"));
 	graphicsRessources.push_back(loadImage("Assets/Spaceships/ShipM03.bmp"));
 	graphicsRessources.push_back(loadImage("Assets/Spaceships/ShipM04.bmp"));
+
+	// Player basic attack : 18
+	SDL_Surface* basicAttack = SDL_CreateRGBSurface(SDL_HWSURFACE, 1, 15, 32, 255, 255, 255, 0);
+	SDL_FillRect(basicAttack, NULL, 255);
+	graphicsRessources.push_back(basicAttack);
 }
 
 SDL_Surface* AssetManager::loadImage(char const *file)
