@@ -17,21 +17,14 @@ PhysicsManager::~PhysicsManager()
 GameObject* PhysicsManager::collideWith(GameObject* movedObject)
 {
     vector<GameObject*>::iterator it;
-	Transform t = movedObject->getTransform();
-	int x = t.X();
-	int y = t.Y();
-	int xSize = t.XSize();
-	int ySize = t.YSize();
-
+	Transform a = movedObject->getTransform();
     for (int i = 0 ; i < Context::getGameObjectCount() ; i++)
     {
         it = Context::getGameObjectIterator(i);
-
 		if ((*it) != movedObject)
 		{
-			Transform itT = (*it)->getTransform();
-			if (collideWithGameObject(x, y, xSize, ySize, 
-									  itT.X(), itT.Y(), itT.XSize(), itT.YSize()))
+			Transform b = (*it)->getTransform();
+			if (collideWithGameObject(a, b))
 				return (*it);
 		}
     }
@@ -39,24 +32,23 @@ GameObject* PhysicsManager::collideWith(GameObject* movedObject)
 }
 
 
-bool PhysicsManager::collideWithGameObject(int xPosM, int yPosM, int xSizeM, int ySizeM,
-                                           int xPosE, int yPosE, int xSizeE, int ySizeE)
+bool PhysicsManager::collideWithGameObject(Transform a, Transform b)
 {
-    if(xPosM + xSizeM <= xPosE ||
-        xPosM >= xPosE + xSizeE ||
-        yPosM + ySizeM <= yPosE ||
-        yPosM >= yPosE + ySizeE)
+    if(a.X() + a.XSize() <= b.X() ||
+        a.X() >= b.X() + b.XSize() ||
+        a.Y() + a.YSize() <= b.Y()||
+        a.Y() >= b.Y() + b.YSize())
         return false;
     return true;
 }
 
 
-bool PhysicsManager::isOutOfScreen(int xPos, int yPos, int xSize, int ySize)
+bool PhysicsManager::isOutOfScreen(Transform t)
 {
-    if (xPos + xSize >= Window::XRES 
-		|| yPos + ySize >= Window::YRES 
-		|| xPos <= 0 
-		|| yPos <= 0)
+    if (t.X() + t.XSize() >= Window::XRES 
+		|| t.Y() + t.YSize() >= Window::YRES 
+		|| t.X() <= 0 
+		|| t.Y() <= 0)
         return true;
     return false;
 }

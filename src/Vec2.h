@@ -12,6 +12,9 @@ public:
 	Vec2(int, int);
 	~Vec2();
 
+	// Operator overloading
+	bool operator==(const Vec2&) const;
+
 	// Member function
 	int& operator[](int);
 	const int& getX() const;

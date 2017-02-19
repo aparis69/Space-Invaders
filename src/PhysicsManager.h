@@ -1,11 +1,12 @@
 #pragma once
+#include "Transform.h"
+
 class GameObject;
 
 class PhysicsManager
 {
 private:
-    bool collideWithGameObject(int xPosM, int yPosM, int xSizeM, int ySizeM,
-                               int xPosE, int yPosE, int xSizeE, int ySizeE);
+    bool collideWithGameObject(Transform, Transform);
 
 public:
     // Constructors & Destructor
@@ -16,5 +17,5 @@ public:
     GameObject* collideWith(GameObject*);
     
     // Take some positions and size and return true of the object is out of screen
-    bool isOutOfScreen(int, int, int = 0, int = 0);
+    bool isOutOfScreen(Transform);
 };

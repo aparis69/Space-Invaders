@@ -5,6 +5,7 @@
 
 #include <SDL_ttf.h>
 #include <vector>
+
 class Window;
 
 class Menu

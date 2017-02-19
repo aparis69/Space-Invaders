@@ -22,6 +22,10 @@ private:
 	// Static array of all the gameObject in the scene
 	static std::vector<GameObject*> gameObjects;
 
+	// Temporary array : store the object that will be destroyed at the end of the frame
+	std::vector<GameObject*> objectsToDestroy;
+	std::vector<GameObject*>::iterator oIt;
+
 	// Manager
 	MissileManager* missileManager;
 	PhysicsManager* physicsManager;
@@ -48,6 +52,8 @@ private:
 	void updateAI();
 	// Update other game object position and action, like missiles
 	void updateGameObjects();
+	// Destroy object no longer needed
+	void cleanGameScene();
 
 	// Determine the GameState of the next frame
 	void determineGameState(Input&, GameState&);
@@ -71,6 +77,7 @@ public:
 	Window* getWindow() const;
 
 	// Static function, interact with the gameObject array
+	static std::vector<GameObject*>& getGameObjects();
 	static void addGameObject(GameObject* object);
 	static void deleteGameObject(GameObject* object);
 	static std::vector<GameObject*>::iterator getGameObjectIterator(int i);

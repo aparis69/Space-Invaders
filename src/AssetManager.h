@@ -1,5 +1,6 @@
 #pragma once
 #include "SDLinclude.h"
+#include "Vec2.h"
 #include <vector>
 
 class AssetManager
@@ -23,9 +24,8 @@ public:
 	static void init();
 	static void releaseData();
 
-    // Return X/Y Size of an asset based on his index in the vector
-    static int getSpriteXSize(int);
-    static int getSpriteYSize(int);
+    // Return Size of an asset based on his index in the vector
+	static Vec2 getSpriteSize(int);
 
     // Getter & Setter
     static SDL_Surface* getSurface(int);

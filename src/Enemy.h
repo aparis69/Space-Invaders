@@ -9,7 +9,7 @@ private:
 public:
 	// Constructors & Destructor
 	Enemy();
-	Enemy(int, int, int, int, EnemyType);
+	Enemy(Vec2, Vec2, EnemyType);
 	~Enemy();
 
 	// Member functions

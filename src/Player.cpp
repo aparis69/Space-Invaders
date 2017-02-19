@@ -17,7 +17,7 @@ Player::Player()
 	loadSpriteSize();
 }
 
-Player::~Player(void)
+Player::~Player()
 {
 }
 
@@ -59,17 +59,29 @@ void Player::stop()
 
 ReactionTypes Player::reactToCollision(GameObject* hitObject)
 {
-	ReactionTypes ret;
+	ReactionTypes ret = ReactionTypes::Nothing;
+	if (!castCollision) 
+		return ret;
+	
 	switch (hitObject->getObjectType())
 	{
 	case ObjectTypes::Enemy:
 	case ObjectTypes::Missile:
-		// currently re spawning the player into the start position
-		if ((--lifePoints) <= 0)
-			ret = ReactionTypes::Destroy;
-		else
-			ret = ReactionTypes::Nothing;
-		spawn();
+		// Check if missile is from the player
+		if (isOurs(hitObject->getParent()))
+			break;
+		collisionTimer = SDL_GetTicks() + COLLISION_DELAY;
+		castCollision = false;
+
+		if (INVINCIBLE == false)
+		{
+			// currently re spawning the player into the start position
+			if ((--lifePoints) <= 0)
+				ret = ReactionTypes::Destroy;
+			else
+				ret = ReactionTypes::Nothing;
+			spawn();
+		}
 		break;
 	default:
 		ret = ReactionTypes::Nothing;

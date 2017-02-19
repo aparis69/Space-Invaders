@@ -1,6 +1,6 @@
 #include "Missile.h"
 
-Missile::Missile(void)
+Missile::Missile()
 {
 	type = ObjectTypes::Missile;
 	numberOfSprite = 4;
@@ -8,11 +8,11 @@ Missile::Missile(void)
 	animDuration = 0;
 }
 
-Missile::Missile(int xPos, int yPos, int speed, MissileTypes mtype)
+Missile::Missile(Vec2 pos, int speed, MissileTypes mtype, GameObject* p)
 {
+	parent = p;
 	type = ObjectTypes::Missile;
-	transform.setX(xPos);
-	transform.setY(yPos);
+	transform.setPosition(pos);
 	transform.SetXSpeed(0);
 	transform.SetYSpeed(speed);
 
@@ -23,7 +23,7 @@ Missile::Missile(int xPos, int yPos, int speed, MissileTypes mtype)
 	loadSpriteSize();
 }
 
-Missile::~Missile(void)
+Missile::~Missile()
 {
 }
 
@@ -51,7 +51,12 @@ void Missile::loadSprites()
 
 ReactionTypes Missile::reactToCollision(GameObject* hitObject)
 {
-	if (hitObject->getObjectType() != ObjectTypes::Player)
-		return ReactionTypes::Destroy;
+	ReactionTypes ret = ReactionTypes::Nothing;
+	GameObject* hitObjectParent = hitObject->getParent();
+	// Missile check if its shooting its own parent
+	if (hitObjectParent != nullptr && parent != nullptr && *parent == *hitObjectParent)
+		ret = ReactionTypes::Nothing;
+	else
+		ret = ReactionTypes::Destroy;
 	return ReactionTypes::Nothing;
 }

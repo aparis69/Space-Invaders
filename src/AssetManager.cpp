@@ -67,7 +67,7 @@ void AssetManager::loadRessources()
 	graphicsRessources.push_back(loadImage("Assets/Spaceships/ShipM04.bmp"));
 
 	// Player basic attack : 18
-	SDL_Surface* basicAttack = SDL_CreateRGBSurface(SDL_HWSURFACE, 1, 15, 32, 255, 255, 255, 0);
+	SDL_Surface* basicAttack = SDL_CreateRGBSurface(SDL_HWSURFACE, 5, 15, 32, 255, 0, 0, 0);
 	SDL_FillRect(basicAttack, NULL, 255);
 	graphicsRessources.push_back(basicAttack);
 }
@@ -80,14 +80,9 @@ SDL_Surface* AssetManager::loadImage(char const *file)
 	return optImg;
 }
 
-int AssetManager::getSpriteXSize(int index)
+Vec2 AssetManager::getSpriteSize(int index)
 {
-	return graphicsRessources.at(index)->w;
-}
-
-int AssetManager::getSpriteYSize(int index)
-{
-	return graphicsRessources.at(index)->h;
+	return Vec2(graphicsRessources.at(index)->w, graphicsRessources.at(index)->h);
 }
 
 SDL_Surface* AssetManager::getSurface(int index)

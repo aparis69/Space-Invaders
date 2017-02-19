@@ -15,6 +15,13 @@ Vec2::~Vec2()
 {
 }
 
+bool Vec2::operator==(const Vec2 & v) const
+{
+	if (c[0] == v.c[0] && c[1] == v.c[1])
+		return true;
+	return false;
+}
+
 int& Vec2::operator[](int i)
 {
 	return c[i];

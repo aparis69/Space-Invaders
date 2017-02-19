@@ -1,6 +1,6 @@
 #include <iostream>
 #include <time.h>
-// #include <vld.h> // Comment this line if you don't want to detect memory leaks (visual leaks extension, VS2015)
+#include <vld.h> // Comment this line if you don't want to detect memory leaks (visual leaks extension, VS2015)
 
 #include "Input.h"
 #include "Context.h"

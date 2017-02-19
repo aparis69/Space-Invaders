@@ -39,11 +39,11 @@ void EnemyManager::manageEnemySpawn()
 void EnemyManager::spawnNewEnemy()
 {
 	// These variables are intialized in randomSpawnPoint() by reference
-	int x, y, xSpeed, ySpeed;
-	randomSpawnPoint(x, y, xSpeed, ySpeed);
+	Vec2 pos, speed;
+	randomSpawnPoint(pos, speed);
 	int enemyType = getRandomEnemyType();
 
-	objectsOnScreen.push_back(new Enemy(x, y, xSpeed, ySpeed, (EnemyType)enemyType));
+	objectsOnScreen.push_back(new Enemy(pos, speed, (EnemyType)enemyType));
 	updateProbabilities();
 }
 
@@ -71,31 +71,31 @@ void EnemyManager::updateProbabilities()
 	}
 }
 
-void EnemyManager::randomSpawnPoint(int& x, int &y, int& xSpeed, int& ySpeed)
+void EnemyManager::randomSpawnPoint(Vec2& pos, Vec2& speed)
 {
 	int side = rand() % 100;
 	// Left side
 	if (side < 33)
 	{
-		y = rand() % Window::YRES / 2;
-		x = 0;
-		xSpeed = -15;
-		ySpeed = 0;
+		pos[1] = rand() % Window::YRES / 2;
+		pos[0] = 0;
+		speed[0] = -15;
+		speed[1] = 0;
 	}
 	// Up side
 	else if (side < 66)
 	{
-		x = rand() % (Window::XRES - 50);
-		y = 0;
-		xSpeed = 0;
-		ySpeed = -45;
+		pos[0] = rand() % (Window::XRES - 50);
+		pos[1] = 0;
+		speed[0] = 0;
+		speed[1] = -45;
 	}
 	// Right side
 	else
 	{
-		y = rand() % Window::YRES / 2;
-		x = Window::XRES;
-		xSpeed = 15;
-		ySpeed = 0;
+		pos[1] = rand() % Window::YRES / 2;
+		pos[0] = Window::XRES;
+		speed[0] = 15;
+		speed[1] = 0;
 	}
 }

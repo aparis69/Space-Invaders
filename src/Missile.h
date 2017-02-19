@@ -9,7 +9,7 @@ private:
 public:
     // Constructors & Destructor
     Missile();
-    Missile(int, int, int, MissileTypes);
+    Missile(Vec2, int, MissileTypes, GameObject*);
     ~Missile();
 
     // Member functions

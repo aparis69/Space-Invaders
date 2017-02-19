@@ -17,5 +17,5 @@ public:
     ~MissileManager();
 
     // create a missile at a certain position
-    void spawnMissile(int, int, Vec2, MissileTypes);
+    void spawnMissile(Vec2, Vec2, MissileTypes, GameObject*);
 };

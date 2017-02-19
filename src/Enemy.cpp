@@ -1,6 +1,7 @@
 #include "Enemy.h"
+#include "Params.h"
 
-Enemy::Enemy(void)
+Enemy::Enemy()
 {
 	type = ObjectTypes::Enemy;
 	enemyType = EnemyType::Easy;
@@ -8,25 +9,26 @@ Enemy::Enemy(void)
 	currentSprite = 0;
 	transform.setXRotation(0);
 	transform.setYRotation(-1);
+
+	spawnDelays[0] = SMALL_MISSILE_SPAWN_DELAY_ENEMY;
 }
 
-Enemy::Enemy(int xPos, int yPos, int xSpeed, int ySpeed, EnemyType etype)
+Enemy::Enemy(Vec2 pos, Vec2 speed, EnemyType etype)
 {
 	type = ObjectTypes::Enemy;
 	enemyType = etype;
-	transform.setX(xPos);
-	transform.setY(yPos);
-	transform.SetXSpeed(xSpeed);
-	transform.SetYSpeed(ySpeed);
-	currentSprite = 0;
+	transform.setPosition(pos);
+	transform.setSpeed(speed);
 	transform.setXRotation(0);
 	transform.setYRotation(-1);
+	currentSprite = 0;
+	spawnDelays[0] = SMALL_MISSILE_SPAWN_DELAY_ENEMY;
 
 	loadSprites();
 	loadSpriteSize();
 }
 
-Enemy::~Enemy(void)
+Enemy::~Enemy()
 {
 }
 
@@ -65,11 +67,27 @@ void Enemy::loadSprites()
 
 ReactionTypes Enemy::reactToCollision(GameObject* hitObject)
 {
+	ReactionTypes ret = ReactionTypes::Nothing;
+	if (!castCollision) 
+		return ret;
+
 	switch (hitObject->getObjectType())
 	{
+	case ObjectTypes::Player:
+		ret = ReactionTypes::Destroy;
+		break;
 	case ObjectTypes::Enemy:
-		return ReactionTypes::Nothing;
-	default:
-		return ReactionTypes::Destroy;
+		ret = ReactionTypes::Nothing;
+		break;
+	case ObjectTypes::Missile:
+		// If this enemy is not shooted by his own missile
+		// or by a friendly fire
+		if (isOurs(hitObject->getParent()) || compareType(hitObject->getParent()))
+			break;
+		collisionTimer = SDL_GetTicks() + COLLISION_DELAY;
+		castCollision = false;
+		ret = ReactionTypes::Destroy;
+		break;
 	}
+	return ret;
 }

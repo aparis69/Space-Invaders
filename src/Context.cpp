@@ -16,8 +16,6 @@ using namespace std;
 
 /*
 TO DO
--Timer pour collision : notamment sur les hit de missile
--Clean code with vec2 argument all the waaaay
 -Introduce proper rotation
 -Gérer collisions multiples : Context::ObjectHasMoved
 -Gestion de layers pour les collisions
@@ -63,6 +61,7 @@ Context::~Context()
 // Member Functions
 void Context::initGameObjects()
 {
+	objectsToDestroy = vector<GameObject*>();
 	player = new Player();
 	background = new Background();
 	lastPlayerLifePoints = 0;
@@ -78,6 +77,7 @@ GameState Context::update(Input& in)
 	updateGameObjects();
 	updateBackground();
 	determineGameState(in, nextState);
+	cleanGameScene();
 
 	render();
 
@@ -103,9 +103,11 @@ void Context::updatePlayer(Input& in)
 		player->stop();
 
 	// Move the player after checking screen bounds
+	Transform bound;
 	if (in.Key(SDLK_UP)) // Up
 	{
-		if (!physicsManager->isOutOfScreen(t.X(), t.Y() + player->moveValueY(), t.XSize(), t.YSize()))
+		bound = Transform(Vec2(t.X(), t.Y() + player->moveValueY()), t.getSize());
+		if (!physicsManager->isOutOfScreen(bound))
 		{
 			player->moveY();
 			player->forward();
@@ -115,7 +117,8 @@ void Context::updatePlayer(Input& in)
 	}
 	if (in.Key(SDLK_DOWN)) // Down
 	{
-		if (!physicsManager->isOutOfScreen(t.X(), t.Y() + player->moveValueY(false), t.XSize(), t.YSize()))
+		bound = Transform(Vec2(t.X(), t.Y() + player->moveValueY(false)), t.getSize());
+		if (!physicsManager->isOutOfScreen(bound))
 		{
 			player->moveY(false);
 			player->backward();
@@ -123,10 +126,18 @@ void Context::updatePlayer(Input& in)
 		else
 			player->stop();
 	}
-	if (in.Key(SDLK_LEFT) && !physicsManager->isOutOfScreen(t.X() + player->moveValueX(), t.Y(), t.XSize(), t.YSize())) // left
-		player->moveX();
-	if (in.Key(SDLK_RIGHT) && !physicsManager->isOutOfScreen(t.X() + player->moveValueX(false), t.Y(), t.XSize(), t.YSize())) // right
-		player->moveX(false);
+	if (in.Key(SDLK_LEFT)) // left
+	{
+		bound = Transform(Vec2(t.X() + player->moveValueX(), t.Y()), t.getSize());
+		if (!physicsManager->isOutOfScreen(bound))
+			player->moveX();
+	}
+	if (in.Key(SDLK_RIGHT)) // right
+	{
+		bound = Transform(Vec2(t.X() + player->moveValueX(false), t.Y()), t.getSize());
+		if (!physicsManager->isOutOfScreen(bound))
+			player->moveX(false);
+	}
 	if (in.Key(SDLK_e)) // Shoot medium missile
 		player->shoot(missileManager, MissileTypes::Medium);
 	if (in.Key(SDLK_SPACE)) // Shoot small missile (two by two)
@@ -149,8 +160,9 @@ void Context::updatePlayer(Input& in)
 
 	// Indicate to physicsManager an object has moved and can potentially collide with another
 	objectHasMoved(player);
-
+	// Animation timers
 	player->updateAnimation();
+	player->update();
 }
 
 void Context::updateAI()
@@ -165,6 +177,7 @@ void Context::updateAI()
 		o->shoot(missileManager, MissileTypes::Small, false, nullptr, false);
 		o->move();
 		o->updateAnimation();
+		o->update();
 		
 		// Indicate to the physics manager that enemy has moved
 		objectHasMoved(o);
@@ -194,6 +207,19 @@ void Context::updateBackground()
 {
 	// Update the portion of background to display
 	background->updateScroll();
+}
+
+void Context::cleanGameScene()
+{
+	for (oIt = objectsToDestroy.begin(); oIt != objectsToDestroy.end();)
+	{
+		if ((*oIt)->getObjectType() == ObjectTypes::Enemy)
+			enemyManager->destroyObject((*oIt));
+		else if ((*oIt)->getObjectType() == ObjectTypes::Missile)
+			missileManager->destroyObject((*oIt));
+		oIt = objectsToDestroy.erase(objectsToDestroy.begin());
+	}
+	objectsToDestroy.clear();
 }
 
 void Context::render()
@@ -264,6 +290,7 @@ void Context::objectHasMoved(GameObject* movedObject)
 	if (hitObject != nullptr && hitObject->getObjectType() != ObjectTypes::Other)
 	{
 		// Make the object react to the collision, and get their instructions
+		// on the next action to do
 		ReactionTypes movedObjectAction = movedObject->reactToCollision(hitObject);
 		ReactionTypes hitObjectAction = hitObject->reactToCollision(movedObject);
 
@@ -279,15 +306,19 @@ void Context::handleReaction(GameObject* object, ReactionTypes reaction)
 	// The others are handled by the gameobject itself
 	switch (reaction)
 	{
+		// object wants to be destroyed
 		case ReactionTypes::Destroy:
+			// For enemy & missile, we destroy at the end of the frame
+			// to avoid nullptr error in game logic part
 			if (object->getObjectType() == ObjectTypes::Enemy)
-				enemyManager->destroyObject(object);
+				objectsToDestroy.push_back(object);
 			if (object->getObjectType() == ObjectTypes::Missile)
-				missileManager->destroyObject(object);
+				objectsToDestroy.push_back(object);
 			if (object->getObjectType() == ObjectTypes::Player)
 				gameOver();
 			break;
-		default:;
+		default:
+			break;
 	}
 }
 
@@ -304,6 +335,11 @@ Window* Context::getWindow() const
 	return window;
 }
 
+
+std::vector<GameObject*>& Context::getGameObjects()
+{
+	return gameObjects;
+}
 
 // Static member functions
 void Context::addGameObject(GameObject* object)
