@@ -8,7 +8,6 @@ class AssetManager
 private:
     // vector (with iterator) of all the possible assets that can be load in the game scene
     static std::vector<SDL_Surface*> graphicsRessources;
-    static std::vector<SDL_Surface*>::iterator gIt;
 
     // Load all the assets into the graphicsRessources vector
     static void loadRessources();
@@ -17,6 +16,7 @@ private:
 
 	// Private constructor : AssetManager class is static & singleton
 	AssetManager();
+
 public:
     ~AssetManager();
 

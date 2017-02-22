@@ -14,23 +14,23 @@ PhysicsManager::~PhysicsManager()
 {
 }
 
-GameObject* PhysicsManager::collideWith(GameObject* movedObject)
+CollisionInfo PhysicsManager::collideWith(GameObject* movedObject)
 {
+	CollisionInfo ret;
     vector<GameObject*>::iterator it;
 	Transform a = movedObject->getTransform();
-    for (int i = 0 ; i < Context::getGameObjectCount() ; i++)
+	auto objs	= Context::getGameObjects();
+    for (auto& it : objs)
     {
-        it = Context::getGameObjectIterator(i);
-		if ((*it) != movedObject)
+		if (it != movedObject)
 		{
-			Transform b = (*it)->getTransform();
+			Transform b = it->getTransform();
 			if (collideWithGameObject(a, b))
-				return (*it);
+				ret.hitObjects.push_back(it);
 		}
     }
-    return nullptr;
+    return ret;
 }
-
 
 bool PhysicsManager::collideWithGameObject(Transform a, Transform b)
 {
@@ -41,7 +41,6 @@ bool PhysicsManager::collideWithGameObject(Transform a, Transform b)
         return false;
     return true;
 }
-
 
 bool PhysicsManager::isOutOfScreen(Transform t)
 {

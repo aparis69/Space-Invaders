@@ -3,7 +3,6 @@
 using namespace std;
 
 std::vector<SDL_Surface*> AssetManager::graphicsRessources = std::vector<SDL_Surface*>();
-std::vector<SDL_Surface*>::iterator AssetManager::gIt = std::vector<SDL_Surface*>::iterator();
 
 AssetManager::AssetManager(void)
 {
@@ -12,9 +11,7 @@ AssetManager::AssetManager(void)
 
 AssetManager::~AssetManager(void)
 {
-	for (gIt = graphicsRessources.begin(); gIt != graphicsRessources.end(); gIt++)
-		SDL_FreeSurface(*gIt);
-	graphicsRessources.clear();
+	releaseData();
 }
 
 void AssetManager::init()
@@ -24,18 +21,13 @@ void AssetManager::init()
 
 void AssetManager::releaseData()
 {
-	for (gIt = graphicsRessources.begin(); gIt != graphicsRessources.end(); gIt++)
-		SDL_FreeSurface(*gIt);
+	for(auto& it : graphicsRessources)
+		SDL_FreeSurface(it);
 	graphicsRessources.clear();
 }
 
 void AssetManager::loadRessources()
 {
-	/*
-	images[i] = SDL_CreateRGBSurface(SDL_HWSURFACE, 1, 10, 32, 255, 255, 255, 0); // Attaque de base indice 9
-	SDL_FillRect(images[i], NULL, 255);
-	*/
-
 	// Background : 0
 	graphicsRessources.push_back(loadImage("Assets/Background/Background01.bmp"));
 

@@ -13,8 +13,8 @@ ObjectManager::ObjectManager()
 
 ObjectManager::~ObjectManager()
 {
-	for (oIt = objectsOnScreen.begin(); oIt != objectsOnScreen.end(); oIt++)
-		delete (*oIt);
+	for (auto& it : objectsOnScreen)
+		delete it;
 	objectsOnScreen.clear();
 }
 
@@ -23,11 +23,11 @@ ObjectManager::~ObjectManager()
 void ObjectManager::clearChild(GameObject* s)
 {
 	// set parent to null because s is gonna be destroyed
-	std::vector<GameObject*> sceneObjs = Context::getGameObjects();
-	for (auto it = sceneObjs.begin(); it != sceneObjs.end(); it++)
+	auto sceneObjs = Context::getGameObjects();
+	for (auto& it : sceneObjs)
 	{
-		if ((*it)->getParent() != nullptr && *(*it)->getParent() == *s)
-			(*it)->setParent(nullptr);
+		if (it->getParent() != nullptr && *(it)->getParent() == *s)
+			it->setParent(nullptr);
 	}
 }
 
@@ -35,7 +35,7 @@ void ObjectManager::manageVectorSize(PhysicsManager* physicsManager)
 {
 	// Look at missile out of screen bounds, and delete them
 	Transform t;
-	for (oIt = objectsOnScreen.begin(); oIt != objectsOnScreen.end(); ) // no mIt++ intentionally
+	for (auto oIt = objectsOnScreen.begin(); oIt != objectsOnScreen.end(); ) // no mIt++ intentionally
 	{
 		if (physicsManager->isOutOfScreen((*oIt)->getTransform()))
 		{
@@ -50,7 +50,7 @@ void ObjectManager::manageVectorSize(PhysicsManager* physicsManager)
 
 void ObjectManager::destroyObject(GameObject* o)
 {
-	auto it = std::find(objectsOnScreen.begin(), objectsOnScreen.end(), o);
+	auto it = find(objectsOnScreen.begin(), objectsOnScreen.end(), o);
 	if ((*it) != nullptr)
 	{
 		clearChild((*it));
@@ -61,6 +61,11 @@ void ObjectManager::destroyObject(GameObject* o)
 
 
 // Getter & Setter
+std::vector<GameObject*>& ObjectManager::getObjects()
+{
+	return objectsOnScreen;
+}
+
 int ObjectManager::getObjectCount() const
 {
 	return objectsOnScreen.size();

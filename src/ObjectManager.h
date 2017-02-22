@@ -11,7 +11,7 @@ class ObjectManager
 protected:
 	// vector of GameObject & its iterator
 	std::vector<GameObject*> objectsOnScreen;
-	std::vector<GameObject*>::iterator oIt;
+
 	// Spawn timer in ms
 	unsigned int spawnTimer;
 	// Spawn delay in ms. An object will authorized to spawn every <spawnDelay> ms
@@ -32,6 +32,7 @@ public:
 	virtual void destroyObject(GameObject *);
 
 	// Getter & Setter
+	std::vector<GameObject*>& getObjects();
 	int getObjectCount() const;
 	GameObject* getObject(int) const;
 };

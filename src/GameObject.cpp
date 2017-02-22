@@ -37,7 +37,7 @@ GameObject::~GameObject()
 void GameObject::shoot(MissileManager* m, MissileTypes t, bool ignoreDelay, Transform* p, bool upward)
 {
 	// Look if the timer is passed
-	if (SDL_GetTicks() < spawnTimers[(int)t])
+	if (SDL_GetTicks() < spawnTimers[(unsigned int)t])
 		return;
 
 	// Shooting

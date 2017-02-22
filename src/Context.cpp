@@ -9,6 +9,7 @@
 #include "EnemyManager.h"
 #include "Enemy.h"
 
+#include <algorithm>
 #include <iostream>
 #include <string>
 
@@ -30,10 +31,10 @@ Context::Context()
 {
 	// Init Window and Managers
 	window = new Window(WINDOW_SIZE_X, WINDOW_SIZE_Y, WINDOW_FPS, WINDOW_TITLE);
-	AssetManager::init();
 	physicsManager = new PhysicsManager();
 	missileManager = new MissileManager();
 	enemyManager = new EnemyManager();
+	AssetManager::init();
 
 	// Init GameObjects in the scene
 	initGameObjects();
@@ -73,7 +74,6 @@ GameState Context::update(Input& in)
 	GameState nextState = GAME;
 
 	updatePlayer(in);
-	updateAI();
 	updateGameObjects();
 	updateBackground();
 	determineGameState(in, nextState);
@@ -154,8 +154,8 @@ void Context::updatePlayer(Input& in)
 		background->speedUp();
 	else if (!wasBackward && player->isMovingBackward())
 		background->slowDown();
-	else if ((wasForward && !player->isMovingForward()) 
-			|| (wasBackward && !player->isMovingBackward()))
+	else if ((wasForward && !player->isMovingForward())
+		|| (wasBackward && !player->isMovingBackward()))
 		background->idle();
 
 	// Indicate to physicsManager an object has moved and can potentially collide with another
@@ -165,40 +165,29 @@ void Context::updatePlayer(Input& in)
 	player->update();
 }
 
-void Context::updateAI()
-{
-	// Decide if new enemies spawn or not
-	enemyManager->manageEnemySpawn();
-	GameObject* o = nullptr;
-	for (int i = 0; i < enemyManager->getObjectCount(); i++)
-	{
-		// Update enemies position and animation
-		o = enemyManager->getObject(i);
-		o->shoot(missileManager, MissileTypes::Small, false, nullptr, false);
-		o->move();
-		o->updateAnimation();
-		o->update();
-		
-		// Indicate to the physics manager that enemy has moved
-		objectHasMoved(o);
-	}
-	
-	// Manage enemy out of screen
-	enemyManager->manageVectorSize(physicsManager);
-}
-
 void Context::updateGameObjects()
 {
-	for (int i = 0; i < missileManager->getObjectCount(); i++)
+	enemyManager->manageEnemySpawn();
+	auto eObjs = enemyManager->getObjects();
+	// Update enemy logic
+	for_each(eObjs.begin(), eObjs.end(), [this](auto& it)
 	{
-		// Update missiles in progress and animation
-		missileManager->getObject(i)->move();
-		missileManager->getObject(i)->updateAnimation();
+		it->move();
+		it->updateAnimation();
+		it->update();
+		objectHasMoved(it);
+	});
+	// Delete enemies out of screen
+	enemyManager->manageVectorSize(physicsManager);
 
-		// Indicate to the physics manager that missile has moved
-		objectHasMoved(missileManager->getObject(i));
-	}
-
+	// Update missile logic
+	auto mObjs = missileManager->getObjects();
+	for_each(mObjs.begin(), mObjs.end(), [this](auto& it)
+	{
+		it->move();
+		it->updateAnimation();
+		objectHasMoved(it);
+	});
 	// Delete missile out of screen
 	missileManager->manageVectorSize(physicsManager);
 }
@@ -211,13 +200,13 @@ void Context::updateBackground()
 
 void Context::cleanGameScene()
 {
-	for (oIt = objectsToDestroy.begin(); oIt != objectsToDestroy.end();)
+	for (auto& it : objectsToDestroy)
 	{
-		if ((*oIt)->getObjectType() == ObjectTypes::Enemy)
-			enemyManager->destroyObject((*oIt));
-		else if ((*oIt)->getObjectType() == ObjectTypes::Missile)
-			missileManager->destroyObject((*oIt));
-		oIt = objectsToDestroy.erase(objectsToDestroy.begin());
+		if (it->getObjectType() == ObjectTypes::Enemy)
+			enemyManager->destroyObject(it);
+		if (it->getObjectType() == ObjectTypes::Missile)
+			missileManager->destroyObject(it);
+		objectsToDestroy.erase(objectsToDestroy.begin());
 	}
 	objectsToDestroy.clear();
 }
@@ -257,22 +246,24 @@ void Context::render()
 			SDL_FreeSurface(lifePointsSurface);
 		lastPlayerLifePoints = player->getLifePoints();
 		lifePointsSurface = TTF_RenderText_Solid(window->getFont(),
-												to_string(lastPlayerLifePoints).c_str(),
-												fontColor);
+			to_string(lastPlayerLifePoints).c_str(),
+			fontColor);
 	}
 	window->blitSurface(lifePointsSurface, 5, 5);
 
 	// Enemy blitting
-	for (int i = 0; i < enemyManager->getObjectCount(); i++)
-		window->blitSurface(AssetManager::getSurface(enemyManager->getObject(i)->getCurrentSpriteIndex()),
-			enemyManager->getObject(i)->getTransform().X(),
-			enemyManager->getObject(i)->getTransform().Y());
+	auto eObjs = enemyManager->getObjects();
+	for (auto& it : eObjs)
+		window->blitSurface(AssetManager::getSurface(it->getCurrentSpriteIndex()),
+			it->getTransform().X(),
+			it->getTransform().Y());
 
 	// Missiles in progress blitting
-	for (int i = 0; i < missileManager->getObjectCount(); i++)
-		window->blitSurface(AssetManager::getSurface(missileManager->getObject(i)->getCurrentSpriteIndex()),
-			missileManager->getObject(i)->getTransform().X(),
-			missileManager->getObject(i)->getTransform().Y());
+	auto mObjs = missileManager->getObjects();
+	for (auto& it : mObjs)
+		window->blitSurface(AssetManager::getSurface(it->getCurrentSpriteIndex()),
+			it->getTransform().X(),
+			it->getTransform().Y());
 
 	// Flip screen
 	window->flipScreen();
@@ -286,17 +277,20 @@ void Context::gameOver()
 void Context::objectHasMoved(GameObject* movedObject)
 {
 	// Check if the movedObject collide with something in the scene
-	GameObject* hitObject = physicsManager->collideWith(movedObject);
-	if (hitObject != nullptr && hitObject->getObjectType() != ObjectTypes::Other)
+	CollisionInfo info = physicsManager->collideWith(movedObject);
+	for (auto& it : info.hitObjects)
 	{
-		// Make the object react to the collision, and get their instructions
-		// on the next action to do
-		ReactionTypes movedObjectAction = movedObject->reactToCollision(hitObject);
-		ReactionTypes hitObjectAction = hitObject->reactToCollision(movedObject);
+		if (it->getObjectType() != ObjectTypes::Other)
+		{
+			// Make the object react to the collision, and get their instructions
+			// on the next action to do
+			ReactionTypes movedObjectAction = movedObject->reactToCollision(it);
+			ReactionTypes hitObjectAction = it->reactToCollision(movedObject);
 
-		// Handle the reactions of the two objects
-		handleReaction(movedObject, movedObjectAction);
-		handleReaction(hitObject, hitObjectAction);
+			// Handle the reactions of the two objects
+			handleReaction(movedObject, movedObjectAction);
+			handleReaction(it, hitObjectAction);
+		}
 	}
 }
 
@@ -307,18 +301,18 @@ void Context::handleReaction(GameObject* object, ReactionTypes reaction)
 	switch (reaction)
 	{
 		// object wants to be destroyed
-		case ReactionTypes::Destroy:
-			// For enemy & missile, we destroy at the end of the frame
-			// to avoid nullptr error in game logic part
-			if (object->getObjectType() == ObjectTypes::Enemy)
-				objectsToDestroy.push_back(object);
-			if (object->getObjectType() == ObjectTypes::Missile)
-				objectsToDestroy.push_back(object);
-			if (object->getObjectType() == ObjectTypes::Player)
-				gameOver();
-			break;
-		default:
-			break;
+	case ReactionTypes::Destroy:
+		// For enemy & missile, we destroy at the end of the frame
+		// to avoid nullptr error in game logic part
+		if (object->getObjectType() == ObjectTypes::Enemy)
+			objectsToDestroy.push_back(object);
+		if (object->getObjectType() == ObjectTypes::Missile)
+			objectsToDestroy.push_back(object);
+		if (object->getObjectType() == ObjectTypes::Player)
+			gameOver();
+		break;
+	default:
+		break;
 	}
 }
 
@@ -335,11 +329,11 @@ Window* Context::getWindow() const
 	return window;
 }
 
-
 std::vector<GameObject*>& Context::getGameObjects()
 {
 	return gameObjects;
 }
+
 
 // Static member functions
 void Context::addGameObject(GameObject* object)
@@ -349,8 +343,7 @@ void Context::addGameObject(GameObject* object)
 
 void Context::deleteGameObject(GameObject* object)
 {
-	vector<GameObject*>::iterator it = getGameObjectIterator(0);
-	for (; it != gameObjects.end(); it++)
+	for (auto it = gameObjects.begin(); it != gameObjects.end(); it++)
 	{
 		if ((*it) == object)
 		{
@@ -358,14 +351,6 @@ void Context::deleteGameObject(GameObject* object)
 			return;
 		}
 	}
-}
-
-vector<GameObject*>::iterator Context::getGameObjectIterator(int i)
-{
-	vector<GameObject*>::iterator it = gameObjects.begin();
-	if (i > 0)
-		std::advance(it, i);
-	return it;
 }
 
 int Context::getGameObjectCount()
